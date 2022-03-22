@@ -15,7 +15,7 @@ const { Navigator, Screen } = createStackNavigator();
 
 const RootNavigator = () => {
   //const user = authStore.user;
-  const user = "hi";
+  const user = null;
   return (
     <Navigator initialRouteName={user ? "QueueList" : "Home"}>
       <Screen
