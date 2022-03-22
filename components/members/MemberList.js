@@ -11,4 +11,18 @@ const MemberList = ({ queue }) => {
 
 export default MemberList;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 8,
+    width: "100%",
+    backgroundColor: "#fff",
+    alignItems: "flex-start",
+  },
+  icon: {
+    top: "1%",
+    left: "42%",
+  },
+  iconContainer: {
+    flex: 1,
+  },
+});
