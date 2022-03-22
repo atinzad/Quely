@@ -17,7 +17,8 @@ const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
   const [newQueue, setNewQueue] = useState({});
   const handleSaveChanges = () => {
     setQueue(newQueue);
-    //queueStore.addQueue(newQueue);
+    console.log("newQueue");
+    queueStore.addQueue(newQueue);
     setIsOpenModal(false);
   };
 
@@ -37,7 +38,9 @@ const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
             <Text>Name</Text>
             <TextInput
               style={styles.input}
-              onChangeText={(value) => setQueue({ ...newQueue, name: value })}
+              onChangeText={(value) =>
+                setNewQueue({ ...newQueue, name: value })
+              }
             />
           </HStack>
           <HStack>

@@ -15,7 +15,6 @@ const QueueList = ({ navigation }) => {
 
   setQueue;
   const handleModal = () => {
-    console.log("Modal handler");
     setIsOpenModal(true);
   };
   const [refreshing, setRefreshing] = useState(false);
