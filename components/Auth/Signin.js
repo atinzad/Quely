@@ -15,7 +15,7 @@ import {
   useToast,
   VStack,
 } from "native-base";
-import SigninButton from "../components/Comp/SigninButton";
+import SigninButton from "../../components/Comp/SigninButton";
 
 const Signin = ({ navigation }) => {
   const toast = useToast();
@@ -25,7 +25,7 @@ const Signin = ({ navigation }) => {
   });
 
   let [fontsLoaded] = useFonts({
-    "Quicksand-SemiBold": require("../assets/fonts/Quicksand-SemiBold.ttf"),
+    "Quicksand-SemiBold": require("../../assets/fonts/Quicksand-SemiBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
