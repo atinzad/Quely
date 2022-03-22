@@ -1,6 +1,8 @@
 import authStore from "../../stores/authStore";
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
 import {
   Box,
   Button,
@@ -10,10 +12,10 @@ import {
   HStack,
   Input,
   Link,
-  Text,
   useToast,
   VStack,
 } from "native-base";
+import SigninButton from "../components/Comp/SigninButton";
 
 const Signin = ({ navigation }) => {
   const toast = useToast();
@@ -21,6 +23,13 @@ const Signin = ({ navigation }) => {
     username: "",
     password: "",
   });
+
+  let [fontsLoaded] = useFonts({
+    "Quicksand-SemiBold": require("../assets/fonts/Quicksand-SemiBold.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   handleSubmit = () => {
     authStore.signin(
@@ -32,29 +41,10 @@ const Signin = ({ navigation }) => {
 
   return (
     <Center w="100%">
-      <Box safeArea p="2" py="8" w="90%" maxW="290">
-        <Heading
-          size="lg"
-          fontWeight="600"
-          color="coolGray.800"
-          _dark={{
-            color: "warmGray.50",
-          }}
-        >
-          Welcome
-        </Heading>
-        <Heading
-          mt="1"
-          _dark={{
-            color: "warmGray.200",
-          }}
-          color="coolGray.600"
-          fontWeight="medium"
-          size="xs"
-        >
-          Sign in to manage your queues!
-        </Heading>
-
+      <Box safeArea p="2" py="8" w="80%">
+        <View style={styles.LogoBackground}>
+          <Text style={styles.text}>Quely</Text>
+        </View>
         <VStack space={3} mt="5">
           <FormControl>
             <FormControl.Label>Email</FormControl.Label>
@@ -69,9 +59,8 @@ const Signin = ({ navigation }) => {
               onChangeText={(value) => setUser({ ...user, password: value })}
             />
           </FormControl>
-          <Button mt="2" style={styles.btn} onPress={handleSubmit}>
-            Sign in
-          </Button>
+          <SigninButton name="Sign in" click={handleSubmit} />
+
           <HStack mt="6" justifyContent="center">
             <Text
               fontSize="sm"
@@ -80,7 +69,7 @@ const Signin = ({ navigation }) => {
                 color: "warmGray.200",
               }}
             >
-              Don't have an account?{" "}
+              Don't have an account?
             </Text>
             <Link
               _text={{
@@ -100,5 +89,21 @@ const Signin = ({ navigation }) => {
 };
 export default Signin;
 const styles = StyleSheet.create({
+  signin: {
+    top: "20%",
+  },
+
+  text: {
+    fontFamily: "Quicksand-SemiBold",
+    fontSize: 60,
+    /* identical to box height */
+    top: "20%",
+    color: "#3F93A2",
+  },
   btn: { backgroundColor: "#1572A1" },
+  LogoBackground: {
+    height: "40%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

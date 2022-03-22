@@ -9,7 +9,6 @@ import Signup from "../components/Auth/Signup";
 import Home from "../components/tests/Home";
 import QueueList from "../components/queues/QueueList";
 import MemberList from "../components/members/MemberList";
-import authStore from "../stores/authStore";
 
 const { Navigator, Screen } = createStackNavigator();
 
