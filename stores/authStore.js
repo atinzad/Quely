@@ -22,11 +22,12 @@ class AuthStore {
   };
 
   signup = async (userData, navigation) => {
+    console.log("userData", userData);
     try {
-      const res = await instance.post("/signup", userData);
+      const res = await instance.post("/users/signup", userData);
       const { token } = res.data;
       this.setUser(token);
-      navigation.replace("Home");
+      navigation.replace("QueueList");
     } catch (error) {
       console.log(error);
     }
@@ -34,11 +35,12 @@ class AuthStore {
 
   signin = async (userData, navigation) => {
     try {
-      const res = await instance.post("/signin", userData);
+      const res = await instance.post("/users/signin", userData);
 
       const { token } = res.data;
       await this.setUser(token);
-      navigation.replace("Home");
+
+      navigation.replace("QueueList");
     } catch (error) {
       console.log(error);
     }
@@ -57,6 +59,7 @@ class AuthStore {
   checkForToken = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
+      console.log("token", token);
       if (token) {
         const decodedToken = decode(token);
         if (Date.now() < decodedToken.exp) {
