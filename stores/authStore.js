@@ -22,11 +22,12 @@ class AuthStore {
   };
 
   signup = async (userData, navigation) => {
+    console.log("userData", userData);
     try {
       const res = await instance.post("/users/signup", userData);
       const { token } = res.data;
       this.setUser(token);
-      navigation.replace("QueuList");
+      navigation.replace("QueueList");
     } catch (error) {
       console.log(error);
     }
