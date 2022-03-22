@@ -7,13 +7,22 @@ import { Ionicons } from "@expo/vector-icons";
 import { useCallback, useState } from "react";
 import { observable } from "mobx";
 import { observer } from "mobx-react";
+import AddQueue from "./AddQueue";
 
 const QueueList = ({ navigation }) => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [queue, setQueue] = useState({});
+
+  setQueue;
+  const handleModal = () => {
+    console.log("Modal handler");
+    setIsOpenModal(true);
+  };
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    wait(400).then(() => setRefreshing(false));
+    wait(100).then(() => setRefreshing(false));
     await queueStore.fetchQueues();
   }, []);
 
@@ -39,9 +48,15 @@ const QueueList = ({ navigation }) => {
           name="add-circle-outline"
           size={70}
           color="black"
-          onPress={() => navigation.navigate("TestA")}
+          onPress={() => handleModal()}
         />
       </View>
+
+      <AddQueue
+        isOpenModal={isOpenModal}
+        setIsOpenModal={setIsOpenModal}
+        setQueue={setQueue}
+      />
     </VStack>
   );
 };

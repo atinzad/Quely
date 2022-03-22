@@ -1,4 +1,4 @@
-import authStore from "../stores/authStore";
+import authStore from "../../stores/authStore";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import {

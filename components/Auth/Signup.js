@@ -3,7 +3,7 @@ import { Text, TextInput, View, SafeAreaView, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { Pressable, useToast, ScrollView, Center, HStack } from "native-base";
-import authStore from "../stores/authStore";
+import authStore from "../../stores/authStore";
 
 // Stores
 
