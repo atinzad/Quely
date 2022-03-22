@@ -11,7 +11,7 @@ const Home = ({ navigation }) => {
   return (
     <ImageBackground
       source={{
-        uri: "https://www.ixpap.com/images/2021/02/travel-wallpaper-ixpap-11.jpg",
+        uri: "https://wallpaperaccess.com/full/1503184.jpg",
         alt: "img",
       }}
       style={styles.container}
