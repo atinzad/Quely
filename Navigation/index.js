@@ -10,7 +10,6 @@ import Home from "../components/tests/Home";
 import QueueList from "../components/queues/QueueList";
 import MemberList from "../components/members/MemberList";
 
-
 const { Navigator, Screen } = createStackNavigator();
 
 const RootNavigator = () => {
@@ -37,7 +36,6 @@ const RootNavigator = () => {
           headerShown: false,
         }}
       ></Screen>
-    <Navigator initialRouteName="QueueList">
 
       <Screen name="TestA" component={Test1} />
       <Screen name="TestB" component={Test2} />
