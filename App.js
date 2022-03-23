@@ -3,14 +3,20 @@ import { StyleSheet, Text, View } from "react-native";
 import { NativeBaseProvider } from "native-base";
 import RootNavigator from "./Navigation";
 import { NavigationContainer } from "@react-navigation/native";
+import { ThemeProvider } from "styled-components";
+import { theme, Container } from "./styles";
 
 export default function App() {
   return (
     <NativeBaseProvider>
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
-      <StatusBar style="auto" />
+      <Container>
+        <ThemeProvider theme={theme}>
+          <NavigationContainer>
+            <RootNavigator />
+          </NavigationContainer>
+          <StatusBar style="auto" />
+        </ThemeProvider>
+      </Container>
     </NativeBaseProvider>
   );
 }

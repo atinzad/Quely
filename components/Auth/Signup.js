@@ -1,9 +1,28 @@
 import React, { useState } from "react";
-import { Text, TextInput, View, SafeAreaView, StyleSheet } from "react-native";
+import { Text, View, SafeAreaView, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { TextInput } from "react-native-paper";
 
-import { Pressable, useToast, ScrollView, Center, HStack } from "native-base";
+import {
+  Pressable,
+  useToast,
+  ScrollView,
+  Center,
+  HStack,
+  Box,
+  VStack,
+  Link,
+} from "native-base";
 import authStore from "../../stores/authStore";
+import {
+  NoAccountSignupText,
+  NoAccounttext,
+  SignUpButtonContainer,
+  SignUpInputContainer,
+  SignUpText,
+  SignUpTextContainer,
+} from "../../styles";
+import SignButton from "../Comp/SignButton";
 
 // Stores
 
@@ -25,119 +44,72 @@ const Signup = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAwareScrollView>
-      <ScrollView>
-        <SafeAreaView style={styles.body}>
-          <View style={styles.container}>
-            <Text style={styles.login}>Sign up</Text>
-
-            <Text style={styles.outsidebox}>Name</Text>
+    <Center style={styles.box} w="100%">
+      <Box style={styles.box} safeArea p="2" py="8" w="85%">
+        <SignUpTextContainer>
+          <SignUpText>Sign up</SignUpText>
+        </SignUpTextContainer>
+        <SignUpInputContainer>
+          <VStack space={8}>
             <TextInput
-              style={styles.box}
-              placeholder=" Enter your name"
-              placeholderTextColor="#858585"
+              label="Name"
+              selectionColor="#3f93a2"
+              underlineColor="#3f93a2"
+              outlineColor="#3f93a2"
+              placeholderTextColor="#3f93a2"
+              activeOutlineColor="#3f93a2"
+              activeUnderlineColor="#3f93a2"
+              underlineColorAndroid="#3f93a2"
+              left={<TextInput.Icon color="#3f93a2" name="account" />}
               onChangeText={(name) => setUser({ ...user, name: name })}
             />
-
-            <Text style={styles.outsidebox}>Email</Text>
             <TextInput
-              style={styles.box}
-              placeholder=" Enter email"
-              placeholderTextColor="#858585"
+              label="Email"
+              selectionColor="#3f93a2"
+              underlineColor="#3f93a2"
+              outlineColor="#3f93a2"
+              placeholderTextColor="#3f93a2"
+              activeOutlineColor="#3f93a2"
+              activeUnderlineColor="#3f93a2"
+              underlineColorAndroid="#3f93a2"
+              left={<TextInput.Icon color="#3f93a2" name="email" />}
               onChangeText={(email) => setUser({ ...user, email: email })}
             />
-
-            <Text style={styles.outsidebox}>Password</Text>
             <TextInput
-              style={styles.box}
-              secureTextEntry={true}
-              placeholder=" Password"
-              placeholderTextColor="#858585"
+              label="Password"
+              secureTextEntry
+              selectionColor="#3f93a2"
+              underlineColor="#3f93a2"
+              outlineColor="#3f93a2"
+              placeholderTextColor="#3f93a2"
+              activeOutlineColor="#3f93a2"
+              activeUnderlineColor="#3f93a2"
+              underlineColorAndroid="#3f93a2"
+              left={<TextInput.Icon color="#3f93a2" name="lock" />}
               onChangeText={(password) =>
                 setUser({ ...user, password: password })
               }
             />
-
-            <Pressable onPress={handleSubmit}>
-              <Text
-                style={{
-                  color: "#ffff",
-                  alignSelf: "center",
-                  textAlignVertical: "center",
-                  fontSize: 20,
-                }}
-              >
-                Create account
-              </Text>
-            </Pressable>
-
-            <Center>
-              <HStack>
-                <Text style={styles.signup}> Have an account? </Text>
-                <Pressable onPress={() => navigation.navigate("Signin")}>
-                  <Text style={{ color: "#ffff" }}> Sign in</Text>
-                </Pressable>
-              </HStack>
-            </Center>
-          </View>
-        </SafeAreaView>
-      </ScrollView>
-    </KeyboardAwareScrollView>
+          </VStack>
+        </SignUpInputContainer>
+        <SignUpButtonContainer>
+          <VStack space={8}>
+            <SignButton name="Sign up" click={handleSubmit} />
+            <HStack justifyContent="center">
+              <NoAccounttext>You have an account?</NoAccounttext>
+              <Link onPress={() => navigation.navigate("Signin")}>
+                <NoAccountSignupText> Sign in</NoAccountSignupText>
+              </Link>
+            </HStack>
+          </VStack>
+        </SignUpButtonContainer>
+      </Box>
+    </Center>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 60,
-    marginLeft: 10,
-  },
-  body: {
-    height: 900,
-    backgroundColor: "lightblue",
-    flex: 1,
-  },
-  box: {
-    marginHorizontal: 16,
-    borderWidth: 3,
-    padding: 10,
-    margin: 10,
-    marginBottom: 20,
-    color: "#858585",
-    textAlign: "left",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 10,
-    height: 65,
-    borderColor: "white",
-    backgroundColor: "lightgrey",
-  },
-  button: {
-    marginHorizontal: 17,
-    marginTop: 40,
-    textAlign: "center",
-    margin: 10,
-    color: "#ffff",
-    borderRadius: 10,
-    height: 55,
-    padding: 15,
-    backgroundColor: "#4B0082",
-  },
-  outsidebox: {
-    marginHorizontal: 22,
-    color: "white",
-  },
-  signup: {
-    alignContent: "center",
-    textAlign: "center",
-    color: "#858585",
-  },
-  login: {
-    marginBottom: 50,
-    color: "#ffff",
-    marginLeft: 25,
-    fontSize: 35,
-    fontWeight: "bold",
-  },
+  box: { backgroundColor: "#f8f8f8", height: "100%" },
 });
 
 export default Signup;
