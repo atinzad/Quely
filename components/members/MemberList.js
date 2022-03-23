@@ -1,15 +1,71 @@
-import { StyleSheet, Text, View } from "react-native";
+import { RefreshControl, StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { ScrollView, VStack } from "native-base";
+import { Ionicons } from "@expo/vector-icons";
+import { useCallback, useState } from "react";
+import AddMember from "./AddMember";
+import memberStore from "../../stores/memberStore";
+import MemberItem from "./MemberItem";
+import { observer } from "mobx-react";
 
-const MemberList = ({ queue }) => {
+const MemberList = ({ route, navigation }) => {
+  const queue = route.params.queue;
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [member, setMember] = useState({});
+
+  const handleModal = () => {
+    setIsOpenModal(true);
+  };
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    wait(100).then(() => setRefreshing(false));
+    await memberStore.fetchMembers();
+  }, []);
+  console.log("-----start--------------------------");
+  console.log("memeberStore.members", memberStore.members);
+  console.log("-----finish--------------------------");
+  const members = memberStore.members
+    .filter((member) => member.queue === queue._id)
+    .map((member) => (
+      <MemberItem key={member._id} member={member} navigation={navigation} />
+    ));
+
   return (
-    <View>
-      <Text>MemberList</Text>
-    </View>
+    <VStack style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
+          <Text>Memeber List for {queue.name}</Text>
+          {members}
+        </ScrollView>
+      </View>
+      <View style={{ flex: 1 }}>
+        <Ionicons
+          style={styles.icon}
+          name="add-circle-outline"
+          size={70}
+          color="black"
+          onPress={() => handleModal()}
+        />
+      </View>
+
+      <AddMember
+        isOpenModal={isOpenModal}
+        setIsOpenModal={setIsOpenModal}
+        setMember={setMember}
+        queue={queue}
+      />
+    </VStack>
   );
 };
 
-export default MemberList;
+export default observer(MemberList);
 
 const styles = StyleSheet.create({
   container: {
