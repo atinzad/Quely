@@ -1,21 +1,21 @@
 import authStore from "../../stores/authStore";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import {
   Box,
-  Button,
   Center,
+  CheckIcon,
   FormControl,
-  Heading,
   HStack,
   Input,
   Link,
   useToast,
   VStack,
 } from "native-base";
-import SigninButton from "../../components/Comp/SigninButton";
+import SignButton from "../Comp/SignButton";
+import { NoAccountSignupText, NoAccounttext, MainLogo } from "../../styles";
+import { TextInput } from "react-native-paper";
 
 const Signin = ({ navigation }) => {
   const toast = useToast();
@@ -24,15 +24,7 @@ const Signin = ({ navigation }) => {
     password: "",
   });
 
-  let [fontsLoaded] = useFonts({
-    "Quicksand-SemiBold": require("../../assets/fonts/Quicksand-SemiBold.ttf"),
-  });
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
-
   handleSubmit = () => {
-    console.log("his", user);
     authStore.signin(
       { ...user, username: user.username.toLowerCase() },
       navigation,
@@ -41,46 +33,47 @@ const Signin = ({ navigation }) => {
   };
 
   return (
-    <Center w="100%">
-      <Box safeArea p="2" py="8" w="80%">
+    <Center style={styles.box} w="100%">
+      <Box safeArea p="2" py="8" w="85%">
         <View style={styles.LogoBackground}>
-          <Text style={styles.text}>Quely</Text>
+          <MainLogo>Quely</MainLogo>
         </View>
-        <VStack space={3} mt="5">
-          <FormControl>
-            <FormControl.Label>Email</FormControl.Label>
-            <Input
-              onChangeText={(value) => setUser({ ...user, username: value })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormControl.Label>Password</FormControl.Label>
-            <Input
-              type="password"
-              onChangeText={(value) => setUser({ ...user, password: value })}
-            />
-          </FormControl>
-          <SigninButton name="Sign in" click={handleSubmit} />
+        {/* AuthSignInPage */}
+        <VStack style={styles.inputBackground} space={8}>
+          <TextInput
+            label="Email"
+            selectionColor="#3f93a2"
+            underlineColor="#3f93a2"
+            outlineColor="#3f93a2"
+            placeholderTextColor="#3f93a2"
+            activeOutlineColor="#3f93a2"
+            activeUnderlineColor="#3f93a2"
+            underlineColorAndroid="#3f93a2"
+            left={<TextInput.Icon color="#3f93a2" name="email" />}
+            onChangeText={(value) => setUser({ ...user, username: value })}
+          />
+          <TextInput
+            label="Password"
+            secureTextEntry
+            selectionColor="#3f93a2"
+            underlineColor="#3f93a2"
+            outlineColor="#3f93a2"
+            placeholderTextColor="#3f93a2"
+            activeOutlineColor="#3f93a2"
+            activeUnderlineColor="#3f93a2"
+            underlineColorAndroid="#3f93a2"
+            right={<TextInput.Icon name="eye" />}
+            left={<TextInput.Icon color="#3f93a2" name="lock" />}
+            onChangeText={(value) => setUser({ ...user, password: value })}
+          />
 
-          <HStack mt="6" justifyContent="center">
-            <Text
-              fontSize="sm"
-              color="coolGray.600"
-              _dark={{
-                color: "warmGray.200",
-              }}
-            >
-              Don't have an account?
-            </Text>
-            <Link
-              _text={{
-                color: "indigo.500",
-                fontWeight: "medium",
-                fontSize: "sm",
-              }}
-              onPress={() => navigation.navigate("Signup")}
-            >
-              Sign Up
+          <SignButton name="Sign in" click={handleSubmit} />
+
+          <HStack justifyContent="center">
+            <NoAccounttext>Don't have an account?</NoAccounttext>
+
+            <Link onPress={() => navigation.navigate("Signup")}>
+              <NoAccountSignupText> Sign Up</NoAccountSignupText>
             </Link>
           </HStack>
         </VStack>
@@ -90,20 +83,16 @@ const Signin = ({ navigation }) => {
 };
 export default Signin;
 const styles = StyleSheet.create({
-  signin: {
+  box: {
+    backgroundColor: "#f8f8f8",
+    height: "100%",
+  },
+  inputBackground: {
     top: "20%",
   },
-
-  text: {
-    fontFamily: "Quicksand-SemiBold",
-    fontSize: 60,
-    /* identical to box height */
-    top: "20%",
-    color: "#3F93A2",
-  },
-  btn: { backgroundColor: "#1572A1" },
   LogoBackground: {
-    height: "40%",
+    backgroundColor: "#f8f8f8",
+    height: "30%",
     justifyContent: "center",
     alignItems: "center",
   },
