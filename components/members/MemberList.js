@@ -23,9 +23,7 @@ const MemberList = ({ route, navigation }) => {
     wait(100).then(() => setRefreshing(false));
     await memberStore.fetchMembers();
   }, []);
-  console.log("-----start--------------------------");
-  console.log("memeberStore.members", memberStore.members);
-  console.log("-----finish--------------------------");
+
   const members = memberStore.members
     .filter((member) => member.queue === queue._id)
     .map((member) => (

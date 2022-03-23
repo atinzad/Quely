@@ -9,12 +9,12 @@ import Signup from "../components/Auth/Signup";
 import Home from "../components/tests/Home";
 import QueueList from "../components/queues/QueueList";
 import MemberList from "../components/members/MemberList";
+import authStore from "../stores/authStore";
 
 const { Navigator, Screen } = createStackNavigator();
 
 const RootNavigator = () => {
-  //const user = authStore.user;
-  const user = "hi";
+  const user = authStore.user;
   return (
     <Navigator initialRouteName={user ? "QueueList" : "Home"}>
       <Screen

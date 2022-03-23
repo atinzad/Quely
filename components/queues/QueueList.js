@@ -8,6 +8,7 @@ import { useCallback, useState } from "react";
 import { observable } from "mobx";
 import { observer } from "mobx-react";
 import AddQueue from "./AddQueue";
+import authStore from "../../stores/authStore";
 
 const QueueList = ({ navigation }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -24,9 +25,13 @@ const QueueList = ({ navigation }) => {
     await queueStore.fetchQueues();
   }, []);
 
-  const queues = queueStore.queues.map((queue) => (
-    <QueueItem key={queue._id} queue={queue} navigation={navigation} />
-  ));
+  user = authStore.user;
+  console.log("user._id", user?._id);
+  const queues = queueStore.queues
+    .filter((queue) => queue.owner === user?._id)
+    .map((queue) => (
+      <QueueItem key={queue._id} queue={queue} navigation={navigation} />
+    ));
 
   return (
     <VStack style={{ flex: 1 }}>

@@ -9,7 +9,6 @@ const Home = ({ navigation }) => {
     Alert.alert("Welcome");
   };
   useEffect(() => {
-    console.log("use");
     authStore.onLoadSignIn(navigation);
   }, []);
   return (

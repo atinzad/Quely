@@ -14,6 +14,7 @@ class AuthStore {
     try {
       await AsyncStorage.setItem("token", token);
       this.user = decode(token);
+      console.log("this.user", this.user);
       instance.defaults.headers.common.Authorization = `jwt ${token}`;
       console.log(instance.defaults.headers.common.Authorization);
     } catch (error) {
@@ -24,9 +25,8 @@ class AuthStore {
   onLoadSignIn = async (navigation) => {
     try {
       const tokenIsValid = await this.checkForToken();
-      console.log(tokenIsValid);
+      console.log("tokenIsValid", tokenIsValid);
       if (tokenIsValid) {
-        console.log("load");
         navigation.replace("QueueList");
       }
     } catch (error) {
