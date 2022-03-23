@@ -11,7 +11,7 @@ class QueueStore {
   fetchQueues = async () => {
     console.log("fetchQueues");
     try {
-      const response = await instance.get("/queue");
+      const response = await instance.get("/queues");
       this.queues = response.data.payload;
       console.log("queues", this.queues);
     } catch (error) {
@@ -22,9 +22,9 @@ class QueueStore {
   addQueue = async (newQueue) => {
     try {
       //newQueue.owner = authStore.user._id;    //@hadeel, this is where we get the user id and add it to owner
-      const response = await instance.post("/queue", newQueue);
+      const response = await instance.post("/queues", newQueue);
       this.queues.push(response.data.payload);
-      await this.fetchTrips();
+      await this.fetchQueues();
     } catch (error) {
       console.log("failed to add new queue", error);
     }

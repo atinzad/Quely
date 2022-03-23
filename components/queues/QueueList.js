@@ -13,7 +13,6 @@ const QueueList = ({ navigation }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [queue, setQueue] = useState({});
 
-  setQueue;
   const handleModal = () => {
     setIsOpenModal(true);
   };
