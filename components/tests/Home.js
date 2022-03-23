@@ -34,14 +34,14 @@ const Home = ({ navigation }) => {
         </Button> */}
         {authStore.user ? (
           <View>
-            {/* <Button
+            <Button
               backgroundColor="#0d98ba"
               onPress={() => {
-                navigation.navigate("Profile");
+                navigation.navigate("QueueList");
               }}
             >
-              check your profile!
-            </Button> */}
+              Go to my Queue
+            </Button>
             <Button onPress={authStore.signout}>Sign Out</Button>
           </View>
         ) : (
