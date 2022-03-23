@@ -32,6 +32,7 @@ const Signin = ({ navigation }) => {
   }
 
   handleSubmit = () => {
+    console.log("his", user);
     authStore.signin(
       { ...user, username: user.username.toLowerCase() },
       navigation,

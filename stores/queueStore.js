@@ -21,7 +21,8 @@ class QueueStore {
 
   addQueue = async (newQueue) => {
     try {
-      //newQueue.owner = authStore.user._id;    //@hadeel, this is where we get the user id and add it to owner
+      newQueue.owner = authStore.user._id;
+      
       const response = await instance.post("/queues", newQueue);
       this.queues.push(response.data.payload);
       await this.fetchQueues();

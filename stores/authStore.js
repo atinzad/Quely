@@ -12,10 +12,23 @@ class AuthStore {
 
   setUser = async (token) => {
     try {
-      await AsyncStorage.setItem("myToken", token);
+      await AsyncStorage.setItem("token", token);
       this.user = decode(token);
       instance.defaults.headers.common.Authorization = `jwt ${token}`;
       console.log(instance.defaults.headers.common.Authorization);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //check if there is a token, send it to the user Header, navigate the user to Que list page.
+  onLoadSignIn = async (navigation) => {
+    try {
+      const tokenIsValid = await this.checkForToken();
+      console.log(tokenIsValid);
+      if (tokenIsValid) {
+        console.log("load");
+        navigation.replace("QueueList");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -63,11 +76,14 @@ class AuthStore {
       if (token) {
         const decodedToken = decode(token);
         if (Date.now() < decodedToken.exp) {
-          this.setUser(token);
+          await this.setUser(token);
+          return Promise.resolve(true);
         }
       }
+      return Promise.resolve(false);
     } catch (error) {
       console.log(error);
+      Promise.reject(error);
     }
   };
 }
