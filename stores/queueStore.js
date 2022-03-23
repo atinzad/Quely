@@ -22,6 +22,7 @@ class QueueStore {
   addQueue = async (newQueue) => {
     try {
       //newQueue.owner = authStore.user._id;    //@hadeel, this is where we get the user id and add it to owner
+      //we dont need this here , becusae we can already get the user through JWT token (req.user) on API
       const response = await instance.post("/queue", newQueue);
       this.queues.push(response.data.payload);
       await this.fetchTrips();

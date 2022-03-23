@@ -2,12 +2,16 @@ import { Alert, ImageBackground, StyleSheet, Text, View } from "react-native";
 import { Button, Heading } from "native-base";
 import { observer } from "mobx-react";
 import authStore from "../../stores/authStore";
+import { useEffect } from "react";
 
 const Home = ({ navigation }) => {
   const handlePass = () => {
     Alert.alert("Welcome");
   };
-
+  useEffect(() => {
+    console.log("use");
+    authStore.onLoadSignIn(navigation);
+  }, []);
   return (
     <ImageBackground
       source={{
