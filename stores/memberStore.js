@@ -30,6 +30,14 @@ class MemberStore {
       console.log("failed to add new member", error);
     }
   };
+  deleteMember = async (memberId) => {
+    try {
+      const response = await instance.delete(`/members/${memberId}`);
+      this.members = this.members.filter((member) => member._id !== memberId);
+    } catch (error) {
+      console.log("failed to remove member", error);
+    }
+  };
 }
 
 const memberStore = new MemberStore();

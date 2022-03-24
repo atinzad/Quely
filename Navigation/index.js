@@ -10,6 +10,7 @@ import Home from "../components/tests/Home";
 import QueueList from "../components/queues/QueueList";
 import MemberList from "../components/members/MemberList";
 import authStore from "../stores/authStore";
+import SignOutBt from "../SignOutBt";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -38,10 +39,17 @@ const RootNavigator = () => {
           headerShown: false,
         }}
       ></Screen>
+      <Screen
+        name="QueueList"
+        component={QueueList}
+        options={({ navigation }) => ({
+          headerRight: () => <SignOutBt navigation={navigation} />,
+        })}
+      ></Screen>
 
       <Screen name="TestA" component={Test1} />
       <Screen name="TestB" component={Test2} />
-      <Screen name="QueueList" component={QueueList} />
+
       <Screen name="MemberList" component={MemberList} />
     </Navigator>
   );
