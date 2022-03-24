@@ -1,7 +1,7 @@
 import { RefreshControl, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import queueStore from "../../stores/queueStore";
-import { ScrollView, VStack } from "native-base";
+import { Box, Center, HStack, ScrollView, VStack } from "native-base";
 import QueueItem from "./QueueItem";
 import { Ionicons } from "@expo/vector-icons";
 import { useCallback, useState } from "react";
@@ -9,6 +9,16 @@ import { observable } from "mobx";
 import { observer } from "mobx-react";
 import AddQueue from "./AddQueue";
 import authStore from "../../stores/authStore";
+import {
+  AddQueueButtonPlus,
+  AddQueueButtonView,
+  MyQueuesTitle,
+  MyQueuesViewTitle,
+  PageUpperLeft,
+  PageUpperRight,
+  QueueListQueues,
+  QueueListTitle,
+} from "../../styles";
 
 const QueueList = ({ navigation }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -34,50 +44,57 @@ const QueueList = ({ navigation }) => {
     ));
 
   return (
-    <VStack style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          {queues}
+    <View>
+      <Center style={styles.box} w="100%">
+        <QueueListTitle w="90%">
+          <HStack>
+            <PageUpperLeft>
+              <MyQueuesTitle>My Queues</MyQueuesTitle>
+            </PageUpperLeft>
+            <PageUpperRight>
+              <AddQueueButtonView>
+                <AddQueueButtonPlus>+</AddQueueButtonPlus>
+              </AddQueueButtonView>
+            </PageUpperRight>
+          </HStack>
+        </QueueListTitle>
+        <ScrollView w="100%">
+          <QueueListQueues w="100%">{queues}</QueueListQueues>
         </ScrollView>
-      </View>
-      <View style={{ flex: 1 }}>
-        <Ionicons
-          style={styles.icon}
-          name="add-circle-outline"
-          size={70}
-          color="black"
-          onPress={() => handleModal()}
-        />
-      </View>
+      </Center>
+    </View>
+    // <VStack style={{ flex: 1 }}>
+    //   <View style={styles.container}>
+    //     <ScrollView
+    //       contentContainerStyle={{ flexGrow: 1 }}
+    //       refreshControl={
+    //         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    //       }
+    //     >
+    //       {queues}
+    //     </ScrollView>
+    //   </View>
+    //   <View style={{ flex: 1 }}>
+    //     <Ionicons
+    //       style={styles.icon}
+    //       name="add-circle-outline"
+    //       size={70}
+    //       color="black"
+    //       onPress={() => handleModal()}
+    //     />
+    //   </View>
 
-      <AddQueue
-        isOpenModal={isOpenModal}
-        setIsOpenModal={setIsOpenModal}
-        setQueue={setQueue}
-      />
-    </VStack>
+    //   <AddQueue
+    //     isOpenModal={isOpenModal}
+    //     setIsOpenModal={setIsOpenModal}
+    //     setQueue={setQueue}
+    //   />
+    // </VStack>
   );
 };
 
 export default observer(QueueList);
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 8,
-    width: "100%",
-    backgroundColor: "#fff",
-    alignItems: "flex-start",
-  },
-  icon: {
-    top: "1%",
-    left: "42%",
-  },
-  iconContainer: {
-    flex: 1,
-  },
+  box: { height: "100%", backgroundColor: "#f8f8f8" },
 });

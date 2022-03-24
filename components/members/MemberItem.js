@@ -7,58 +7,93 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { HStack, VStack } from "native-base";
+import { CheckIcon, HStack, VStack } from "native-base";
+import {
+  CardMargin,
+  MemberCardLeft,
+  MemberCardMiddle,
+  MemberCardNotificationBtn,
+  MemberCardNumber,
+  MemberCardServedBtn,
+  MemberHstack,
+  MemberItemContainer,
+  QueueEdit,
+  QueueItemContainer,
+  QueueTitle,
+  QueueWaiting,
+} from "../../styles";
+import { TextInput } from "react-native-paper";
+import Swipeout from "react-native-swipeout";
 
-const MemberItem = ({ member, navigation }) => {
+const MemberItem = ({ index, member, navigation }) => {
   //
+  let swipeBtns = [
+    {
+      component: (
+        <Pressable
+          style={styles.viewTest}
+          onPress={() => {
+            alert("hi");
+          }}
+        >
+          <TextInput.Icon
+            onPress={() => {
+              alert("hi");
+            }}
+            size={35}
+            color="white"
+            name="trash-can-outline"
+          />
+        </Pressable>
+      ),
+      text: "Delete",
+      backgroundColor: "#c06c5d",
+      underlayColor: "white",
+    },
+  ];
   return (
-    <Pressable
-      style={styles.button}
-      onPress={() => console.log("this is a memeber")}
-    >
-      <VStack style={styles.container}>
-        <Text style={styles.title}>{member.email}</Text>
-      </VStack>
-    </Pressable>
+    <CardMargin>
+      <Swipeout
+        right={swipeBtns}
+        autoClose="true"
+        backgroundColor="transparent"
+      >
+        <MemberItemContainer onPress={() => console.log("this is a memeber")}>
+          <MemberHstack>
+            <MemberCardLeft>
+              <MemberCardNumber>#{index + 1}</MemberCardNumber>
+            </MemberCardLeft>
+            <MemberCardMiddle>
+              <QueueTitle>{member.email}</QueueTitle>
+              <QueueWaiting>Field1 : FieldData1</QueueWaiting>
+            </MemberCardMiddle>
+            <MemberCardNotificationBtn>
+              <TextInput.Icon
+                onPress={() => {
+                  alert("hi");
+                }}
+                size={35}
+                color="#3f93a2"
+                name="bell"
+              />
+            </MemberCardNotificationBtn>
+            <MemberCardServedBtn>
+              <CheckIcon size="7" color="white" />
+            </MemberCardServedBtn>
+          </MemberHstack>
+        </MemberItemContainer>
+      </Swipeout>
+    </CardMargin>
   );
 };
 
 export default MemberItem;
 
 const styles = StyleSheet.create({
-  container: {
+  viewTest: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    width: Dimensions.get("window").width,
-    paddingBottom: 40,
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginBottom: 20,
-    marginTop: 20,
-    borderBottomColor: "black",
-    borderBottomWidth: 2,
-  },
-  image: {
-    width: "100%",
-    height: 200,
-    position: "relative",
-    borderRadius: 20,
-  },
-  shadow: {
-    position: "absolute",
-    width: "100%",
-    height: 200,
-    backgroundColor: "rgba(0, 0, 0, 0.450)",
-    bottom: 10,
-    zIndex: 1,
-    borderRadius: 20,
-  },
-  title: {
-    position: "absolute",
-    color: "black",
-    fontSize: 25,
-    zIndex: 2,
-    fontWeight: "bold",
+    flexDirection: "column",
   },
 });
