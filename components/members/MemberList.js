@@ -8,6 +8,8 @@ import memberStore from "../../stores/memberStore";
 import MemberItem from "./MemberItem";
 import { observer } from "mobx-react";
 import MemberDetails from "./MemberDetails";
+import QueueURL from "../queues/QueueURL";
+
 
 const MemberList = ({ route, navigation }) => {
   const queue = route.params.queue;
@@ -45,6 +47,7 @@ const MemberList = ({ route, navigation }) => {
     <VStack style={{ flex: 1 }}>
       <View style={styles.container}>
         <Text>Memeber List for {queue.name}</Text>
+        <QueueURL queue={queue} />
         <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
           refreshControl={
@@ -93,5 +96,12 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     flex: 1,
+  },
+  title: {
+    position: "absolute",
+    color: "black",
+    fontSize: 25,
+    zIndex: 2,
+    fontWeight: "bold",
   },
 });
