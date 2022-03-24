@@ -17,7 +17,6 @@ const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
   const [newQueue, setNewQueue] = useState({});
   const handleSaveChanges = () => {
     setQueue(newQueue);
-    console.log("newQueue");
     queueStore.addQueue(newQueue);
     setIsOpenModal(false);
   };

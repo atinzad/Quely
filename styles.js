@@ -69,7 +69,7 @@ export const PageUpperRight = styled.View`
   justify-content: center;
   align-items: center;
 `;
-export const AddQueueButtonView = styled.View`
+export const AddQueueButtonView = styled.Pressable`
   height: 50px;
   width: 50px;
   background-color: #3f93a2;

@@ -14,9 +14,7 @@ class AuthStore {
     try {
       await AsyncStorage.setItem("token", token);
       this.user = decode(token);
-      console.log("this.user", this.user);
       instance.defaults.headers.common.Authorization = `jwt ${token}`;
-      console.log(instance.defaults.headers.common.Authorization);
     } catch (error) {
       console.log(error);
     }
@@ -25,7 +23,6 @@ class AuthStore {
   onLoadSignIn = async (navigation) => {
     try {
       const tokenIsValid = await this.checkForToken();
-      console.log("tokenIsValid", tokenIsValid);
       if (tokenIsValid) {
         navigation.replace("QueueList");
       }
@@ -35,7 +32,6 @@ class AuthStore {
   };
 
   signup = async (userData, navigation) => {
-    console.log("userData", userData);
     try {
       const res = await instance.post("/users/signup", userData);
       const { token } = res.data;
@@ -73,7 +69,6 @@ class AuthStore {
   checkForToken = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
-      console.log("token", token);
       if (token) {
         const decodedToken = decode(token);
         if (Date.now() < decodedToken.exp) {

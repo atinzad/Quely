@@ -17,7 +17,6 @@ const AddMember = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
   const [newMember, setNewMemeber] = useState({});
   const handleSaveChanges = () => {
     setMember(newMember);
-    console.log("newMember");
     memberStore.addMember(queue, newMember);
     setIsOpenModal(false);
   };
