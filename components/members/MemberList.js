@@ -1,6 +1,6 @@
 import { RefreshControl, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { ScrollView, VStack } from "native-base";
+import { Center, ScrollView, VStack } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { useCallback, useState } from "react";
 import AddMember from "./AddMember";
@@ -10,6 +10,12 @@ import { observer } from "mobx-react";
 import MemberDetails from "./MemberDetails";
 import QueueURL from "../queues/QueueURL";
 
+import {
+  InQueueTitle,
+  MyQueuesTitle,
+  QueueListQueues,
+  QueueListTitle,
+} from "../../styles";
 
 const MemberList = ({ route, navigation }) => {
   const queue = route.params.queue;
@@ -31,8 +37,9 @@ const MemberList = ({ route, navigation }) => {
 
   const members = memberStore.members
     .filter((member) => member.queue === queue._id)
-    .map((member) => (
+    .map((member, index) => (
       <MemberItem
+        index={index}
         key={member._id}
         member={member}
         navigation={navigation}
@@ -44,58 +51,57 @@ const MemberList = ({ route, navigation }) => {
     ));
 
   return (
-    <VStack style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <Text>Memeber List for {queue.name}</Text>
-        <QueueURL queue={queue} />
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          {members}
-        </ScrollView>
-      </View>
-      <View style={{ flex: 1 }}>
-        <Ionicons
-          style={styles.icon}
-          name="add-circle-outline"
-          size={70}
-          color="black"
-          onPress={() => handleModal()}
-        />
-        <MemberDetails
-          setShowModal={setShowMemberModal}
-          showModal={showMemberModal}
-          member={member}
-        />
-      </View>
-      <AddMember
-        isOpenModal={isOpenModal}
-        setIsOpenModal={setIsOpenModal}
-        setMember={setMember}
-        queue={queue}
-      />
-    </VStack>
+    // <VStack style={{ flex: 1 }}>
+    //   <View style={styles.container}>
+    //     <Text>Memeber List for {queue.name}</Text>
+    //     <QueueURL queue={queue} />
+    //     <ScrollView
+    //       contentContainerStyle={{ flexGrow: 1 }}
+    //       refreshControl={
+    //         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    //       }
+    //     >
+    //       {members}
+    //     </ScrollView>
+    //   </View>
+    //   <View style={{ flex: 1 }}>
+    //     <Ionicons
+    //       style={styles.icon}
+    //       name="add-circle-outline"
+    //       size={70}
+    //       color="black"
+    //       onPress={() => handleModal()}
+    //     />
+    //     <MemberDetails
+    //       setShowModal={setShowMemberModal}
+    //       showModal={showMemberModal}
+    //       member={member}
+    //     />
+    //   </View>
+    //   <AddMember
+    //     isOpenModal={isOpenModal}
+    //     setIsOpenModal={setIsOpenModal}
+    //     setMember={setMember}
+    //     queue={queue}
+    //   />
+    // </VStack>
+    <Center style={styles.box} w="100%">
+      <QueueListTitle w="90%">
+        <InQueueTitle>Memeber List for {queue.name}</InQueueTitle>
+      </QueueListTitle>
+      <ScrollView w="100%">
+        <QueueListQueues w="100%">{members}</QueueListQueues>
+      </ScrollView>
+    </Center>
   );
 };
 
 export default observer(MemberList);
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 8,
-    width: "100%",
-    backgroundColor: "#fff",
-    alignItems: "flex-start",
-  },
-  icon: {
-    top: "1%",
-    left: "42%",
-  },
-  iconContainer: {
-    flex: 1,
+  box: {
+    height: "100%",
+    backgroundColor: "#f8f8f8",
   },
   title: {
     position: "absolute",
