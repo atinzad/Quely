@@ -9,13 +9,10 @@ import {
 import React from "react";
 import { HStack, VStack } from "native-base";
 
-const MemberItem = ({ member, navigation }) => {
+const MemberItem = ({ member, navigation, onClick }) => {
   //
   return (
-    <Pressable
-      style={styles.button}
-      onPress={() => console.log("this is a memeber")}
-    >
+    <Pressable style={styles.button} onPress={() => onClick()}>
       <VStack style={styles.container}>
         <Text style={styles.title}>{member.email}</Text>
       </VStack>

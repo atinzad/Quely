@@ -7,12 +7,16 @@ import AddMember from "./AddMember";
 import memberStore from "../../stores/memberStore";
 import MemberItem from "./MemberItem";
 import { observer } from "mobx-react";
+import MemberDetails from "./MemberDetails";
 import QueueURL from "../queues/QueueURL";
+
 
 const MemberList = ({ route, navigation }) => {
   const queue = route.params.queue;
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [member, setMember] = useState({});
+
+  const [showMemberModal, setShowMemberModal] = useState(false);
 
   const handleModal = () => {
     setIsOpenModal(true);
@@ -28,7 +32,15 @@ const MemberList = ({ route, navigation }) => {
   const members = memberStore.members
     .filter((member) => member.queue === queue._id)
     .map((member) => (
-      <MemberItem key={member._id} member={member} navigation={navigation} />
+      <MemberItem
+        key={member._id}
+        member={member}
+        navigation={navigation}
+        onClick={() => {
+          setMember(member);
+          setShowMemberModal(true);
+        }}
+      />
     ));
 
   return (
@@ -53,8 +65,12 @@ const MemberList = ({ route, navigation }) => {
           color="black"
           onPress={() => handleModal()}
         />
+        <MemberDetails
+          setShowModal={setShowMemberModal}
+          showModal={showMemberModal}
+          member={member}
+        />
       </View>
-
       <AddMember
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}
