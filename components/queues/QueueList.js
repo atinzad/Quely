@@ -52,44 +52,27 @@ const QueueList = ({ navigation }) => {
               <MyQueuesTitle>My Queues</MyQueuesTitle>
             </PageUpperLeft>
             <PageUpperRight>
-              <AddQueueButtonView>
+              <AddQueueButtonView onPress={() => handleModal()}>
                 <AddQueueButtonPlus>+</AddQueueButtonPlus>
               </AddQueueButtonView>
             </PageUpperRight>
           </HStack>
         </QueueListTitle>
-        <ScrollView w="100%">
+        <ScrollView
+          w="100%"
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <QueueListQueues w="100%">{queues}</QueueListQueues>
         </ScrollView>
+        <AddQueue
+          isOpenModal={isOpenModal}
+          setIsOpenModal={setIsOpenModal}
+          setQueue={setQueue}
+        />
       </Center>
     </View>
-    // <VStack style={{ flex: 1 }}>
-    //   <View style={styles.container}>
-    //     <ScrollView
-    //       contentContainerStyle={{ flexGrow: 1 }}
-    //       refreshControl={
-    //         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-    //       }
-    //     >
-    //       {queues}
-    //     </ScrollView>
-    //   </View>
-    //   <View style={{ flex: 1 }}>
-    //     <Ionicons
-    //       style={styles.icon}
-    //       name="add-circle-outline"
-    //       size={70}
-    //       color="black"
-    //       onPress={() => handleModal()}
-    //     />
-    //   </View>
-
-    //   <AddQueue
-    //     isOpenModal={isOpenModal}
-    //     setIsOpenModal={setIsOpenModal}
-    //     setQueue={setQueue}
-    //   />
-    // </VStack>
   );
 };
 
