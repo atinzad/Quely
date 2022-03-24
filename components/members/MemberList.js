@@ -70,6 +70,11 @@ const MemberList = ({ route, navigation }) => {
       >
         <QueueListQueues w="100%">{members}</QueueListQueues>
       </ScrollView>
+      <MemberDetails
+        setShowModal={setShowMemberModal}
+        showModal={showMemberModal}
+        member={member}
+      />
       <AddMember
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}
