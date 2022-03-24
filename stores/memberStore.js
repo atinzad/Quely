@@ -8,11 +8,9 @@ class MemberStore {
   }
 
   fetchMembers = async () => {
-    console.log("fetchMembers");
     try {
       const response = await instance.get("/members");
       this.members = response.data.payload;
-      console.log("members", this.members);
     } catch (error) {
       console.log("error");
     }

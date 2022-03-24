@@ -36,7 +36,6 @@ const QueueList = ({ navigation }) => {
   }, []);
 
   user = authStore.user;
-  console.log("user._id", user?._id);
   const queues = queueStore.queues
     .filter((queue) => queue.owner === user?._id)
     .map((queue) => (
