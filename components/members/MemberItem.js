@@ -24,8 +24,9 @@ import {
 } from "../../styles";
 import { TextInput } from "react-native-paper";
 import Swipeout from "react-native-swipeout";
+import memberStore from "../../stores/memberStore";
 
-const MemberItem = ({ index, member, navigation, onClick }) => {
+const MemberItem = ({ index, queue, member, navigation, onClick }) => {
   //
   let swipeBtns = [
     {
@@ -51,6 +52,13 @@ const MemberItem = ({ index, member, navigation, onClick }) => {
       underlayColor: "white",
     },
   ];
+
+  const handleEmail = () => {
+    memberStore.sendEmailtoMember(queue, member);
+    alert(
+      `Member ${member._id.substring(member._id.length - 4)} has been notified`
+    );
+  };
   return (
     <CardMargin>
       <Swipeout
@@ -70,7 +78,7 @@ const MemberItem = ({ index, member, navigation, onClick }) => {
             <MemberCardNotificationBtn>
               <TextInput.Icon
                 onPress={() => {
-                  alert("hi");
+                  handleEmail();
                 }}
                 size={35}
                 color="#3f93a2"

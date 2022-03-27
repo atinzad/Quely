@@ -1,5 +1,10 @@
 import { makeAutoObservable } from "mobx";
 import { instance } from "./instance";
+import { INIT_ID, SERVICE_ID, TEMPLATE_ID } from "../.email.config";
+import emailjs from "@emailjs/browser";
+import { init } from "@emailjs/browser";
+
+init(INIT_ID);
 
 class MemberStore {
   members = [];
@@ -35,6 +40,16 @@ class MemberStore {
     } catch (error) {
       console.log("failed to remove member", error);
     }
+  };
+
+  sendEmailtoMember = (queue, member) => {
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, {
+      message: "Your turn is up in the queue",
+      user_email: member.email,
+      member_id_4: member._id.substring(member._id.length - 4),
+      queue_name: queue.name,
+      reply_to: "quelyapp@gmail.com",
+    });
   };
 }
 

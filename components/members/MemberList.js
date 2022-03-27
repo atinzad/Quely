@@ -45,6 +45,7 @@ const MemberList = ({ route, navigation }) => {
         index={index}
         key={member._id}
         member={member}
+        queue={queue}
         navigation={navigation}
         onClick={() => {
           setMember(member);
