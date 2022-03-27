@@ -14,22 +14,24 @@ const MemberDetails = ({ setShowModal, showModal, member }) => {
           <Modal.Body>
             <VStack space={3}>
               <HStack alignItems="center" justifyContent="space-between">
-                <Text fontWeight="medium">Member name</Text>
-                <Text color="blueGray.400">{member.email}</Text>
-              </HStack>
-              <HStack alignItems="center" justifyContent="space-between">
                 <Text fontWeight="medium">Email</Text>
-                <Text color="blueGray.400">eeeee</Text>
+                <Text color="grey">{member.email}</Text>
               </HStack>
               <HStack alignItems="center" justifyContent="space-between">
-                <Text fontWeight="medium">Mobile</Text>
-                <Text color="green.500">theee</Text>
+                <Text fontWeight="medium">Phone Number</Text>
+                <Text color="grey">98700009</Text>
+              </HStack>
+              <HStack alignItems="center" justifyContent="space-between">
+                <Text fontWeight="medium">Waiting Status</Text>
+                <Text color="green.500">True</Text>
               </HStack>
             </VStack>
           </Modal.Body>
           <Modal.Footer>
             <Button
               flex="1"
+              colorScheme="red"
+              borderRadius="20"
               onPress={() => {
                 memberStore.deleteMember(member._id);
                 setShowModal(false);
@@ -37,22 +39,29 @@ const MemberDetails = ({ setShowModal, showModal, member }) => {
             >
               Delete
             </Button>
-          </Modal.Footer>
-        </Modal.Content>
-      </Modal>
+            <Button
+              flex="1"
+              borderRadius="20"
+              //   onPress={() => {
 
-      {/* <Modal isOpen={showModal2} onClose={() => setShowModal2(false)} size="lg">
-        <Modal.Content maxWidth="350">
-          <Modal.CloseButton />
-          <Modal.Header>Select Address</Modal.Header>
-          <Modal.Body></Modal.Body>
-          <Modal.Footer>
-            <Button flex="1" onPress={() => {}}>
-              Confirm
+              //   }}
+            >
+              Notify
+            </Button>
+            <Button
+              flex="1"
+              colorScheme="green"
+              borderRadius="20"
+
+              //   onPress={() => {
+
+              //   }}
+            >
+              Served
             </Button>
           </Modal.Footer>
         </Modal.Content>
-      </Modal> */}
+      </Modal>
     </Center>
   );
 };
