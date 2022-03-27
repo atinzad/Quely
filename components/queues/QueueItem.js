@@ -24,12 +24,7 @@ const QueueItem = ({ queue, navigation }) => {
   let swipeBtns = [
     {
       component: (
-        <Pressable
-          style={styles.viewTest}
-          onPress={() => {
-            alert("hi");
-          }}
-        >
+        <Pressable style={styles.viewTest}>
           <TextInput.Icon
             onPress={() => {
               alert("hi");

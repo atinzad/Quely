@@ -12,11 +12,13 @@ class MemberStore {
     makeAutoObservable(this);
   }
 
-  fetchMembers = async () => {
+  fetchMembers = async (setRefreshing) => {
     try {
       const response = await instance.get("/members");
       this.members = response.data.payload;
+      setRefreshing(false);
     } catch (error) {
+      setRefreshing(false);
       console.log("error");
     }
   };

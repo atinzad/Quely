@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { instance } from "./instance";
 import decode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
 class AuthStore {
   user = null;
@@ -42,16 +43,18 @@ class AuthStore {
     }
   };
 
-  signin = async (userData, navigation) => {
+  signin = async (userData, navigation, setLoading) => {
     try {
       const res = await instance.post("/users/signin", userData);
 
       const { token } = res.data;
       await this.setUser(token);
-
+      setLoading(false);
       navigation.replace("QueueList");
     } catch (error) {
+      setLoading(false);
       console.log(error);
+      Alert.alert("Wrong Input", "incorrect Email or Password..Try Again!");
     }
   };
 
