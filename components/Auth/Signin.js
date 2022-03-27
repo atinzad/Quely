@@ -1,6 +1,6 @@
 import authStore from "../../stores/authStore";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 
 import {
   Box,
@@ -23,7 +23,7 @@ const Signin = ({ navigation }) => {
     username: "",
     password: "",
   });
-
+  const [passwordVisable, setPasswordVisable] = useState("true");
   handleSubmit = () => {
     authStore.signin(
       { ...user, username: user.username.toLowerCase() },
@@ -42,6 +42,8 @@ const Signin = ({ navigation }) => {
         <VStack style={styles.inputBackground} space={8}>
           <TextInput
             label="Email"
+            keyboardType="email-address"
+            textContentType="emailAddress"
             selectionColor="#3f93a2"
             underlineColor="#3f93a2"
             outlineColor="#3f93a2"
@@ -54,7 +56,7 @@ const Signin = ({ navigation }) => {
           />
           <TextInput
             label="Password"
-            secureTextEntry
+            secureTextEntry={passwordVisable}
             selectionColor="#3f93a2"
             underlineColor="#3f93a2"
             outlineColor="#3f93a2"
@@ -62,7 +64,19 @@ const Signin = ({ navigation }) => {
             activeOutlineColor="#3f93a2"
             activeUnderlineColor="#3f93a2"
             underlineColorAndroid="#3f93a2"
-            right={<TextInput.Icon name="eye" />}
+            right={
+              <TextInput.Icon
+                onPress={() => {
+                  if (passwordVisable === "true") {
+                    setPasswordVisable("false");
+                  } else {
+                    setPasswordVisable("true");
+                  }
+                }}
+                pre
+                name="eye"
+              />
+            }
             left={<TextInput.Icon color="#3f93a2" name="lock" />}
             onChangeText={(value) => setUser({ ...user, password: value })}
           />

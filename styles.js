@@ -18,6 +18,23 @@ export const theme = {
   blueish: "#9381ff",
   redish: "#f23d3a",
 };
+export const ModalTitleTopView = styled.View`
+  height: 20%;
+  align-items: center;
+
+  justify-content: center;
+`;
+export const ModalInputsView = styled.View`
+  height: 15%;
+`;
+export const ModalSwitchView = styled.View`
+  height: 35%;
+`;
+export const ModalTitle = styled.Text`
+  font-size: 40px;
+  color: #3f93a2;
+  font-weight: bold;
+`;
 export const CardMargin = styled.View`
   margin-bottom: 5px;
 `;
@@ -45,6 +62,7 @@ export const MemberCardServedBtn = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
 export const MemberItemContainer = styled.Pressable`
   height: 90px;
   background-color: white;
