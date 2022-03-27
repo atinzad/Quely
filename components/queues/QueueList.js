@@ -1,4 +1,4 @@
-import { RefreshControl, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import queueStore from "../../stores/queueStore";
 import { Box, Center, HStack, ScrollView, VStack } from "native-base";
@@ -27,13 +27,6 @@ const QueueList = ({ navigation }) => {
   const handleModal = () => {
     setIsOpenModal(true);
   };
-  const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-    wait(100).then(() => setRefreshing(false));
-    await queueStore.fetchQueues();
-  }, []);
 
   user = authStore.user;
   const queues = queueStore.queues
@@ -57,12 +50,7 @@ const QueueList = ({ navigation }) => {
             </PageUpperRight>
           </HStack>
         </QueueListTitle>
-        <ScrollView
-          w="100%"
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
+        <ScrollView w="100%">
           <QueueListQueues w="100%">{queues}</QueueListQueues>
         </ScrollView>
         <AddQueue

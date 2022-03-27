@@ -1,6 +1,6 @@
 import { RefreshControl, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { Center, ScrollView, VStack } from "native-base";
+import { Center, FlatList, ScrollView, VStack } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { useCallback, useState } from "react";
 import AddMember from "./AddMember";
@@ -34,24 +34,13 @@ const MemberList = ({ route, navigation }) => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    wait(100).then(() => setRefreshing(false));
-    await memberStore.fetchMembers();
+    await memberStore.fetchMembers(setRefreshing);
   }, []);
 
-  const members = memberStore.members
-    .filter((member) => member.queue === queue._id)
-    .map((member, index) => (
-      <MemberItem
-        index={index}
-        key={member._id}
-        member={member}
-        navigation={navigation}
-        onClick={() => {
-          setMember(member);
-          setShowMemberModal(true);
-        }}
-      />
-    ));
+  const members = memberStore.members.filter(
+    (member) => member.queue === queue._id
+  );
+
 
   return (
     <Center style={styles.box} w="100%">
@@ -62,14 +51,27 @@ const MemberList = ({ route, navigation }) => {
       <AddQueueButtonView onPress={() => handleModal()}>
         <AddQueueButtonPlus>+</AddQueueButtonPlus>
       </AddQueueButtonView>
-      <ScrollView
-        w="100%"
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
+      <FlatList
+        data={members}
+        keyExtractor={(item) => item._id}
+        renderItem={({ item, index, separators }) => (
+          <MemberItem
+            index={index}
+            key={item._id}
+            member={item}
+            queue={queue}
+            navigation={navigation}
+            onClick={() => {
+              setMember(item);
+              setShowMemberModal(true);
+            }}
+          />
+        )}
+        onRefresh={() => onRefresh()}
+        refreshing={refreshing}
       >
-        <QueueListQueues w="100%">{members}</QueueListQueues>
-      </ScrollView>
+        {/* <QueueListQueues w="100%">{members}</QueueListQueues> */}
+      </FlatList>
       <MemberDetails
         setShowModal={setShowMemberModal}
         showModal={showMemberModal}

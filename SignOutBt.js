@@ -8,9 +8,9 @@ const SignOutBt = ({ navigation }) => {
   return (
     <MaterialIcons
       name="logout"
-      size={35}
-      marginRight={20}
-      color="blue"
+      size={30}
+      marginRight={10}
+      color="#3f93a2"
       onPress={() => authStore.signout(navigation)}
     />
   );
