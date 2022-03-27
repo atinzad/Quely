@@ -10,5 +10,6 @@ npm-debug.*
 *.orig.*
 web-build/
 
+.email.config.js
 # macOS
 .DS_Store
