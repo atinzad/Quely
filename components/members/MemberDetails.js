@@ -42,20 +42,13 @@ const MemberDetails = ({ setShowModal, showModal, member }) => {
             <Button
               flex="1"
               borderRadius="20"
-              //   onPress={() => {
-
-              //   }}
-            >
               Notify
             </Button>
+            
             <Button
               flex="1"
               colorScheme="green"
               borderRadius="20"
-
-              //   onPress={() => {
-
-              //   }}
             >
               Served
             </Button>

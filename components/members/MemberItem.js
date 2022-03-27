@@ -27,7 +27,8 @@ import Swipeout from "react-native-swipeout";
 import memberStore from "../../stores/memberStore";
 import { observer } from "mobx-react";
 
-const MemberItem = ({ index, member, navigation, onClick }) => {
+
+const MemberItem = ({ index, queue, member, navigation, onClick }) => {
   //
   let swipeBtns = [
     {
@@ -48,6 +49,13 @@ const MemberItem = ({ index, member, navigation, onClick }) => {
       underlayColor: "white",
     },
   ];
+
+  const handleEmail = () => {
+    memberStore.sendEmailtoMember(queue, member);
+    alert(
+      `Member ${member._id.substring(member._id.length - 4)} has been notified`
+    );
+  };
   return (
     <CardMargin>
       <Swipeout
@@ -66,9 +74,9 @@ const MemberItem = ({ index, member, navigation, onClick }) => {
             </MemberCardMiddle>
             <MemberCardNotificationBtn>
               <TextInput.Icon
-                // onPress={() => {
-                //   alert("hi");
-                // }}
+                onPress={() => {
+                  handleEmail();
+                }}
                 size={35}
                 color="#3f93a2"
                 name="bell"

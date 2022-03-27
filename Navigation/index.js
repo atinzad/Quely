@@ -11,6 +11,7 @@ import QueueList from "../components/queues/QueueList";
 import MemberList from "../components/members/MemberList";
 import authStore from "../stores/authStore";
 import SignOutBt from "../SignOutBt";
+import TestEmail from "../components/tests/TestEmail";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -49,7 +50,7 @@ const RootNavigator = () => {
 
       <Screen name="TestA" component={Test1} />
       <Screen name="TestB" component={Test2} />
-
+      <Screen name="TestEmail" component={TestEmail} />
       <Screen name="MemberList" component={MemberList} />
     </Navigator>
   );

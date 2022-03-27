@@ -34,13 +34,13 @@ const MemberList = ({ route, navigation }) => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    // wait(100).then(() => setRefreshing(false));
     await memberStore.fetchMembers(setRefreshing);
   }, []);
 
   const members = memberStore.members.filter(
     (member) => member.queue === queue._id
   );
+
 
   return (
     <Center style={styles.box} w="100%">
@@ -59,6 +59,7 @@ const MemberList = ({ route, navigation }) => {
             index={index}
             key={item._id}
             member={item}
+            queue={queue}
             navigation={navigation}
             onClick={() => {
               setMember(item);
