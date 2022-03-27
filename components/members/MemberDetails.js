@@ -39,17 +39,11 @@ const MemberDetails = ({ setShowModal, showModal, member }) => {
             >
               Delete
             </Button>
-            <Button
-              flex="1"
-              borderRadius="20"
+            <Button flex="1" borderRadius="20">
               Notify
             </Button>
-            
-            <Button
-              flex="1"
-              colorScheme="green"
-              borderRadius="20"
-            >
+
+            <Button flex="1" colorScheme="green" borderRadius="20">
               Served
             </Button>
           </Modal.Footer>
