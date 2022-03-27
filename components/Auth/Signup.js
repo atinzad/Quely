@@ -1,5 +1,11 @@
-import React, { useState } from "react";
-import { Text, View, SafeAreaView, StyleSheet } from "react-native";
+import React, { useState, useRef } from "react";
+import {
+  Text,
+  View,
+  SafeAreaView,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TextInput } from "react-native-paper";
 
@@ -36,12 +42,19 @@ const Signup = ({ navigation }) => {
   });
 
   const handleSubmit = () => {
+    setLoading(true);
     authStore.signup(
       { ...user, email: user.email.toLowerCase() },
       navigation,
-      toast
+      toast,
+      setLoading
     );
   };
+
+  const [loading, setLoading] = useState(false);
+
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   return (
     <Center style={styles.box} w="100%">
@@ -51,45 +64,63 @@ const Signup = ({ navigation }) => {
         </SignUpTextContainer>
         <SignUpInputContainer>
           <VStack space={8}>
-            <TextInput
-              label="Name"
-              selectionColor="#3f93a2"
-              underlineColor="#3f93a2"
-              outlineColor="#3f93a2"
-              placeholderTextColor="#3f93a2"
-              activeOutlineColor="#3f93a2"
-              activeUnderlineColor="#3f93a2"
-              underlineColorAndroid="#3f93a2"
-              left={<TextInput.Icon color="#3f93a2" name="account" />}
-              onChangeText={(name) => setUser({ ...user, name: name })}
-            />
-            <TextInput
-              label="Email"
-              selectionColor="#3f93a2"
-              underlineColor="#3f93a2"
-              outlineColor="#3f93a2"
-              placeholderTextColor="#3f93a2"
-              activeOutlineColor="#3f93a2"
-              activeUnderlineColor="#3f93a2"
-              underlineColorAndroid="#3f93a2"
-              left={<TextInput.Icon color="#3f93a2" name="email" />}
-              onChangeText={(email) => setUser({ ...user, email: email })}
-            />
-            <TextInput
-              label="Password"
-              secureTextEntry
-              selectionColor="#3f93a2"
-              underlineColor="#3f93a2"
-              outlineColor="#3f93a2"
-              placeholderTextColor="#3f93a2"
-              activeOutlineColor="#3f93a2"
-              activeUnderlineColor="#3f93a2"
-              underlineColorAndroid="#3f93a2"
-              left={<TextInput.Icon color="#3f93a2" name="lock" />}
-              onChangeText={(password) =>
-                setUser({ ...user, password: password })
-              }
-            />
+            <KeyboardAvoidingView
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              style={styles.container}
+            >
+              <TextInput
+                label="Name"
+                selectionColor="#3f93a2"
+                underlineColor="#3f93a2"
+                outlineColor="#3f93a2"
+                placeholderTextColor="#3f93a2"
+                activeOutlineColor="#3f93a2"
+                activeUnderlineColor="#3f93a2"
+                underlineColorAndroid="#3f93a2"
+                left={<TextInput.Icon color="#3f93a2" name="account" />}
+                onChangeText={(name) => setUser({ ...user, name: name })}
+                disabled={loading}
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  emailRef.current.focus();
+                }}
+              />
+              <TextInput
+                label="Email"
+                selectionColor="#3f93a2"
+                underlineColor="#3f93a2"
+                outlineColor="#3f93a2"
+                placeholderTextColor="#3f93a2"
+                activeOutlineColor="#3f93a2"
+                activeUnderlineColor="#3f93a2"
+                underlineColorAndroid="#3f93a2"
+                left={<TextInput.Icon color="#3f93a2" name="email" />}
+                onChangeText={(email) => setUser({ ...user, email: email })}
+                disabled={loading}
+                ref={emailRef}
+                returnKeytype="next"
+                onSubmitEditing={() => {
+                  passwordRef.current.focus();
+                }}
+              />
+              <TextInput
+                label="Password"
+                secureTextEntry
+                selectionColor="#3f93a2"
+                underlineColor="#3f93a2"
+                outlineColor="#3f93a2"
+                placeholderTextColor="#3f93a2"
+                activeOutlineColor="#3f93a2"
+                activeUnderlineColor="#3f93a2"
+                underlineColorAndroid="#3f93a2"
+                left={<TextInput.Icon color="#3f93a2" name="lock" />}
+                onChangeText={(password) =>
+                  setUser({ ...user, password: password })
+                }
+                disabled={loading}
+                ref={passwordRef}
+              />
+            </KeyboardAvoidingView>
           </VStack>
         </SignUpInputContainer>
         <SignUpButtonContainer>

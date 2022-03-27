@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+} from "react-native";
 import React from "react";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
@@ -12,9 +18,10 @@ const SignButton = (props) => {
   //   return <AppLoading />;
   // }
   return (
-    <TouchableOpacity onPress={() => props.click()}>
+    <TouchableOpacity onPress={() => props.click()} disabled={props.disabled}>
       <View style={styles.button}>
         <Text style={styles.text}>{props.name}</Text>
+        {props.disabled && <ActivityIndicator />}
       </View>
     </TouchableOpacity>
   );

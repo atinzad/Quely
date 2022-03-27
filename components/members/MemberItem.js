@@ -24,25 +24,22 @@ import {
 } from "../../styles";
 import { TextInput } from "react-native-paper";
 import Swipeout from "react-native-swipeout";
+import memberStore from "../../stores/memberStore";
+import { observer } from "mobx-react";
 
 const MemberItem = ({ index, member, navigation, onClick }) => {
   //
   let swipeBtns = [
     {
       component: (
-        <Pressable
-          style={styles.viewTest}
-          onPress={() => {
-            alert("hi");
-          }}
-        >
+        <Pressable style={styles.viewTest}>
           <TextInput.Icon
-            onPress={() => {
-              alert("hi");
-            }}
             size={35}
             color="white"
             name="trash-can-outline"
+            onPress={() => {
+              memberStore.deleteMember(member._id);
+            }}
           />
         </Pressable>
       ),
@@ -69,9 +66,9 @@ const MemberItem = ({ index, member, navigation, onClick }) => {
             </MemberCardMiddle>
             <MemberCardNotificationBtn>
               <TextInput.Icon
-                onPress={() => {
-                  alert("hi");
-                }}
+                // onPress={() => {
+                //   alert("hi");
+                // }}
                 size={35}
                 color="#3f93a2"
                 name="bell"
@@ -87,7 +84,7 @@ const MemberItem = ({ index, member, navigation, onClick }) => {
   );
 };
 
-export default MemberItem;
+export default observer(MemberItem);
 
 const styles = StyleSheet.create({
   viewTest: {

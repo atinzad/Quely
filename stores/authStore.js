@@ -43,15 +43,16 @@ class AuthStore {
     }
   };
 
-  signin = async (userData, navigation) => {
+  signin = async (userData, navigation, setLoading) => {
     try {
       const res = await instance.post("/users/signin", userData);
 
       const { token } = res.data;
       await this.setUser(token);
-
+      setLoading(false);
       navigation.replace("QueueList");
     } catch (error) {
+      setLoading(false);
       console.log(error);
       Alert.alert("Wrong Input", "incorrect Email or Password..Try Again!");
     }
