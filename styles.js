@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { Icon } from "native-base";
+import { Icon, Box, HStack } from "native-base";
 
 import {
   MaterialCommunityIcons,
@@ -18,6 +18,113 @@ export const theme = {
   blueish: "#9381ff",
   redish: "#f23d3a",
 };
+export const CardMargin = styled.View`
+  margin-bottom: 5px;
+`;
+export const MemberCardNumber = styled.Text`
+  font-size: 26px;
+  font-weight: bold;
+  color: #c2dadf;
+`;
+export const MemberCardLeft = styled.View`
+  width: 12%;
+  justify-content: center;
+`;
+export const MemberCardMiddle = styled.View`
+  width: 50%;
+  justify-content: center;
+`;
+export const MemberCardNotificationBtn = styled.View`
+  width: 23%;
+  justify-content: center;
+  align-items: center;
+`;
+export const MemberCardServedBtn = styled.View`
+  width: 15%;
+  background-color: #3f93a2;
+  justify-content: center;
+  align-items: center;
+`;
+export const MemberItemContainer = styled.Pressable`
+  height: 90px;
+  background-color: white;
+  padding-left: 20px;
+  justify-content: center;
+`;
+export const MemberHstack = styled(HStack)`
+  height: 100%;
+  justify-content: center;
+`;
+export const AddQueueButtonPlus = styled.Text`
+  font-size: 35px;
+  font-weight: bold;
+  color: #f8f8f8;
+`;
+export const PageUpperLeft = styled.View`
+  width: 80%;
+  justify-content: center;
+`;
+export const PageUpperRight = styled.View`
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+`;
+export const AddQueueButtonView = styled.Pressable`
+  height: 50px;
+  width: 50px;
+  background-color: #3f93a2;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const QueueEdit = styled.Text`
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 20px;
+  color: #3f93a2;
+  font-weight: bold;
+`;
+export const QueueTitle = styled.Text`
+  font-size: 25px;
+  color: #3f93a2;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+export const QueueWaiting = styled.Text`
+  font-size: 15px;
+  color: #3f93a2;
+`;
+export const QueueItemContainer = styled.Pressable`
+  height: 90px;
+  background-color: white;
+  padding-left: 50px;
+  justify-content: center;
+`;
+export const QueueContainer = styled.View`
+  height: 70px;
+`;
+export const InQueueTitle = styled.Text`
+  font-size: 20px;
+  color: #3f93a2;
+  font-weight: bold;
+`;
+export const MyQueuesTitle = styled.Text`
+  font-size: 40px;
+  color: #3f93a2;
+  font-weight: bold;
+`;
+export const QueueListTitle = styled(Box)`
+  height: 15%;
+  justify-content: center;
+
+  background-color: #f8f8f8;
+`;
+export const QueueListQueues = styled(Box)`
+  height: 85%;
+  background-color: #f8f8f8;
+`;
 export const SignUpText = styled.Text`
   font-size: 40px;
   color: #3f93a2;
