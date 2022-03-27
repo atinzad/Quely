@@ -17,9 +17,15 @@ import {
 } from "../../styles";
 import Swipeout from "react-native-swipeout";
 import { TextInput } from "react-native-paper";
+import memberStore from "../../stores/memberStore";
+import MemberItem from "../members/MemberItem";
 
 const QueueItem = ({ queue, navigation }) => {
   //
+
+  const noOfMembers = memberStore.members.filter(
+    (member) => member.queue === queue._id
+  ).length;
 
   let swipeBtns = [
     {
@@ -51,7 +57,7 @@ const QueueItem = ({ queue, navigation }) => {
           onPress={() => navigation.navigate("MemberList", { queue })}
         >
           <QueueTitle>{queue.name}</QueueTitle>
-          <QueueWaiting>Waiting : 90</QueueWaiting>
+          <QueueWaiting>Members : {noOfMembers}</QueueWaiting>
           <QueueEdit>Edit</QueueEdit>
         </QueueItemContainer>
       </Swipeout>
