@@ -3,6 +3,7 @@ import React from "react";
 import QRCode from "react-native-qrcode-svg";
 import { QueueTitle } from "../../styles";
 import { Button, VStack } from "native-base";
+import { baseFormURL } from "../../stores/instance";
 
 const QRModal = ({ isOpenQRModal, setIsOpenQRModal, queue }) => {
   return (
@@ -16,7 +17,11 @@ const QRModal = ({ isOpenQRModal, setIsOpenQRModal, queue }) => {
       >
         <VStack alignItems="center" space={10}>
           <QueueTitle>{queue.name}</QueueTitle>
-          <QRCode size={300} queue={queue} />
+          <QRCode
+            value={`${baseFormURL}form/${queue._id}`}
+            size={300}
+            queue={queue}
+          />
           <Button onPress={() => setIsOpenQRModal(false)}>Close</Button>
         </VStack>
       </View>
