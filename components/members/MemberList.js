@@ -15,7 +15,6 @@ import MemberItem from "./MemberItem";
 import { observer } from "mobx-react";
 import MemberDetails from "./MemberDetails";
 import QueueURL from "../queues/QueueURL";
-import * as Brightness from "expo-brightness";
 
 import {
   AddQueueButtonPlus,
