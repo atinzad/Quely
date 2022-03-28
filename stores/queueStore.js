@@ -25,7 +25,6 @@ class QueueStore {
   addQueue = async (newQueue) => {
     try {
       newQueue.owner = authStore.user._id;
-
       const response = await instance.post("/queues", newQueue);
       this.queues.push(response.data.payload);
       await this.fetchQueues();

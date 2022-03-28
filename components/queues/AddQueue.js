@@ -31,29 +31,59 @@ import {
   ModalTitleTopView,
   ToastText,
 } from "../../styles";
+import { observer } from "mobx-react";
 
 const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
-  const [newQueue, setNewQueue] = useState({});
-  const [isEmailAvailable, setIsEmailAvailable] = useState(true);
-  const [isEmailRequired, setIsEmailRequired] = useState(false);
-  const [isPhoneAvailable, setIsPhoneAvailable] = useState(false);
-  const [isPhoneRequired, setIsPhoneRequired] = useState(false);
-  const [emailIsDisabled, setEmailIsDisabled] = useState(false);
-  const [PhoneIsDisabled, setPhoneIsDisabled] = useState(true);
+  const initial = {
+    name: "",
+    isPhoneAvailable: false,
+    isPhoneRequired: false,
+    isEmailRequired: false,
+    isEmailAvailable: true,
+  };
+  const [emailIsDisabled, setEmailIsDisabled] = useState(
+    !initial.isEmailAvailable
+  );
+  const [isEmailAvailable, setIsEmailAvailable] = useState(
+    initial.isEmailAvailable
+  );
+  const [isEmailRequired, setIsEmailRequired] = useState(
+    initial.isEmailRequired
+  );
+
+  const [PhoneIsDisabled, setPhoneIsDisabled] = useState(
+    !initial.isPhoneAvailable
+  );
+  const [isPhoneAvailable, setIsPhoneAvailable] = useState(
+    initial.isPhoneAvailable
+  );
+  const [isPhoneRequired, setIsPhoneRequired] = useState(
+    initial.isPhoneRequired
+  );
+  const [newQueue, setNewQueue] = useState({
+    name: "",
+    isPhoneAvailable,
+    isPhoneRequired,
+    isEmailRequired,
+    isEmailAvailable,
+  });
+
   const toast = useToast();
 
   const emailAvailableSwitch = () => {
     setIsEmailAvailable((previousState) => !previousState);
     setEmailIsDisabled((previousState) => !previousState);
   };
-  const emailRequiredSwitch = () =>
+  const emailRequiredSwitch = () => {
     setIsEmailRequired((previousState) => !previousState);
-  const phoneAvailableSwitch = () => {
-    setPhoneIsDisabled((previousState) => !previousState);
-    setIsPhoneAvailable((previousState) => !previousState);
   };
-  const phoneRequiredSwitch = () =>
+  const phoneAvailableSwitch = () => {
+    setIsPhoneAvailable((previousState) => !previousState);
+    setPhoneIsDisabled((previousState) => !previousState);
+  };
+  const phoneRequiredSwitch = () => {
     setIsPhoneRequired((previousState) => !previousState);
+  };
 
   const handleSaveChanges = () => {
     setNewQueue({
@@ -61,8 +91,9 @@ const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
       isPhoneAvailable,
       isPhoneRequired,
       isEmailRequired,
-      isEmailRequired,
+      isEmailAvailable,
     });
+    console.log("After setNewQueue", newQueue);
     setQueue(newQueue);
     queueStore.addQueue(newQueue);
     setNewQueue({});
@@ -186,60 +217,10 @@ const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
         </Modal.Footer>
       </Modal.Content>
     </Modal>
-
-    // <View style={styles.modal}>
-    //   <Modal
-    //     animationType={"slide"}
-    //     transparent={false}
-    //     visible={isOpenModal}
-    //     onRequestClose={() => {
-    //       Alert.alert("Modal has now been closed.");
-    //     }}
-    //   >
-    //     <ModalTitleTopView>
-    //       <ModalTitle>Add new Queue</ModalTitle>
-    //     </ModalTitleTopView>
-    //     <ModalInputsView>
-    //       <TextInput
-    //         label="Name"
-    //         keyboardType="default"
-    //         textContentType="givenName"
-    //         selectionColor="#3f93a2"
-    //         underlineColor="#3f93a2"
-    //         outlineColor="#3f93a2"
-    //         placeholderTextColor="#3f93a2"
-    //         activeOutlineColor="#3f93a2"
-    //         activeUnderlineColor="#3f93a2"
-    //         underlineColorAndroid="#3f93a2"
-    //         left={<TextInput.Icon color="#3f93a2" name="account" />}
-    //         onChangeText={(value) => setNewQueue({ ...newQueue, name: value })}
-    //       />
-    //     </ModalInputsView>
-    //     <ModalSwitchView>
-    //
-    //     </ModalSwitchView>
-    //     <HStack>
-    //       <Button
-    //         style={styles.btn}
-    //         colorScheme="blue"
-    //         onPress={handleSaveChanges}
-    //       >
-    //         Add
-    //       </Button>
-    //       <Button
-    //         colorScheme="blue"
-    //         style={styles.btn}
-    //         onPress={() => setIsOpenModal(false)}
-    //       >
-    //         Cancel
-    //       </Button>
-    //     </HStack>
-    //   </Modal>
-    // </View>
   );
 };
 
-export default AddQueue;
+export default observer(AddQueue);
 
 const styles = StyleSheet.create({
   centeredView: {
