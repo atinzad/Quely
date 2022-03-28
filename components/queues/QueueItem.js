@@ -20,6 +20,7 @@ import { TextInput } from "react-native-paper";
 import memberStore from "../../stores/memberStore";
 import MemberItem from "../members/MemberItem";
 import { observer } from "mobx-react";
+import queueStore from "../../stores/queueStore";
 
 const QueueItem = ({ queue, navigation }) => {
   //
@@ -38,7 +39,7 @@ const QueueItem = ({ queue, navigation }) => {
         <Pressable style={styles.viewTest}>
           <TextInput.Icon
             onPress={() => {
-              alert("hi");
+              queueStore.deleteQueue(queue._id);
             }}
             size={35}
             color="white"

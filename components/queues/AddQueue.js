@@ -34,31 +34,38 @@ import {
 
 const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
   const [newQueue, setNewQueue] = useState({});
-  const [isEmailAvailable, setIsEmailAvailable] = useState(false);
+  const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [isEmailRequired, setIsEmailRequired] = useState(false);
   const [isPhoneAvailable, setIsPhoneAvailable] = useState(false);
   const [isPhoneRequired, setIsPhoneRequired] = useState(false);
-  const [emailSwitch, setIsEmailSwitch] = useState(true);
-  const [phoneSwitch, setIsPhoneSwitch] = useState(true);
+  const [emailIsDisabled, setEmailIsDisabled] = useState(false);
+  const [PhoneIsDisabled, setPhoneIsDisabled] = useState(true);
   const toast = useToast();
 
   const emailAvailableSwitch = () => {
     setIsEmailAvailable((previousState) => !previousState);
-    setIsEmailSwitch((previousState) => !previousState);
+    setEmailIsDisabled((previousState) => !previousState);
   };
   const emailRequiredSwitch = () =>
     setIsEmailRequired((previousState) => !previousState);
   const phoneAvailableSwitch = () => {
-    setIsPhoneSwitch((previousState) => !previousState);
+    setPhoneIsDisabled((previousState) => !previousState);
     setIsPhoneAvailable((previousState) => !previousState);
   };
   const phoneRequiredSwitch = () =>
     setIsPhoneRequired((previousState) => !previousState);
 
   const handleSaveChanges = () => {
+    setNewQueue({
+      ...newQueue,
+      isPhoneAvailable,
+      isPhoneRequired,
+      isEmailRequired,
+      isEmailRequired,
+    });
     setQueue(newQueue);
     queueStore.addQueue(newQueue);
-
+    setNewQueue({});
     setIsOpenModal(false);
     toast.show({
       title: `${newQueue.name} queue added`,
@@ -90,13 +97,13 @@ const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
   return (
     <Modal size="xl" isOpen={isOpenModal}>
       <Modal.Content maxWidth="500px">
-        <Modal.CloseButton onPress={() => setIsOpenModal(false)} />
         <Modal.Header>
           <ModalTitle>Add Queue</ModalTitle>
         </Modal.Header>
         <Modal.Body>
           <VStack space={8}>
             <TextInput
+              value={newQueue.name ? newQueue.name : ""}
               label="Name"
               keyboardType="default"
               textContentType="givenName"
@@ -130,7 +137,7 @@ const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
                 <ModalRequiredText>Required</ModalRequiredText>
               </ModalRequiredView>
               <Switch
-                disabled={emailSwitch}
+                disabled={emailIsDisabled}
                 trackColor={{ false: "#767577", true: "#3f93a2" }}
                 thumbColor={isEmailRequired ? "white" : "white"}
                 ios_backgroundColor="#3e3e3e"
@@ -155,7 +162,7 @@ const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
                 <ModalRequiredText>Required</ModalRequiredText>
               </ModalRequiredView>
               <Switch
-                disabled={phoneSwitch}
+                disabled={PhoneIsDisabled}
                 trackColor={{ false: "#767577", true: "#3f93a2" }}
                 thumbColor={isPhoneRequired ? "white" : "white"}
                 ios_backgroundColor="#3e3e3e"

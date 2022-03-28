@@ -33,6 +33,15 @@ class QueueStore {
       console.log("failed to add new queue", error);
     }
   };
+
+  deleteQueue = async (queueId) => {
+    try {
+      this.queues = this.queues.filter((queues) => queues._id !== queueId);
+      const response = await instance.delete(`/queues/${queueId}`);
+    } catch (error) {
+      console.log("failed to remove queue", error);
+    }
+  };
 }
 
 const queueStore = new QueueStore();
