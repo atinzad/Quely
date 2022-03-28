@@ -18,20 +18,45 @@ export const theme = {
   blueish: "#9381ff",
   redish: "#f23d3a",
 };
+
+export const ModalEmailIconView = styled.View`
+  width: 20%;
+  justify-content: center;
+  margin-left: 1%;
+`;
+export const ModalSwitchView = styled.View`
+  width: 20%;
+  justify-content: center;
+`;
+export const ModalRequiredView = styled.View`
+  width: 30%;
+  justify-content: center;
+`;
+
+export const ToastText = styled.Text`
+  font-size: 18px;
+  color: #f8f8f8;
+  font-weight: bold;
+`;
+export const ModalRequiredText = styled.Text`
+  font-size: 18px;
+  color: #3f93a2;
+  font-weight: bold;
+`;
 export const ModalTitleTopView = styled.View`
   height: 20%;
   align-items: center;
-
   justify-content: center;
 `;
 export const ModalInputsView = styled.View`
-  height: 15%;
+  height: 20%;
+  width: 20px;
+  align-items: center;
+  justify-content: center;
 `;
-export const ModalSwitchView = styled.View`
-  height: 35%;
-`;
+
 export const ModalTitle = styled.Text`
-  font-size: 40px;
+  font-size: 20px;
   color: #3f93a2;
   font-weight: bold;
 `;
