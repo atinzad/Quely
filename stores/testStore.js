@@ -1,5 +1,10 @@
 import { makeAutoObservable } from "mobx";
 import { instance } from "./instance";
+import { configure } from "mobx";
+
+configure({
+  enforceActions: "never",
+});
 
 class TestStore {
   tests = [];
