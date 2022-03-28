@@ -29,7 +29,7 @@ const AddMember = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
         transparent={false}
         visible={isOpenModal}
         onRequestClose={() => {
-          Alert.alert("Modal has now been closed.");
+          alert("Modal has now been closed.");
         }}
       >
         <View style={styles.centeredView}>

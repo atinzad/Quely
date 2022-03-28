@@ -15,6 +15,7 @@ import MemberItem from "./MemberItem";
 import { observer } from "mobx-react";
 import MemberDetails from "./MemberDetails";
 import QueueURL from "../queues/QueueURL";
+import * as Brightness from "expo-brightness";
 
 import {
   AddQueueButtonPlus,
@@ -24,12 +25,14 @@ import {
   QueueListQueues,
   QueueListTitle,
 } from "../../styles";
+import QRModal from "./QRModal";
 
 const MemberList = ({ route, navigation }) => {
   const queue = route.params.queue;
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [member, setMember] = useState({});
   const [displayWaiting, setDisplayWaiting] = useState(true);
+  const [isOpenQRModal, setIsOpenQRModal] = useState(false);
   let members = memberStore.members
     .filter((member) => member.queue === queue._id)
     .filter((member) => member.waiting);
@@ -38,6 +41,10 @@ const MemberList = ({ route, navigation }) => {
 
   const handleModal = () => {
     setIsOpenModal(true);
+  };
+
+  const handleQRModal = async () => {
+    setIsOpenQRModal(true);
   };
 
   const [refreshing, setRefreshing] = useState(false);
@@ -56,7 +63,9 @@ const MemberList = ({ route, navigation }) => {
       <QueueListTitle w="90%">
         <InQueueTitle>Memeber List for {queue.name}</InQueueTitle>
       </QueueListTitle>
-      <QueueURL queue={queue} />
+      <Pressable onPress={handleQRModal}>
+        <QueueURL queue={queue} />
+      </Pressable>
       <AddQueueButtonView onPress={() => handleModal()}>
         <AddQueueButtonPlus>+</AddQueueButtonPlus>
       </AddQueueButtonView>
@@ -108,6 +117,11 @@ const MemberList = ({ route, navigation }) => {
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}
         setMember={setMember}
+        queue={queue}
+      />
+      <QRModal
+        isOpenQRModal={isOpenQRModal}
+        setIsOpenQRModal={setIsOpenQRModal}
         queue={queue}
       />
     </Center>

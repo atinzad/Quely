@@ -28,6 +28,10 @@ const QueueItem = ({ queue, navigation }) => {
     (member) => member.queue === queue._id
   ).length;
 
+  const noOfWaiting = memberStore.members
+    .filter((member) => member.queue === queue._id)
+    .filter((member) => member.waiting).length;
+
   let swipeBtns = [
     {
       component: (
@@ -58,7 +62,15 @@ const QueueItem = ({ queue, navigation }) => {
           onPress={() => navigation.navigate("MemberList", { queue })}
         >
           <QueueTitle>{queue.name}</QueueTitle>
-          <QueueWaiting>Members : {noOfMembers}</QueueWaiting>
+          <HStack space={8}>
+            <QueueWaiting>Members : {noOfMembers}</QueueWaiting>
+            <QueueWaiting style={{ color: "red" }}>
+              Waiting : {noOfWaiting}
+            </QueueWaiting>
+            <QueueWaiting style={{ color: "green" }}>
+              Served : {noOfMembers - noOfWaiting}
+            </QueueWaiting>
+          </HStack>
           <QueueEdit>Edit</QueueEdit>
         </QueueItemContainer>
       </Swipeout>
