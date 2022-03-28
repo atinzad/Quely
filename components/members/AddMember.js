@@ -15,6 +15,7 @@ import memberStore from "../../stores/memberStore";
 
 const AddMember = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
   const [newMember, setNewMemeber] = useState({});
+
   const handleSaveChanges = () => {
     setMember(newMember);
     memberStore.addMember(queue, newMember);

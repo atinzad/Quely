@@ -19,6 +19,7 @@ import Swipeout from "react-native-swipeout";
 import { TextInput } from "react-native-paper";
 import memberStore from "../../stores/memberStore";
 import MemberItem from "../members/MemberItem";
+import { observer } from "mobx-react";
 
 const QueueItem = ({ queue, navigation }) => {
   //
@@ -65,7 +66,7 @@ const QueueItem = ({ queue, navigation }) => {
   );
 };
 
-export default QueueItem;
+export default observer(QueueItem);
 
 const styles = StyleSheet.create({
   viewTest: {

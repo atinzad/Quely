@@ -1,6 +1,11 @@
 import { makeAutoObservable } from "mobx";
 import { instance } from "./instance";
 import authStore from "./authStore";
+import { configure } from "mobx";
+
+configure({
+  enforceActions: "never",
+});
 
 class QueueStore {
   queues = [];

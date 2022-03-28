@@ -3,6 +3,11 @@ import { instance } from "./instance";
 import decode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
+import { configure } from "mobx";
+
+configure({
+  enforceActions: "never",
+});
 
 class AuthStore {
   user = null;

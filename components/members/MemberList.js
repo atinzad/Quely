@@ -1,6 +1,12 @@
-import { RefreshControl, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React from "react";
-import { Center, FlatList, ScrollView, VStack } from "native-base";
+import { Center, FlatList, HStack, ScrollView, VStack } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { useCallback, useState } from "react";
 import AddMember from "./AddMember";
@@ -23,6 +29,10 @@ const MemberList = ({ route, navigation }) => {
   const queue = route.params.queue;
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [member, setMember] = useState({});
+  const [displayWaiting, setDisplayWaiting] = useState(true);
+  let members = memberStore.members
+    .filter((member) => member.queue === queue._id)
+    .filter((member) => member.waiting);
 
   const [showMemberModal, setShowMemberModal] = useState(false);
 
@@ -37,10 +47,9 @@ const MemberList = ({ route, navigation }) => {
     await memberStore.fetchMembers(setRefreshing);
   }, []);
 
-  const members = memberStore.members.filter(
-    (member) => member.queue === queue._id
-  );
-
+  const handleDelete = async (deletedMember) => {
+    memberStore.deleteMember(deletedMember._id);
+  };
 
   return (
     <Center style={styles.box} w="100%">
@@ -51,11 +60,29 @@ const MemberList = ({ route, navigation }) => {
       <AddQueueButtonView onPress={() => handleModal()}>
         <AddQueueButtonPlus>+</AddQueueButtonPlus>
       </AddQueueButtonView>
+      <HStack>
+        {
+          //Needs layout design for Waiting and Served
+        }
+        <Pressable onPress={() => setDisplayWaiting(true)}>
+          <InQueueTitle>Waiting</InQueueTitle>
+        </Pressable>
+        <InQueueTitle>{"                  "}</InQueueTitle>
+        <Pressable onPress={() => setDisplayWaiting(false)}>
+          <InQueueTitle>Served</InQueueTitle>
+        </Pressable>
+      </HStack>
+      <HStack>
+        <InQueueTitle>{"                  "}</InQueueTitle>
+      </HStack>
       <FlatList
-        data={members}
+        data={memberStore.members
+          .filter((member) => member.queue === queue._id)
+          .filter((member) => member.waiting === displayWaiting)}
         keyExtractor={(item) => item._id}
         renderItem={({ item, index, separators }) => (
           <MemberItem
+            handleDelete={handleDelete}
             index={index}
             key={item._id}
             member={item}

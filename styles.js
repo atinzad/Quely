@@ -56,7 +56,7 @@ export const MemberCardNotificationBtn = styled.View`
   justify-content: center;
   align-items: center;
 `;
-export const MemberCardServedBtn = styled.View`
+export const MemberCardServedBtn = styled.Pressable`
   width: 15%;
   background-color: #3f93a2;
   justify-content: center;
