@@ -20,15 +20,19 @@ import {
   AddQueueButtonPlus,
   AddQueueButtonView,
   InQueueTitle,
+  MemberlistWaitingServed,
   MyQueuesTitle,
   QueueListQueues,
   QueueListTitle,
 } from "../../styles";
 import QRModal from "./QRModal";
+import { getBrightnessAsync, setBrightnessAsync } from "expo-brightness";
+import { TextInput } from "react-native-paper";
 
 const MemberList = ({ route, navigation }) => {
   const queue = route.params.queue;
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [brightness, setBrightness] = useState(1);
   const [member, setMember] = useState({});
   const [displayWaiting, setDisplayWaiting] = useState(true);
   const [isOpenQRModal, setIsOpenQRModal] = useState(false);
@@ -41,9 +45,11 @@ const MemberList = ({ route, navigation }) => {
   const handleModal = () => {
     setIsOpenModal(true);
   };
-
   const handleQRModal = async () => {
     setIsOpenQRModal(true);
+    setBrightness(await getBrightnessAsync());
+    await setBrightnessAsync(0.8);
+    // setBrightness(await getBrightnessAsync());
   };
 
   const [refreshing, setRefreshing] = useState(false);
@@ -59,31 +65,137 @@ const MemberList = ({ route, navigation }) => {
 
   return (
     <Center style={styles.box} w="100%">
-      <QueueListTitle w="90%">
-        <InQueueTitle>Memeber List for {queue.name}</InQueueTitle>
-      </QueueListTitle>
-      <Pressable onPress={handleQRModal}>
-        <QueueURL queue={queue} />
-      </Pressable>
-      <AddQueueButtonView onPress={() => handleModal()}>
-        <AddQueueButtonPlus>+</AddQueueButtonPlus>
-      </AddQueueButtonView>
-      <HStack>
+      {/* <QueueListTitle w="90%">
+        <InQueueTitle>
+          Memebers List for{" "}
+          {queue.name.charAt(0).toUpperCase() + queue.name.slice(1)}
+        </InQueueTitle>
+      </QueueListTitle> */}
+      <View
+        style={{
+          width: "90%",
+          height: "30%",
+          justifyContent: "center",
+        }}
+      >
+        <HStack>
+          <View
+            style={{
+              width: "50%",
+            }}
+          >
+            <Pressable onPress={handleQRModal}>
+              <QueueURL queue={queue} />
+            </Pressable>
+          </View>
+          <VStack
+            space={9}
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              width: "50%",
+            }}
+          >
+            {/* <AddQueueButtonView onPress={() => handleModal()}>
+              <AddQueueButtonPlus>+</AddQueueButtonPlus>
+            </AddQueueButtonView> */}
+
+            <Pressable
+              style={{
+                width: 150,
+                height: 40,
+                backgroundColor: "#3f93a2",
+                justifyContent: "center",
+                borderRadius: 10,
+              }}
+              // onPress={copyToClipboard}
+            >
+              <HStack style={{ height: "100%", alignItems: "center" }}>
+                <View
+                  style={{ width: 20, justifyContent: "center", marginLeft: 6 }}
+                >
+                  <TextInput.Icon
+                    // onPress={copyToClipboard}
+                    color="white"
+                    name="plus"
+                  />
+                </View>
+                <View style={{ width: 100, marginLeft: 10 }}>
+                  <Text style={{ color: "white", fontWeight: "bold" }}>
+                    Add a member
+                  </Text>
+                </View>
+              </HStack>
+            </Pressable>
+            <Pressable
+              style={{
+                width: 150,
+                height: 40,
+                backgroundColor: "#c06c5d",
+                justifyContent: "center",
+                borderRadius: 10,
+              }}
+              // onPress={copyToClipboard}
+            >
+              <HStack style={{ height: "100%", alignItems: "center" }}>
+                <View
+                  style={{ width: 20, justifyContent: "center", marginLeft: 6 }}
+                >
+                  <TextInput.Icon
+                    // onPress={copyToClipboard}
+                    color="white"
+                    name="trash-can-outline"
+                  />
+                </View>
+                <View style={{ width: 100, marginLeft: 10 }}>
+                  <Text style={{ color: "white", fontWeight: "bold" }}>
+                    Delete the list{" "}
+                  </Text>
+                </View>
+              </HStack>
+            </Pressable>
+          </VStack>
+        </HStack>
+      </View>
+      <HStack height="6%">
         {
           //Needs layout design for Waiting and Served
         }
-        <Pressable onPress={() => setDisplayWaiting(true)}>
-          <InQueueTitle>Waiting</InQueueTitle>
+
+        <Pressable
+          style={{
+            width: "50%",
+            alignItems: "center",
+            backgroundColor: displayWaiting ? "#ebebeb" : "#f8f8f8",
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+            justifyContent: "center",
+            opacity: displayWaiting ? 1 : 0.3,
+          }}
+          onPress={() => setDisplayWaiting(true)}
+        >
+          <MemberlistWaitingServed>Waiting</MemberlistWaitingServed>
         </Pressable>
-        <InQueueTitle>{"                  "}</InQueueTitle>
-        <Pressable onPress={() => setDisplayWaiting(false)}>
-          <InQueueTitle>Served</InQueueTitle>
+        <Pressable
+          style={{
+            width: "50%",
+            alignItems: "center",
+            backgroundColor: displayWaiting ? "#f8f8f8" : "#ebebeb",
+            justifyContent: "center",
+            opacity: displayWaiting ? 0.3 : 1,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+          }}
+          onPress={() => setDisplayWaiting(false)}
+        >
+          <MemberlistWaitingServed>Served</MemberlistWaitingServed>
         </Pressable>
-      </HStack>
-      <HStack>
-        <InQueueTitle>{"                  "}</InQueueTitle>
       </HStack>
       <FlatList
+        style={{
+          backgroundColor: "#ebebeb",
+          marginBottom: -500,
+        }}
         data={memberStore.members
           .filter((member) => member.queue === queue._id)
           .filter((member) => member.waiting === displayWaiting)}
@@ -122,6 +234,7 @@ const MemberList = ({ route, navigation }) => {
         isOpenQRModal={isOpenQRModal}
         setIsOpenQRModal={setIsOpenQRModal}
         queue={queue}
+        brightness={brightness}
       />
     </Center>
   );

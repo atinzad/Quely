@@ -4,8 +4,9 @@ import QRCode from "react-native-qrcode-svg";
 import { QueueTitle } from "../../styles";
 import { Button, VStack } from "native-base";
 import { baseFormURL } from "../../stores/instance";
+import { setBrightnessAsync } from "expo-brightness";
 
-const QRModal = ({ isOpenQRModal, setIsOpenQRModal, queue }) => {
+const QRModal = ({ isOpenQRModal, setIsOpenQRModal, queue, brightness }) => {
   return (
     <Modal animationType={"slide"} transparent={false} visible={isOpenQRModal}>
       <View
@@ -22,7 +23,14 @@ const QRModal = ({ isOpenQRModal, setIsOpenQRModal, queue }) => {
             size={300}
             queue={queue}
           />
-          <Button onPress={() => setIsOpenQRModal(false)}>Close</Button>
+          <Button
+            onPress={async () => {
+              await setBrightnessAsync(brightness);
+              setIsOpenQRModal(false);
+            }}
+          >
+            Close
+          </Button>
         </VStack>
       </View>
     </Modal>

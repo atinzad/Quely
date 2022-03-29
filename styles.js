@@ -18,7 +18,11 @@ export const theme = {
   blueish: "#9381ff",
   redish: "#f23d3a",
 };
-
+export const MemberlistWaitingServed = styled.Text`
+  font-size: 25px;
+  color: #1d7996;
+  font-weight: bold;
+`;
 export const ModalEmailIconView = styled.View`
   width: 20%;
   justify-content: center;
@@ -61,7 +65,7 @@ export const ModalTitle = styled.Text`
   font-weight: bold;
 `;
 export const CardMargin = styled.View`
-  margin-bottom: 5px;
+  margin-top: 7px;
 `;
 export const MemberCardNumber = styled.Text`
   font-size: 26px;

@@ -7,7 +7,13 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { CheckIcon, CloseIcon, HStack, VStack } from "native-base";
+import {
+  ArrowBackIcon,
+  CheckIcon,
+  CloseIcon,
+  HStack,
+  VStack,
+} from "native-base";
 import {
   CardMargin,
   MemberCardLeft,
@@ -87,7 +93,7 @@ const MemberItem = ({ index, queue, member, navigation, onClick }) => {
                     handleEmail();
                   }}
                   size={35}
-                  color="#3f93a2"
+                  color="#B7CA3D"
                   name="bell"
                 />
               )}
@@ -98,7 +104,7 @@ const MemberItem = ({ index, queue, member, navigation, onClick }) => {
               </MemberCardServedBtn>
             ) : (
               <MemberCardServedBtn onPress={handleWaitMember}>
-                <CloseIcon size="7" color="white" />
+                <ArrowBackIcon size="7" color="white" />
               </MemberCardServedBtn>
             )}
           </MemberHstack>
