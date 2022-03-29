@@ -62,10 +62,6 @@ const MemberList = ({ route, navigation }) => {
     memberStore.deleteMember(deletedMember._id);
   };
 
-  const members = memberStore.members
-    .filter((member) => member.queue === queue._id)
-    .filter((member) => member.waiting === displayWaiting);
-
   return (
     <Center style={styles.box} w="100%">
       <View
@@ -93,7 +89,6 @@ const MemberList = ({ route, navigation }) => {
               width: "50%",
             }}
           >
-
             <Pressable
               style={{
                 width: 150,
@@ -136,7 +131,7 @@ const MemberList = ({ route, navigation }) => {
                   style={{ width: 20, justifyContent: "center", marginLeft: 6 }}
                 >
                   <TextInput.Icon
-                     // onPress={deletelist for queue}
+                    // onPress={deletelist for queue}
                     color="white"
                     name="trash-can-outline"
                   />
@@ -152,7 +147,6 @@ const MemberList = ({ route, navigation }) => {
         </HStack>
       </View>
       <HStack height="6%">
-
         <Pressable
           style={{
             width: "50%",
@@ -207,17 +201,17 @@ const MemberList = ({ route, navigation }) => {
         )}
         onRefresh={() => onRefresh()}
         refreshing={refreshing}
-      >
-      </FlatList>
-      <MemberDetails
+      ></FlatList>
+      {/* <MemberDetails
         setShowModal={setShowMemberModal}
         showModal={showMemberModal}
         member={member}
-      /> */}
+      />{" "} */}
       <AddMember
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}
         queue={queue}
+        setMember={setMember}
       />
       <QRModal
         isOpenQRModal={isOpenQRModal}

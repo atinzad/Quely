@@ -5,26 +5,50 @@ import memberStore from "../../stores/memberStore";
 
 const MemberDetails = ({ navigation, route }) => {
   const { member } = route.params;
+
+  const handleEmail = () => {
+    memberStore.sendEmailtoMember(queue, member);
+    alert(
+      `Member ${member._id.substring(member._id.length - 4)} has been notified`
+    );
+    navigation.goBack();
+  };
+
+  const handleServeMember = () => {
+    memberStore.serveMember(member._id);
+    navigation.goBack();
+  };
+
+  const handleWaitMember = () => {
+    memberStore.waitMember(member._id);
+    navigation.goBack();
+  };
+
   return (
     <Center>
       <Stack space={1} w="75%" maxWidth="300px" marginTop={20}>
-        <Input
-          variant="underlined"
-          placeholder="Email"
-          fontSize={35}
-          isDisabled={true}
-          backgroundColor="#D1EAF0"
-          value={member.email}
-        />
-        <Input
-          variant="underlined"
-          placeholder="Phone Number"
-          marginTop={30}
-          fontSize={25}
-          isDisabled={true}
-          backgroundColor="#D1EAF0"
-          value={member.phone.toString()}
-        />
+        {member.email && (
+          <Input
+            variant="underlined"
+            placeholder="Email"
+            fontSize={35}
+            isDisabled={true}
+            backgroundColor="#D1EAF0"
+            value={member.email}
+          />
+        )}
+        {member.phone && (
+          <Input
+            variant="underlined"
+            placeholder="Phone Number"
+            marginTop={30}
+            fontSize={25}
+            isDisabled={true}
+            backgroundColor="#D1EAF0"
+            value={member.phone.toString()}
+          />
+        )}
+        <Text>Status: {member.waiting ? "Waiting" : "Served"}</Text>
       </Stack>
       <VStack
         marginTop={20}
@@ -34,17 +58,20 @@ const MemberDetails = ({ navigation, route }) => {
         h="40%"
         maxWidth="300px"
       >
-        <Button marginY={3} flex="1" borderRadius="20">
-          Notify
-        </Button>
+        {member.waiting && (
+          <Button marginY={3} flex="1" borderRadius="20" onPress={handleEmail}>
+            Notify
+          </Button>
+        )}
         <Button
           flex="1"
           borderColor="#D1EAF0"
           variant="outline"
           borderRadius="20"
           size="full"
+          onPress={member.waiting ? handleServeMember : handleWaitMember}
         >
-          Served
+          {member.waiting ? "Serve" : "waiting"}
         </Button>
 
         <Button
