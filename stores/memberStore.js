@@ -21,7 +21,9 @@ class MemberStore {
     try {
       const response = await instance.get("/members");
       this.members = response.data.payload;
-      setRefreshing(false);
+      if (setRefreshing) {
+        setRefreshing(false);
+      }
     } catch (error) {
       setRefreshing(false);
       console.log("error");

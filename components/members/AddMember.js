@@ -14,11 +14,19 @@ import { useState } from "react";
 import memberStore from "../../stores/memberStore";
 
 const AddMember = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
-  const [newMember, setNewMemeber] = useState({});
-
+  const [newMember, setNewMemeber] = useState({ email: "", phone: "" });
   const handleSaveChanges = () => {
     setMember(newMember);
-    memberStore.addMember(queue, newMember);
+    if (queue.isEmailRequired && !newMember.email) {
+      alert("email is requred");
+    } else {
+      if (queue.isPhoneRequired && !newMember.phone) {
+        alert("phone is requred");
+      } else {
+        memberStore.addMember(queue, newMember);
+      }
+    }
+
     setIsOpenModal(false);
   };
 
@@ -34,24 +42,28 @@ const AddMember = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
       >
         <View style={styles.centeredView}>
           <Text style={styles.title}>Add Memeber to Queue</Text>
-          <HStack>
-            <Text>email</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={(value) =>
-                setNewMemeber({ ...newMember, email: value })
-              }
-            />
-          </HStack>
-          <HStack>
-            <Text>phone</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={(value) =>
-                setNewMemeber({ ...newMember, phone: value })
-              }
-            />
-          </HStack>
+          {queue.isEmailAvailable && (
+            <HStack>
+              <Text>email{queue.isEmailRequired && "*"}</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={(value) =>
+                  setNewMemeber({ ...newMember, email: value })
+                }
+              />
+            </HStack>
+          )}
+          {queue.isPhoneAvailable && (
+            <HStack>
+              <Text>phone{queue.isPhoneRequired && "*"}</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={(value) =>
+                  setNewMemeber({ ...newMember, phone: value })
+                }
+              />
+            </HStack>
+          )}
           <HStack>
             <Button
               style={styles.btn}

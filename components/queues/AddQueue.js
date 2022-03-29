@@ -33,7 +33,7 @@ import {
 } from "../../styles";
 import { observer } from "mobx-react";
 
-const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
+const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
   const initial = {
     name: "",
     isPhoneAvailable: false,
@@ -41,62 +41,97 @@ const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
     isEmailRequired: false,
     isEmailAvailable: true,
   };
-  const [emailIsDisabled, setEmailIsDisabled] = useState(
-    !initial.isEmailAvailable
-  );
-  const [isEmailAvailable, setIsEmailAvailable] = useState(
-    initial.isEmailAvailable
-  );
-  const [isEmailRequired, setIsEmailRequired] = useState(
-    initial.isEmailRequired
-  );
+  const [emailIsDisabled, setEmailIsDisabled] = useState(false);
+  const [isEmailAvailable, setIsEmailAvailable] = useState(true);
+  const [isEmailRequired, setIsEmailRequired] = useState(false);
 
-  const [PhoneIsDisabled, setPhoneIsDisabled] = useState(
-    !initial.isPhoneAvailable
-  );
-  const [isPhoneAvailable, setIsPhoneAvailable] = useState(
-    initial.isPhoneAvailable
-  );
-  const [isPhoneRequired, setIsPhoneRequired] = useState(
-    initial.isPhoneRequired
-  );
+  const [phoneIsDisabled, setPhoneIsDisabled] = useState(true);
+  const [isPhoneAvailable, setIsPhoneAvailable] = useState(false);
+  const [isPhoneRequired, setIsPhoneRequired] = useState(false);
   const [newQueue, setNewQueue] = useState({
     name: "",
-    isPhoneAvailable,
-    isPhoneRequired,
-    isEmailRequired,
-    isEmailAvailable,
+    isPhoneAvailable: false,
+    isPhoneRequired: false,
+    isEmailRequired: false,
+    isEmailAvailable: true,
   });
 
   const toast = useToast();
 
   const emailAvailableSwitch = () => {
-    setIsEmailAvailable((previousState) => !previousState);
-    setEmailIsDisabled((previousState) => !previousState);
+    setNewQueue({
+      ...newQueue,
+      isEmailAvailable: !isEmailAvailable,
+    });
+    setIsEmailAvailable(!isEmailAvailable);
+    setEmailIsDisabled(!emailIsDisabled);
   };
   const emailRequiredSwitch = () => {
-    setIsEmailRequired((previousState) => !previousState);
+    setNewQueue({
+      ...newQueue,
+      isEmailRequired: !isEmailRequired,
+    });
+    setIsEmailRequired(!isEmailRequired);
   };
   const phoneAvailableSwitch = () => {
-    setIsPhoneAvailable((previousState) => !previousState);
-    setPhoneIsDisabled((previousState) => !previousState);
+    setNewQueue({
+      ...newQueue,
+      isPhoneAvailable: !isPhoneAvailable,
+    });
+    setIsPhoneAvailable(!isPhoneAvailable);
+    setPhoneIsDisabled(!phoneIsDisabled);
   };
   const phoneRequiredSwitch = () => {
-    setIsPhoneRequired((previousState) => !previousState);
+    setNewQueue({
+      ...newQueue,
+      isPhoneRequired: !isPhoneRequired,
+    });
+    setIsPhoneRequired(!isPhoneRequired);
   };
 
+  const handleCancelChanges = () => {
+    setIsPhoneAvailable(false);
+    phoneRequiredSwitch(false);
+    setIsEmailRequired(false);
+    setIsEmailAvailable(true);
+    setPhoneIsDisabled(true);
+    setEmailIsDisabled(false);
+    setNewQueue({
+      name: "",
+      isPhoneAvailable: false,
+      isPhoneRequired: false,
+      isEmailRequired: false,
+      isEmailAvailable: true,
+    });
+
+    setIsOpenModal(false);
+  };
   const handleSaveChanges = () => {
     setNewQueue({
       ...newQueue,
-      isPhoneAvailable,
-      isPhoneRequired,
-      isEmailRequired,
-      isEmailAvailable,
+      isPhoneAvailable: isPhoneAvailable,
+      isPhoneRequired: isPhoneRequired && isPhoneAvailable,
+      isEmailRequired: isEmailRequired && isEmailAvailable,
+      isEmailAvailable: isEmailAvailable,
     });
-    console.log("After setNewQueue", newQueue);
-    setQueue(newQueue);
+
     queueStore.addQueue(newQueue);
-    setNewQueue({});
+
+    setIsPhoneAvailable(false);
+    phoneRequiredSwitch(false);
+    setIsEmailRequired(false);
+    setIsEmailAvailable(true);
+    setPhoneIsDisabled(true);
+    setEmailIsDisabled(false);
+
+    setNewQueue({
+      name: "",
+      isPhoneAvailable: false,
+      isPhoneRequired: false,
+      isEmailRequired: false,
+      isEmailAvailable: true,
+    });
+
     setIsOpenModal(false);
     toast.show({
       title: `${newQueue.name} queue added`,
@@ -134,7 +169,7 @@ const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
         <Modal.Body>
           <VStack space={8}>
             <TextInput
-              value={newQueue.name ? newQueue.name : ""}
+              value={newQueue.name}
               label="Name"
               keyboardType="default"
               textContentType="givenName"
@@ -193,7 +228,7 @@ const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
                 <ModalRequiredText>Required</ModalRequiredText>
               </ModalRequiredView>
               <Switch
-                disabled={PhoneIsDisabled}
+                disabled={phoneIsDisabled}
                 trackColor={{ false: "#767577", true: "#3f93a2" }}
                 thumbColor={isPhoneRequired ? "white" : "white"}
                 ios_backgroundColor="#3e3e3e"
@@ -206,7 +241,7 @@ const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
         <Modal.Footer>
           <Button.Group space={2}>
             <Button
-              onPress={() => setIsOpenModal(false)}
+              onPress={handleCancelChanges}
               variant="ghost"
               colorScheme="blueGray"
             >
@@ -220,7 +255,7 @@ const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
   );
 };
 
-export default observer(AddQueue);
+export default AddQueue;
 
 const styles = StyleSheet.create({
   centeredView: {
