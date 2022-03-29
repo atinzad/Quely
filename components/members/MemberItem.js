@@ -27,8 +27,7 @@ import Swipeout from "react-native-swipeout";
 import memberStore from "../../stores/memberStore";
 import { observer } from "mobx-react";
 
-
-const MemberItem = ({ index, queue, member, navigation, onClick }) => {
+const MemberItem = ({ index, queue, member, navigation }) => {
   //
   let swipeBtns = [
     {
@@ -63,7 +62,11 @@ const MemberItem = ({ index, queue, member, navigation, onClick }) => {
         autoClose="true"
         backgroundColor="transparent"
       >
-        <MemberItemContainer onPress={() => onClick()}>
+        <MemberItemContainer
+          onPress={() =>
+            navigation.navigate("MemberDetails", { member: member })
+          }
+        >
           <MemberHstack>
             <MemberCardLeft>
               <MemberCardNumber>#{index + 1}</MemberCardNumber>

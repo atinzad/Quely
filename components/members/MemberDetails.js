@@ -1,16 +1,72 @@
 import { observer } from "mobx-react";
-import { Center, Modal, Text, VStack, HStack, Button } from "native-base";
+import { Center, Modal, Text, VStack, Button, Input, Stack } from "native-base";
 import { useState } from "react";
 import memberStore from "../../stores/memberStore";
 
-const MemberDetails = ({ setShowModal, showModal, member }) => {
-  const [showModal2, setShowModal2] = useState(false);
+const MemberDetails = ({ navigation, route }) => {
+  const { member } = route.params;
   return (
     <Center>
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">
+      <Stack space={1} w="75%" maxWidth="300px" marginTop={20}>
+        <Input
+          variant="underlined"
+          placeholder="Email"
+          fontSize={35}
+          isDisabled={true}
+          backgroundColor="#D1EAF0"
+          value={member.email}
+        />
+        <Input
+          variant="underlined"
+          placeholder="Phone Number"
+          marginTop={30}
+          fontSize={25}
+          isDisabled={true}
+          backgroundColor="#D1EAF0"
+          value={member.phone.toString()}
+        />
+      </Stack>
+      <VStack
+        marginTop={20}
+        paddingX={5}
+        space={1}
+        w="75%"
+        h="40%"
+        maxWidth="300px"
+      >
+        <Button marginY={3} flex="1" borderRadius="20">
+          Notify
+        </Button>
+        <Button
+          flex="1"
+          borderColor="#D1EAF0"
+          variant="outline"
+          borderRadius="20"
+          size="full"
+        >
+          Served
+        </Button>
+
+        <Button
+          marginY={3}
+          flex="1"
+          colorScheme="red"
+          borderRadius="20"
+          onPress={() => {
+            memberStore.deleteMember(member._id);
+            navigation.goBack();
+          }}
+        >
+          Delete
+        </Button>
+      </VStack>
+
+      {/* <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">
         <Modal.Content maxWidth="350">
           <Modal.CloseButton />
-          <Modal.Header>Member Details{member._id}</Modal.Header>
+          <Modal.Header>
+            Member Details{member._id.substring(member._id.length - 4)}
+          </Modal.Header>
           <Modal.Body>
             <VStack space={3}>
               <HStack alignItems="center" justifyContent="space-between">
@@ -48,7 +104,7 @@ const MemberDetails = ({ setShowModal, showModal, member }) => {
             </Button>
           </Modal.Footer>
         </Modal.Content>
-      </Modal>
+      </Modal> */}
     </Center>
   );
 };

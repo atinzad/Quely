@@ -12,6 +12,7 @@ import MemberList from "../components/members/MemberList";
 import authStore from "../stores/authStore";
 import SignOutBt from "../SignOutBt";
 import TestEmail from "../components/tests/TestEmail";
+import MemberDetails from "../components/members/MemberDetails";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -52,6 +53,23 @@ const RootNavigator = () => {
       <Screen name="TestB" component={Test2} />
       <Screen name="TestEmail" component={TestEmail} />
       <Screen name="MemberList" component={MemberList} />
+      <Screen
+        name="MemberDetails"
+        component={MemberDetails}
+        options={({ navigation, route }) => ({
+          headerStyle: { backgroundColor: "transparent" },
+          headerTitleStyle: {
+            color: "#3f93a2",
+            fontSize: 25,
+            fontWeight: "bold",
+          },
+          headerBackTitleStyle: { color: "#3f93a2" },
+          title: `Member ${route.params?.member._id.substring(
+            route.params?.member._id.length - 4
+          )}`,
+          headerBackTitle: () => "",
+        })}
+      />
     </Navigator>
   );
 };
@@ -59,3 +77,5 @@ const RootNavigator = () => {
 export default observer(RootNavigator);
 
 const styles = StyleSheet.create({});
+
+//blue promery  , blue border , delete red
