@@ -6,22 +6,22 @@ configure({
   enforceActions: "never",
 });
 
-class TestStore {
-  tests = [];
+class fieldStore {
+  fields = [];
   constructor() {
     makeAutoObservable(this);
   }
 
-  fetchTests = async () => {
+  fetchFields = async () => {
     try {
-      const response = await instance.get("/tests");
-      this.tests = response.data.payload;
+      const response = await instance.get("/fields");
+      this.fields = response.data.payload;
     } catch (error) {
       console.log("error");
     }
   };
 }
 
-const testStore = new TestStore();
-testStore.fetchTests();
-export default testStore;
+const fieldStore = new FieldStore();
+fieldStore.fetchFields();
+export default fieldStore;

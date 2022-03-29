@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { CheckIcon, HStack, VStack } from "native-base";
+import { CheckIcon, CloseIcon, HStack, VStack } from "native-base";
 import {
   CardMargin,
   MemberCardLeft,
@@ -55,6 +55,15 @@ const MemberItem = ({ index, queue, member, navigation }) => {
       `Member ${member._id.substring(member._id.length - 4)} has been notified`
     );
   };
+
+  const handleServeMember = () => {
+    memberStore.serveMember(member._id);
+  };
+
+  const handleWaitMember = () => {
+    memberStore.waitMember(member._id);
+  };
+
   return (
     <CardMargin>
       <Swipeout
@@ -76,18 +85,26 @@ const MemberItem = ({ index, queue, member, navigation }) => {
               <QueueWaiting>Field1 : FieldData1</QueueWaiting>
             </MemberCardMiddle>
             <MemberCardNotificationBtn>
-              <TextInput.Icon
-                onPress={() => {
-                  handleEmail();
-                }}
-                size={35}
-                color="#3f93a2"
-                name="bell"
-              />
+              {member.waiting && (
+                <TextInput.Icon
+                  onPress={() => {
+                    handleEmail();
+                  }}
+                  size={35}
+                  color="#3f93a2"
+                  name="bell"
+                />
+              )}
             </MemberCardNotificationBtn>
-            <MemberCardServedBtn>
-              <CheckIcon size="7" color="white" />
-            </MemberCardServedBtn>
+            {member.waiting ? (
+              <MemberCardServedBtn onPress={handleServeMember}>
+                <CheckIcon size="7" color="white" />
+              </MemberCardServedBtn>
+            ) : (
+              <MemberCardServedBtn onPress={handleWaitMember}>
+                <CloseIcon size="7" color="white" />
+              </MemberCardServedBtn>
+            )}
           </MemberHstack>
         </MemberItemContainer>
       </Swipeout>

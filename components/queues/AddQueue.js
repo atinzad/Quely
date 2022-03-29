@@ -1,66 +1,257 @@
 import {
   Dimensions,
-  Modal,
   Pressable,
   SafeAreaView,
   StyleSheet,
+  Switch,
   Text,
-  TextInput,
   View,
 } from "react-native";
 import React from "react";
-import { Button, HStack, VStack } from "native-base";
+import {
+  Box,
+  Button,
+  FormControl,
+  HStack,
+  Input,
+  Modal,
+  useToast,
+  VStack,
+} from "native-base";
 import { useState } from "react";
 import queueStore from "../../stores/queueStore";
+import { TextInput } from "react-native-paper";
+import {
+  ModalEmailIconView,
+  ModalInputsView,
+  ModalRequiredText,
+  ModalRequiredView,
+  ModalSwitchView,
+  ModalTitle,
+  ModalTitleTopView,
+  ToastText,
+} from "../../styles";
+import { observer } from "mobx-react";
 
-const AddQueue = ({ isOpenModal, setIsOpenModal, setQueue }) => {
-  const [newQueue, setNewQueue] = useState({});
-  const handleSaveChanges = () => {
-    setQueue(newQueue);
-    queueStore.addQueue(newQueue);
+const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
+  const initial = {
+    name: "",
+    isPhoneAvailable: false,
+    isPhoneRequired: false,
+    isEmailRequired: false,
+    isEmailAvailable: true,
+  };
+  const [emailIsDisabled, setEmailIsDisabled] = useState(false);
+  const [isEmailAvailable, setIsEmailAvailable] = useState(true);
+  const [isEmailRequired, setIsEmailRequired] = useState(false);
+
+  const [phoneIsDisabled, setPhoneIsDisabled] = useState(true);
+  const [isPhoneAvailable, setIsPhoneAvailable] = useState(false);
+  const [isPhoneRequired, setIsPhoneRequired] = useState(false);
+  const [newQueue, setNewQueue] = useState({
+    name: "",
+    isPhoneAvailable: false,
+    isPhoneRequired: false,
+    isEmailRequired: false,
+    isEmailAvailable: true,
+  });
+
+  const toast = useToast();
+
+  const emailAvailableSwitch = () => {
+    setNewQueue({
+      ...newQueue,
+      isEmailAvailable: !isEmailAvailable,
+    });
+    setIsEmailAvailable(!isEmailAvailable);
+    setEmailIsDisabled(!emailIsDisabled);
+  };
+  const emailRequiredSwitch = () => {
+    setNewQueue({
+      ...newQueue,
+      isEmailRequired: !isEmailRequired,
+    });
+    setIsEmailRequired(!isEmailRequired);
+  };
+  const phoneAvailableSwitch = () => {
+    setNewQueue({
+      ...newQueue,
+      isPhoneAvailable: !isPhoneAvailable,
+    });
+    setIsPhoneAvailable(!isPhoneAvailable);
+    setPhoneIsDisabled(!phoneIsDisabled);
+  };
+  const phoneRequiredSwitch = () => {
+    setNewQueue({
+      ...newQueue,
+      isPhoneRequired: !isPhoneRequired,
+    });
+    setIsPhoneRequired(!isPhoneRequired);
+  };
+
+  const handleCancelChanges = () => {
+    setIsPhoneAvailable(false);
+    phoneRequiredSwitch(false);
+    setIsEmailRequired(false);
+    setIsEmailAvailable(true);
+    setPhoneIsDisabled(true);
+    setEmailIsDisabled(false);
+    setNewQueue({
+      name: "",
+      isPhoneAvailable: false,
+      isPhoneRequired: false,
+      isEmailRequired: false,
+      isEmailAvailable: true,
+    });
+
     setIsOpenModal(false);
+  };
+  const handleSaveChanges = () => {
+    setNewQueue({
+      ...newQueue,
+      isPhoneAvailable: isPhoneAvailable,
+      isPhoneRequired: isPhoneRequired && isPhoneAvailable,
+      isEmailRequired: isEmailRequired && isEmailAvailable,
+      isEmailAvailable: isEmailAvailable,
+    });
+
+    queueStore.addQueue(newQueue);
+
+    setIsPhoneAvailable(false);
+    phoneRequiredSwitch(false);
+    setIsEmailRequired(false);
+    setIsEmailAvailable(true);
+    setPhoneIsDisabled(true);
+    setEmailIsDisabled(false);
+
+    setNewQueue({
+      name: "",
+      isPhoneAvailable: false,
+      isPhoneRequired: false,
+      isEmailRequired: false,
+      isEmailAvailable: true,
+    });
+
+    setIsOpenModal(false);
+    toast.show({
+      title: `${newQueue.name} queue added`,
+      placement: "top",
+      render: () => {
+        return (
+          <Box bg="#ffb6b9" px="15" py="3" rounded="lg" mb={5}>
+            <ToastText>{newQueue.name} queue added</ToastText>
+          </Box>
+        );
+      },
+    });
+  };
+  const opacityEmailRequired = () => {
+    if (isEmailAvailable) {
+      return 1;
+    } else {
+      return 0.5;
+    }
+  };
+  const opacityPhoneRequired = () => {
+    if (isPhoneAvailable) {
+      return 1;
+    } else {
+      return 0.5;
+    }
   };
 
   return (
-    <View style={styles.centeredView}>
-      <Modal
-        animationType={"slide"}
-        transparent={false}
-        visible={isOpenModal}
-        onRequestClose={() => {
-          Alert.alert("Modal has now been closed.");
-        }}
-      >
-        <View style={styles.centeredView}>
-          <Text style={styles.title}>Add to Queue</Text>
-          <HStack>
-            <Text>Name</Text>
+    <Modal size="xl" isOpen={isOpenModal}>
+      <Modal.Content maxWidth="500px">
+        <Modal.Header>
+          <ModalTitle>Add Queue</ModalTitle>
+        </Modal.Header>
+        <Modal.Body>
+          <VStack space={8}>
             <TextInput
-              style={styles.input}
+              value={newQueue.name}
+              label="Name"
+              keyboardType="default"
+              textContentType="givenName"
+              selectionColor="#3f93a2"
+              underlineColor="#3f93a2"
+              outlineColor="#3f93a2"
+              placeholderTextColor="#3f93a2"
+              activeOutlineColor="#3f93a2"
+              activeUnderlineColor="#3f93a2"
+              underlineColorAndroid="#3f93a2"
+              left={<TextInput.Icon color="#3f93a2" name="account" />}
               onChangeText={(value) =>
                 setNewQueue({ ...newQueue, name: value })
               }
             />
-          </HStack>
-          <HStack>
+            <HStack>
+              <ModalEmailIconView>
+                <TextInput.Icon size={35} color="#3f93a2" name="email" />
+              </ModalEmailIconView>
+              <ModalSwitchView>
+                <Switch
+                  trackColor={{ false: "#767577", true: "#3f93a2" }}
+                  thumbColor={isEmailAvailable ? "white" : "white"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={emailAvailableSwitch}
+                  value={isEmailAvailable}
+                />
+              </ModalSwitchView>
+
+              <ModalRequiredView style={{ opacity: opacityEmailRequired() }}>
+                <ModalRequiredText>Required</ModalRequiredText>
+              </ModalRequiredView>
+              <Switch
+                disabled={emailIsDisabled}
+                trackColor={{ false: "#767577", true: "#3f93a2" }}
+                thumbColor={isEmailRequired ? "white" : "white"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={emailRequiredSwitch}
+                value={isEmailRequired}
+              />
+            </HStack>
+            <HStack>
+              <ModalEmailIconView>
+                <TextInput.Icon size={35} color="#3f93a2" name="phone" />
+              </ModalEmailIconView>
+              <ModalSwitchView>
+                <Switch
+                  trackColor={{ false: "#767577", true: "#3f93a2" }}
+                  thumbColor={isPhoneAvailable ? "white" : "white"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={phoneAvailableSwitch}
+                  value={isPhoneAvailable}
+                />
+              </ModalSwitchView>
+              <ModalRequiredView style={{ opacity: opacityPhoneRequired() }}>
+                <ModalRequiredText>Required</ModalRequiredText>
+              </ModalRequiredView>
+              <Switch
+                disabled={phoneIsDisabled}
+                trackColor={{ false: "#767577", true: "#3f93a2" }}
+                thumbColor={isPhoneRequired ? "white" : "white"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={phoneRequiredSwitch}
+                value={isPhoneRequired}
+              />
+            </HStack>
+          </VStack>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button.Group space={2}>
             <Button
-              style={styles.btn}
-              colorScheme="blue"
-              onPress={handleSaveChanges}
-            >
-              Add
-            </Button>
-            <Button
-              colorScheme="blue"
-              style={styles.btn}
-              onPress={() => setIsOpenModal(false)}
+              onPress={handleCancelChanges}
+              variant="ghost"
+              colorScheme="blueGray"
             >
               Cancel
             </Button>
-          </HStack>
-        </View>
-      </Modal>
-    </View>
+            <Button onPress={handleSaveChanges}>Add</Button>
+          </Button.Group>
+        </Modal.Footer>
+      </Modal.Content>
+    </Modal>
   );
 };
 

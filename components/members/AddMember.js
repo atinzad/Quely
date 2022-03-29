@@ -24,47 +24,76 @@ import {
 } from "../../styles";
 import { observer } from "mobx-react-lite";
 
-const AddMember = ({ isOpenModal, setIsOpenModal, queue }) => {
-  const [newMember, setNewMember] = useState({ email: "" });
+const AddMember = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
+  const [newMember, setNewMemeber] = useState({ email: "", phone: "" });
   const handleSaveChanges = () => {
-    memberStore.addMember(queue, newMember);
+    setMember(newMember);
+    if (queue.isEmailRequired && !newMember.email) {
+      alert("email is requred");
+    } else {
+      if (queue.isPhoneRequired && !newMember.phone) {
+        alert("phone is requred");
+      } else {
+        memberStore.addMember(queue, newMember);
+      }
+    }
+
     setIsOpenModal(false);
   };
 
   return (
-    <Modal size="xl" isOpen={isOpenModal}>
-      {/* <Modal.Content maxWidth="500px">
-        <Modal.Header>
-          <ModalTitle>Add Member</ModalTitle>
-        </Modal.Header>
-        <Modal.Body>
-          <VStack space={8}>
-            <TextInput
-              value={newMember.email}
-              label="Email"
-              keyboardType="default"
-              textContentType="givenName"
-              selectionColor="#3f93a2"
-              underlineColor="#3f93a2"
-              outlineColor="#3f93a2"
-              placeholderTextColor="#3f93a2"
-              activeOutlineColor="#3f93a2"
-              activeUnderlineColor="#3f93a2"
-              underlineColorAndroid="#3f93a2"
-              left={<TextInput.Icon color="#3f93a2" name="account" />}
-              onChangeText={(value) =>
-                setNewMember({ ...newMember, email: value })
-              }
-            />
+    <View style={styles.centeredView}>
+      <Modal
+        animationType={"slide"}
+        transparent={false}
+        visible={isOpenModal}
+        onRequestClose={() => {
+          alert("Modal has now been closed.");
+        }}
+      >
+        <View style={styles.centeredView}>
+          <Text style={styles.title}>Add Memeber to Queue</Text>
+          {queue.isEmailAvailable && (
             <HStack>
-              <ModalEmailIconView>
-                <TextInput.Icon size={35} color="#3f93a2" name="email" />
-              </ModalEmailIconView>
+              <Text>email{queue.isEmailRequired && "*"}</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={(value) =>
+                  setNewMemeber({ ...newMember, email: value })
+                }
+              />
             </HStack>
-          </VStack>
-        </Modal.Body>
-      </Modal.Content> */}
-    </Modal>
+          )}
+          {queue.isPhoneAvailable && (
+            <HStack>
+              <Text>phone{queue.isPhoneRequired && "*"}</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={(value) =>
+                  setNewMemeber({ ...newMember, phone: value })
+                }
+              />
+            </HStack>
+          )}
+          <HStack>
+            <Button
+              style={styles.btn}
+              colorScheme="blue"
+              onPress={handleSaveChanges}
+            >
+              Add
+            </Button>
+            <Button
+              colorScheme="blue"
+              style={styles.btn}
+              onPress={() => setIsOpenModal(false)}
+            >
+              Cancel
+            </Button>
+          </HStack>
+        </View>
+      </Modal>
+    </View>
   );
 };
 

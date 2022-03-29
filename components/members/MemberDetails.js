@@ -79,7 +79,11 @@ const MemberDetails = ({ navigation, route }) => {
               </HStack>
               <HStack alignItems="center" justifyContent="space-between">
                 <Text fontWeight="medium">Waiting Status</Text>
-                <Text color="green.500">True</Text>
+                {member.waiting ? (
+                  <Text color="red.500">Waiting</Text>
+                ) : (
+                  <Text color="green.500">Served</Text>
+                )}
               </HStack>
             </VStack>
           </Modal.Body>

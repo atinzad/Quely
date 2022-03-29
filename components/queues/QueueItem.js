@@ -17,9 +17,21 @@ import {
 } from "../../styles";
 import Swipeout from "react-native-swipeout";
 import { TextInput } from "react-native-paper";
+import memberStore from "../../stores/memberStore";
+import MemberItem from "../members/MemberItem";
+import { observer } from "mobx-react";
+import queueStore from "../../stores/queueStore";
 
 const QueueItem = ({ queue, navigation }) => {
   //
+
+  const noOfMembers = memberStore.members.filter(
+    (member) => member.queue === queue._id
+  ).length;
+
+  const noOfWaiting = memberStore.members
+    .filter((member) => member.queue === queue._id)
+    .filter((member) => member.waiting).length;
 
   let swipeBtns = [
     {
@@ -27,7 +39,7 @@ const QueueItem = ({ queue, navigation }) => {
         <Pressable style={styles.viewTest}>
           <TextInput.Icon
             onPress={() => {
-              alert("hi");
+              queueStore.deleteQueue(queue._id);
             }}
             size={35}
             color="white"
@@ -51,7 +63,15 @@ const QueueItem = ({ queue, navigation }) => {
           onPress={() => navigation.navigate("MemberList", { queue })}
         >
           <QueueTitle>{queue.name}</QueueTitle>
-          <QueueWaiting>Waiting : 90</QueueWaiting>
+          <HStack space={8}>
+            <QueueWaiting>Members : {noOfMembers}</QueueWaiting>
+            <QueueWaiting style={{ color: "red" }}>
+              Waiting : {noOfWaiting}
+            </QueueWaiting>
+            <QueueWaiting style={{ color: "green" }}>
+              Served : {noOfMembers - noOfWaiting}
+            </QueueWaiting>
+          </HStack>
           <QueueEdit>Edit</QueueEdit>
         </QueueItemContainer>
       </Swipeout>
@@ -59,7 +79,7 @@ const QueueItem = ({ queue, navigation }) => {
   );
 };
 
-export default QueueItem;
+export default observer(QueueItem);
 
 const styles = StyleSheet.create({
   viewTest: {

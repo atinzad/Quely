@@ -17,6 +17,7 @@ const SignButton = (props) => {
   // if (!fontsLoaded) {
   //   return <AppLoading />;
   // }
+
   return (
     <TouchableOpacity onPress={() => props.click()} disabled={props.disabled}>
       <View style={styles.button}>

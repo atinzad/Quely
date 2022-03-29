@@ -1,6 +1,11 @@
 import { makeAutoObservable } from "mobx";
 import { instance } from "./instance";
 import authStore from "./authStore";
+import { configure } from "mobx";
+
+configure({
+  enforceActions: "never",
+});
 
 class QueueStore {
   queues = [];
@@ -20,12 +25,20 @@ class QueueStore {
   addQueue = async (newQueue) => {
     try {
       newQueue.owner = authStore.user._id;
-
       const response = await instance.post("/queues", newQueue);
       this.queues.push(response.data.payload);
       await this.fetchQueues();
     } catch (error) {
       console.log("failed to add new queue", error);
+    }
+  };
+
+  deleteQueue = async (queueId) => {
+    try {
+      this.queues = this.queues.filter((queues) => queues._id !== queueId);
+      const response = await instance.delete(`/queues/${queueId}`);
+    } catch (error) {
+      console.log("failed to remove queue", error);
     }
   };
 }
