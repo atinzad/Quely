@@ -125,14 +125,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     //top: 200,
   },
-  // input: {
-  //   height: 40,
-  //   width: 200,
-  //   borderWidth: 1,
-  //   borderRadius: 5,
-  //   padding: 10,
-  //   marginLeft: 12,
-  // },
+  input: {
+    height: 40,
+    width: 200,
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginLeft: 12,
+  },
   btn: {
     height: 40,
     width: 100,
