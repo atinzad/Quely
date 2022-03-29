@@ -58,19 +58,16 @@ const MemberList = ({ route, navigation }) => {
     setRefreshing(true);
     await memberStore.fetchMembers(setRefreshing);
   }, []);
-
   const handleDelete = async (deletedMember) => {
     memberStore.deleteMember(deletedMember._id);
   };
 
+  const members = memberStore.members
+    .filter((member) => member.queue === queue._id)
+    .filter((member) => member.waiting === displayWaiting);
+
   return (
     <Center style={styles.box} w="100%">
-      {/* <QueueListTitle w="90%">
-        <InQueueTitle>
-          Memebers List for{" "}
-          {queue.name.charAt(0).toUpperCase() + queue.name.slice(1)}
-        </InQueueTitle>
-      </QueueListTitle> */}
       <View
         style={{
           width: "90%",
@@ -96,9 +93,6 @@ const MemberList = ({ route, navigation }) => {
               width: "50%",
             }}
           >
-            {/* <AddQueueButtonView onPress={() => handleModal()}>
-              <AddQueueButtonPlus>+</AddQueueButtonPlus>
-            </AddQueueButtonView> */}
 
             <Pressable
               style={{
@@ -108,14 +102,14 @@ const MemberList = ({ route, navigation }) => {
                 justifyContent: "center",
                 borderRadius: 10,
               }}
-              // onPress={copyToClipboard}
+              onPress={() => handleModal()}
             >
               <HStack style={{ height: "100%", alignItems: "center" }}>
                 <View
                   style={{ width: 20, justifyContent: "center", marginLeft: 6 }}
                 >
                   <TextInput.Icon
-                    // onPress={copyToClipboard}
+                    onPress={() => handleModal()}
                     color="white"
                     name="plus"
                   />
@@ -135,14 +129,14 @@ const MemberList = ({ route, navigation }) => {
                 justifyContent: "center",
                 borderRadius: 10,
               }}
-              // onPress={copyToClipboard}
+              // onPress={deletelist for queue}
             >
               <HStack style={{ height: "100%", alignItems: "center" }}>
                 <View
                   style={{ width: 20, justifyContent: "center", marginLeft: 6 }}
                 >
                   <TextInput.Icon
-                    // onPress={copyToClipboard}
+                     // onPress={deletelist for queue}
                     color="white"
                     name="trash-can-outline"
                   />
@@ -158,9 +152,6 @@ const MemberList = ({ route, navigation }) => {
         </HStack>
       </View>
       <HStack height="6%">
-        {
-          //Needs layout design for Waiting and Served
-        }
 
         <Pressable
           style={{
@@ -217,17 +208,15 @@ const MemberList = ({ route, navigation }) => {
         onRefresh={() => onRefresh()}
         refreshing={refreshing}
       >
-        {/* <QueueListQueues w="100%">{members}</QueueListQueues> */}
       </FlatList>
       <MemberDetails
         setShowModal={setShowMemberModal}
         showModal={showMemberModal}
         member={member}
-      />
+      /> */}
       <AddMember
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}
-        setMember={setMember}
         queue={queue}
       />
       <QRModal
@@ -253,5 +242,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     zIndex: 2,
     fontWeight: "bold",
+  },
+  safeAreaStyle: {
+    flex: 1,
   },
 });

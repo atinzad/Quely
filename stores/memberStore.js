@@ -36,6 +36,8 @@ class MemberStore {
 
       const response = await instance.post("/members", newMember);
       this.members.push(response.data.payload);
+      //queue.memebers.push(response.data.payload._id); //@ahmad, the members for the particular queue needs to be updated
+      // await this.fetchMembers(() => {});
     } catch (error) {
       console.log("failed to add new member", error);
     }
@@ -87,5 +89,5 @@ class MemberStore {
 }
 
 const memberStore = new MemberStore();
-memberStore.fetchMembers();
+memberStore.fetchMembers(() => {});
 export default memberStore;
