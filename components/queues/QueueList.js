@@ -22,7 +22,6 @@ import {
 
 const QueueList = ({ navigation }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [queue, setQueue] = useState({});
 
   const handleModal = () => {
     setIsOpenModal(true);
@@ -53,11 +52,7 @@ const QueueList = ({ navigation }) => {
         <ScrollView w="100%">
           <QueueListQueues w="100%">{queues}</QueueListQueues>
         </ScrollView>
-        <AddQueue
-          isOpenModal={isOpenModal}
-          setIsOpenModal={setIsOpenModal}
-          setQueue={setQueue}
-        />
+        <AddQueue isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} />
       </Center>
     </View>
   );
