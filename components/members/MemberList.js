@@ -19,6 +19,9 @@ import QueueURL from "../queues/QueueURL";
 import {
   AddQueueButtonPlus,
   AddQueueButtonView,
+  DeleteMemberButtonView,
+  FieldsAddItems,
+  FieldsAddTitle,
   InQueueTitle,
   MemberlistWaitingServed,
   MyQueuesTitle,
@@ -28,20 +31,71 @@ import {
 import QRModal from "./QRModal";
 import { getBrightnessAsync, setBrightnessAsync } from "expo-brightness";
 import { TextInput } from "react-native-paper";
+import DeleteQueueModal from "../queues/DeleteQueueModal";
 
 const MemberList = ({ route, navigation }) => {
-  const queue = route.params.queue;
+  const [isOpenDeleteQueueModal, setIsOpenDeleteQueueModal] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [brightness, setBrightness] = useState(1);
   const [member, setMember] = useState({});
   const [displayWaiting, setDisplayWaiting] = useState(true);
   const [isOpenQRModal, setIsOpenQRModal] = useState(false);
+  const [showMemberModal, setShowMemberModal] = useState(false);
+  const queue = route.params.queue;
   let members = memberStore.members
     .filter((member) => member.queue === queue._id)
     .filter((member) => member.waiting);
 
-  const [showMemberModal, setShowMemberModal] = useState(false);
+  navigation.setOptions({
+    title: queue.name,
+    headerTransparent: true,
+    headerShown: true,
 
+    headerTitleStyle: {
+      fontWeight: "bold",
+      fontSize: 25,
+      color: "black",
+    },
+    headerRight: () => (
+      <DeleteMemberButtonView
+        onPress={() => {
+          setIsOpenDeleteQueueModal(true);
+          console.log(isOpenDeleteQueueModal);
+        }}
+      >
+        <TextInput.Icon
+          onPress={() => {
+            setIsOpenDeleteQueueModal(true);
+            console.log(isOpenDeleteQueueModal);
+          }}
+          color="#c06c5d"
+          size={30}
+          name="trash-can-outline"
+        />
+      </DeleteMemberButtonView>
+    ),
+    headerLeft: () => (
+      <HStack style={{ justifyContent: "center" }}>
+        <Ionicons
+          name="chevron-back-outline"
+          size={30}
+          color="#3f93a2"
+          onPress={() => navigation.goBack()}
+        />
+        <Pressable onPress={() => navigation.goBack()}>
+          <Text
+            style={{
+              fontSize: 18,
+              color: "#3f93a2",
+              marginTop: 5,
+            }}
+          >
+            My Queues
+          </Text>
+        </Pressable>
+      </HStack>
+    ),
+  });
   const handleModal = () => {
     setIsOpenModal(true);
   };
@@ -67,7 +121,8 @@ const MemberList = ({ route, navigation }) => {
       <View
         style={{
           width: "90%",
-          height: "30%",
+          height: "25%",
+          marginTop: "20%",
           justifyContent: "center",
         }}
       >
@@ -84,7 +139,6 @@ const MemberList = ({ route, navigation }) => {
           <VStack
             space={9}
             style={{
-              justifyContent: "center",
               alignItems: "center",
               width: "50%",
             }}
@@ -116,7 +170,7 @@ const MemberList = ({ route, navigation }) => {
                 </View>
               </HStack>
             </Pressable>
-            <Pressable
+            {/* <Pressable
               style={{
                 width: 150,
                 height: 40,
@@ -142,7 +196,21 @@ const MemberList = ({ route, navigation }) => {
                   </Text>
                 </View>
               </HStack>
-            </Pressable>
+            </Pressable> */}
+            <VStack space={4}>
+              <FieldsAddTitle>Fields Added :</FieldsAddTitle>
+              <FieldsAddItems>1. Name</FieldsAddItems>
+              {/* {queue.fields.length > 0 ? (
+                queue.fields.map((field) => (
+                  <Text>
+                    {field.name}
+                    {field.type === "text" ? " (text)" : " (number)"}
+                  </Text>
+                ))
+              ) : (
+                <Text>No fields added yet</Text>
+              )} */}
+            </VStack>
           </VStack>
         </HStack>
       </View>
@@ -155,7 +223,6 @@ const MemberList = ({ route, navigation }) => {
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
             justifyContent: "center",
-            opacity: displayWaiting ? 1 : 0.3,
           }}
           onPress={() => setDisplayWaiting(true)}
         >
@@ -167,7 +234,6 @@ const MemberList = ({ route, navigation }) => {
             alignItems: "center",
             backgroundColor: displayWaiting ? "#f8f8f8" : "#ebebeb",
             justifyContent: "center",
-            opacity: displayWaiting ? 0.3 : 1,
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
           }}
@@ -219,6 +285,11 @@ const MemberList = ({ route, navigation }) => {
         queue={queue}
         brightness={brightness}
       />
+      {/* <DeleteQueueModal
+        isOpenDeleteQueueModal={isOpenDeleteQueueModal}
+        setIsOpenDeleteQueueModal={setIsOpenDeleteQueueModal}
+        queue={queue}
+      /> */}
     </Center>
   );
 };

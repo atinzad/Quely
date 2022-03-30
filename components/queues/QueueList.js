@@ -21,6 +21,26 @@ import {
 } from "../../styles";
 
 const QueueList = ({ navigation }) => {
+  navigation.setOptions({
+    title: authStore.user.name,
+    headerShown: true,
+    headerTitleStyle: {
+      fontWeight: "bold",
+      fontSize: 25,
+      color: "black",
+    },
+    headerleft: () => (
+      <PageUpperLeft>
+        <Ionicons
+          name="ios-arrow-back"
+          size={30}
+          color="#3f93a2"
+          onPress={() => navigation.goBack()}
+        />
+      </PageUpperLeft>
+    ),
+    headerTransparent: true,
+  });
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const handleModal = () => {

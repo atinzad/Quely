@@ -13,6 +13,9 @@ import authStore from "../stores/authStore";
 import SignOutBt from "../SignOutBt";
 import TestEmail from "../components/tests/TestEmail";
 import MemberDetails from "../components/members/MemberDetails";
+import { Ionicons } from "@expo/vector-icons";
+import { HStack } from "native-base";
+import queueStore from "../stores/queueStore";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -45,6 +48,8 @@ const RootNavigator = () => {
         name="QueueList"
         component={QueueList}
         options={({ navigation }) => ({
+          headerLeftLabelVisible: false,
+          headerLeft: false,
           headerRight: () => <SignOutBt navigation={navigation} />,
         })}
       ></Screen>
