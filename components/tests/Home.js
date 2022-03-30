@@ -24,14 +24,6 @@ const Home = ({ navigation }) => {
         join Quely!
       </Heading>
       <View>
-        {/* <Button
-          backgroundColor="#ffa500"
-          onPress={() => {
-            navigation.navigate("queueList");
-          }}
-        >
-          Explore your next trip!
-        </Button> */}
         {authStore.user ? (
           <View>
             <Button
