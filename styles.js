@@ -18,6 +18,16 @@ export const theme = {
   blueish: "#9381ff",
   redish: "#f23d3a",
 };
+export const FieldsAddTitle = styled.Text`
+  font-size: 15px;
+  color: #3f93a2;
+  font-weight: bold;
+`;
+export const FieldsAddItems = styled.Text`
+  font-size: 15px;
+  color: #3f93a2;
+`;
+
 export const MemberlistWaitingServed = styled.Text`
   font-size: 25px;
   color: #1d7996;
@@ -124,6 +134,13 @@ export const AddQueueButtonView = styled.Pressable`
   justify-content: center;
   align-items: center;
 `;
+export const DeleteMemberButtonView = styled.Pressable`
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const QueueEdit = styled.Text`
   position: absolute;
@@ -165,6 +182,7 @@ export const MyQueuesTitle = styled.Text`
 export const QueueListTitle = styled(Box)`
   height: 15%;
   justify-content: center;
+  margin-top: 18%;
 
   background-color: #f8f8f8;
 `;

@@ -72,7 +72,7 @@ const QueueItem = ({ queue, navigation }) => {
               Served : {noOfMembers - noOfWaiting}
             </QueueWaiting>
           </HStack>
-          <QueueEdit>Edit</QueueEdit>
+          <QueueEdit>View</QueueEdit>
         </QueueItemContainer>
       </Swipeout>
     </CardMargin>

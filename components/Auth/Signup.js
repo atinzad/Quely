@@ -62,12 +62,12 @@ const Signup = ({ navigation }) => {
         <SignUpTextContainer>
           <SignUpText>Sign up</SignUpText>
         </SignUpTextContainer>
-        <SignUpInputContainer>
-          <VStack space={8}>
-            <KeyboardAvoidingView
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
-              style={styles.container}
-            >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.container}
+        >
+          <SignUpInputContainer>
+            <VStack space={8}>
               <TextInput
                 label="Name"
                 selectionColor="#3f93a2"
@@ -120,9 +120,9 @@ const Signup = ({ navigation }) => {
                 disabled={loading}
                 ref={passwordRef}
               />
-            </KeyboardAvoidingView>
-          </VStack>
-        </SignUpInputContainer>
+            </VStack>
+          </SignUpInputContainer>
+        </KeyboardAvoidingView>
         <SignUpButtonContainer>
           <VStack space={8}>
             <SignButton name="Sign up" click={handleSubmit} />
