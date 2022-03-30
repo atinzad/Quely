@@ -11,8 +11,7 @@ import { TextInput } from "react-native-paper";
 const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
   const [newMember, setNewMemeber] = useState({ email: "", phone: "" });
   const [fieldValues, setFieldValues] = useState(
-    ""
-    // Object.assign({}, ...queue.fields.map((key) => ({ [key]: "" })))
+    Object.assign({}, ...queue.fields.map((key) => ({ [key]: "" })))
   );
   const handleSaveChanges = () => {
     console.log("new error", newMember);
@@ -23,7 +22,7 @@ const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
       if (queue.isPhoneRequired && !newMember.phone) {
         alert("phone is requred");
       } else {
-        memberStore.addMember(queue, newMember);
+        memberStore.addMember(queue, newMember, fieldValues);
       }
     }
     setNewMemeber({ email: "", phone: "" });
