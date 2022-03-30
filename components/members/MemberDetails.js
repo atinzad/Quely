@@ -20,6 +20,13 @@ const MemberDetails = ({ navigation, route }) => {
   const { member } = route.params;
   const [isTextEditable, setIsTextEditable] = useState(false);
   const [isPhoneEditable, setIsPhoneEditable] = useState(false);
+  const [isFieldEditable, setIsFieldEditable] = useState(
+    Object.assign(
+      {},
+      ...Object.keys(member.fieldValues).map((key) => ({ [key]: false }))
+    )
+  );
+
   const handleEmail = () => {
     memberStore.sendEmailtoMember(queue, member);
     alert(
@@ -33,17 +40,92 @@ const MemberDetails = ({ navigation, route }) => {
     navigation.goBack();
   };
 
+  const handleFieldEdit = (field) => {
+    setIsFieldEditable({
+      ...isFieldEditable,
+      [field]: !isFieldEditable[field],
+    });
+  };
+
   const handleWaitMember = () => {
     memberStore.waitMember(member._id);
     navigation.goBack();
   };
+
+  // const fields = Object.keys(member.fieldValues).map((field) => {
+  //   return (
+  //     <VStack style={{ height: 70 }}>
+  //       <HStack
+  //         style={{
+  //           marginLeft: 10,
+  //           width: "85%",
+  //           alignItems: "center",
+  //         }}
+  //       >
+  //         <MemberDetailsText>HelloWorld</MemberDetailsText>
+  //       </HStack>
+  //     </VStack>
+  //   );
+  // });
+
+  const fields = Object.keys(member.fieldValues).map((field) => {
+    return (
+      <VStack style={{ height: 70 }}>
+        <HStack
+          style={{
+            marginLeft: 10,
+            width: "85%",
+            alignItems: "center",
+          }}
+        >
+          {isFieldEditable[field] ? (
+            <View style={{ width: "90%" }}>
+              <reactNative.TextInput
+                style={{
+                  width: "90%",
+                  height: 60,
+                  borderColor: "black",
+                  borderWidth: 1,
+                  borderRadius: 5,
+                }}
+                // onChangeText={(text) => {
+                //   memberStore.updateMemberEmail(member._id, text);
+                // }}
+              >
+                <MemberDetailsText>
+                  {" "}
+                  {member.fieldValues[field]}
+                </MemberDetailsText>
+              </reactNative.TextInput>
+            </View>
+          ) : (
+            <MemberDetailsText>{member.fieldValues[field]}</MemberDetailsText>
+          )}
+          <View style={{ position: "absolute", top: "15%", right: "0%" }}>
+            <TextInput.Icon
+              size={35}
+              color="black"
+              name={
+                isFieldEditable[{ field }]
+                  ? "check-bold"
+                  : "square-edit-outline"
+              }
+              onPress={() => {
+                handleFieldEdit(field);
+              }}
+            />
+          </View>
+        </HStack>
+      </VStack>
+    );
+  });
 
   return (
     <View style={{ alignItems: "center", marginTop: "10%" }}>
       <VStack w="80%">
         {member.email && (
           //to have a button if the member need to edit the email so it will change from text to input
-          <VStack style={{ height: "30%" }}>
+          <VStack style={{ height: 70 }}>
             <HStack
               style={{
                 marginLeft: 10,
@@ -67,15 +149,6 @@ const MemberDetails = ({ navigation, route }) => {
                   >
                     <MemberDetailsText> {member.email}</MemberDetailsText>
                   </reactNative.TextInput>
-
-                  {/* <TextInput
-                    mode="outlined"
-                    label="Email"
-                    value={member.email}
-                    onChangeText={(text) => {
-                      memberStore.updateMemberEmail(member._id, text);
-                    }}
-                  /> */}
                 </View>
               ) : (
                 <MemberDetailsText>{member.email}</MemberDetailsText>
@@ -91,9 +164,8 @@ const MemberDetails = ({ navigation, route }) => {
             </HStack>
           </VStack>
         )}
-
         {member.phone && (
-          <VStack style={{ height: "30%" }}>
+          <VStack style={{ height: 70 }}>
             <HStack
               style={{
                 marginLeft: 10,
@@ -135,6 +207,7 @@ const MemberDetails = ({ navigation, route }) => {
           //   value={member.phone.toString()}
           // />
         )}
+        {fields}
         <Text
           style={{
             fontSize: 20,
