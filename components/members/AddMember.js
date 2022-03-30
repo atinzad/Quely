@@ -26,7 +26,9 @@ import { observer } from "mobx-react-lite";
 
 const AddMember = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
   const [newMember, setNewMemeber] = useState({ email: "", phone: "" });
-
+  const [fieldValues, setFieldValues] = useState(
+    Object.assign({}, ...queue.fields.map((key) => ({ [key]: "" })))
+  );
   const handleSaveChanges = () => {
     setMember(newMember);
     if (queue.isEmailRequired && !newMember.email) {
@@ -35,13 +37,24 @@ const AddMember = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
       if (queue.isPhoneRequired && !newMember.phone) {
         alert("phone is requred");
       } else {
-        memberStore.addMember(queue, newMember);
+        memberStore.addMember(queue, newMember, fieldValues);
       }
     }
 
     setIsOpenModal(false);
   };
 
+  const fields = queue.fields.map((field) => (
+    <HStack>
+      <Text>{field}</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={(value) =>
+          setFieldValues({ ...fieldValues, [field]: value })
+        }
+      />
+    </HStack>
+  ));
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -76,7 +89,7 @@ const AddMember = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
               />
             </HStack>
           )}
-
+          {fields}
           <HStack>
             <Button
               style={styles.btn}

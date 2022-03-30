@@ -37,7 +37,6 @@ import AddMemberB from "./AddMemberB";
 
 import DeleteQueueModal from "../queues/DeleteQueueModal";
 
-
 const MemberList = ({ route, navigation }) => {
   const [isOpenDeleteQueueModal, setIsOpenDeleteQueueModal] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -120,6 +119,12 @@ const MemberList = ({ route, navigation }) => {
   const handleDelete = async (deletedMember) => {
     memberStore.deleteMember(deletedMember._id);
   };
+
+  const fieldsAdded = queue.fields.map((field, i) => (
+    <FieldsAddItems>
+      {i + 1}. {field}
+    </FieldsAddItems>
+  ));
 
   return (
     <Center style={styles.box} w="100%">
@@ -209,8 +214,10 @@ const MemberList = ({ route, navigation }) => {
               </HStack>
             </Pressable> */}
             <VStack space={4}>
-              <FieldsAddTitle>Fields Added :</FieldsAddTitle>
-              <FieldsAddItems>1. Name</FieldsAddItems>
+              {queue.fields.length > 0 && (
+                <FieldsAddTitle>Fields Added :</FieldsAddTitle>
+              )}
+              {fieldsAdded}
               {/* {queue.fields.length > 0 ? (
                 queue.fields.map((field) => (
                   <Text>

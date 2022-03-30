@@ -30,9 +30,10 @@ class MemberStore {
     }
   };
 
-  addMember = async (queue, newMember) => {
+  addMember = async (queue, newMember, fieldValues) => {
     try {
       newMember.queue = queue._id;
+      newMember.fieldValues = fieldValues;
 
       const response = await instance.post("/members", newMember);
       this.members.push(response.data.payload);
