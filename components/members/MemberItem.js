@@ -97,7 +97,7 @@ const MemberItem = ({ index, queue, member, navigation }) => {
                     handleEmail();
                   }}
                   size={35}
-                  color="#B7CA3D"
+                  color="#FFD700"
                   name="bell"
                 />
               )}
