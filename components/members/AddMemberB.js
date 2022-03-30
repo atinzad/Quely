@@ -31,7 +31,6 @@ const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
     <HStack>
       <Text>{field}</Text>
       <TextInput
-        value="SnewQueue"
         label="Name"
         keyboardType="default"
         textContentType="givenName"
@@ -42,7 +41,6 @@ const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
         activeOutlineColor="#3f93a2"
         activeUnderlineColor="#3f93a2"
         underlineColorAndroid="#3f93a2"
-        left={<TextInput.Icon color="#3f93a2" name="account" />}
         onChangeText={(value) =>
           setFieldValues({ ...fieldValues, [field]: value })
         }
@@ -60,13 +58,9 @@ const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
           <VStack>
             {queue.isEmailAvailable && (
               <HStack>
-                <ModalEmailIconView>
-                  <TextInput.Icon size={35} color="#3f93a2" name="email" />
-                </ModalEmailIconView>
                 <Text>email{queue.isEmailRequired && "*"}</Text>
                 <TextInput
-                  value="SnewQueue"
-                  label="Name"
+                  label="Email"
                   keyboardType="default"
                   textContentType="givenName"
                   selectionColor="#3f93a2"
@@ -76,7 +70,7 @@ const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
                   activeOutlineColor="#3f93a2"
                   activeUnderlineColor="#3f93a2"
                   underlineColorAndroid="#3f93a2"
-                  left={<TextInput.Icon color="#3f93a2" name="account" />}
+                  left={<TextInput.Icon color="#3f93a2" name="email" />}
                   onChangeText={(value) =>
                     setNewMemeber({ ...newMember, email: value })
                   }
@@ -158,76 +152,3 @@ const styles = StyleSheet.create({
     //bottom: 100,
   },
 });
-
-// <PhoneInput
-//   ref={phoneInput}
-//   defaultValue={phoneNumber}
-//   defaultCode="IN"
-//   layout="first"
-//   withShadow
-//   autoFocus
-//   containerStyle={styleSheet.phoneNumberView}
-//   textContainerStyle={{ paddingVertical: 0 }}
-//   onChangeFormattedText={text => {
-//     setPhoneNumber(text);
-//   }}
-// />
-
-// <TouchableOpacity  style={styleSheet.button} onPress={() => getPhoneNumber()}>
-//   <Text style={styleSheet.buttonText}>Get Phone Number</Text>
-// </TouchableOpacity >
-
-// <View style={styles.centeredView}>
-//   <Modal
-//     animationType={"slide"}
-//     transparent={false}
-//     visible={isOpenModal}
-//     onRequestClose={() => {
-//       Alert.alert("Modal has now been closed.");
-//     }}
-//   >
-//     <View style={styles.centeredView}>
-//       <Text style={styles.title}>Add Memeber to Queue</Text>
-//       <HStack>
-//         {/* <Text>email</Text> */}
-//         <Input
-//           variant="underlined"
-//           placeholder="Email"
-//           fontSize={35}
-//           backgroundColor="#D1EAF0"
-//           borderRadius={20}
-//           width={300}
-//           // style={styles.input}
-//           onChangeText={(value) =>
-//             setNewMemeber({ ...newMember, email: value })
-//           }
-//         />
-//       </HStack>
-//       <HStack>
-//         <Text>phone</Text>
-//         <TextInput
-//           style={styles.input}
-//           onChangeText={(value) =>
-//             setNewMemeber({ ...newMember, phone: value })
-//           }
-//         />
-//       </HStack>
-//       <HStack>
-//         <Button
-//           style={styles.btn}
-//           color="#3f93a2"
-//           onPress={handleSaveChanges}
-//         >
-//           Add
-//         </Button>
-//         <Button
-//           color="#3f93a2"
-//           style={styles.btn}
-//           onPress={() => setIsOpenModal(false)}
-//         >
-//           Cancel
-//         </Button>
-//       </HStack>
-//     </View>
-//   </Modal>
-// </View>
