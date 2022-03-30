@@ -46,9 +46,6 @@ const MemberList = ({ route, navigation }) => {
   const [isOpenQRModal, setIsOpenQRModal] = useState(false);
   const [showMemberModal, setShowMemberModal] = useState(false);
   const queue = route.params.queue;
-  let members = memberStore.members
-    .filter((member) => member.queue === queue._id)
-    .filter((member) => member.waiting);
 
   navigation.setOptions({
     title: queue.name,
@@ -119,6 +116,12 @@ const MemberList = ({ route, navigation }) => {
   const handleDelete = async (deletedMember) => {
     memberStore.deleteMember(deletedMember._id);
   };
+
+  const fieldsAdded = queue.fields.map((field, i) => (
+    <FieldsAddItems>
+      {i + 1}. {field}
+    </FieldsAddItems>
+  ));
 
   return (
     <Center style={styles.box} w="100%">
@@ -208,8 +211,10 @@ const MemberList = ({ route, navigation }) => {
               </HStack>
             </Pressable> */}
             <VStack space={4}>
-              <FieldsAddTitle>Fields Added :</FieldsAddTitle>
-              <FieldsAddItems>1. Name</FieldsAddItems>
+              {queue.fields.length > 0 && (
+                <FieldsAddTitle>Fields Added :</FieldsAddTitle>
+              )}
+              {fieldsAdded}
               {/* {queue.fields.length > 0 ? (
                 queue.fields.map((field) => (
                   <Text>
@@ -279,7 +284,7 @@ const MemberList = ({ route, navigation }) => {
         onRefresh={() => onRefresh()}
         refreshing={refreshing}
       ></FlatList>
-      <AddMember
+      <AddMemberB
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}
         queue={queue}
