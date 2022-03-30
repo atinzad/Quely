@@ -177,54 +177,12 @@ const MemberList = ({ route, navigation }) => {
                 </View>
               </HStack>
             </Pressable>
-            {/* <Pressable
-              style={{
-                width: 150,
-                height: 40,
-                backgroundColor: "#c06c5d",
-                justifyContent: "center",
-                borderRadius: 10,
-              }}
-              onPress={() => {
-                queueStore.deleteQueue(queue._id);
-                navigation.goBack();
-              }}
-            >
-              <HStack style={{ height: "100%", alignItems: "center" }}>
-                <View
-                  style={{ width: 20, justifyContent: "center", marginLeft: 6 }}
-                >
-                  <TextInput.Icon
-                    onPress={() => {
-                      queueStore.deleteQueue(queue._id);
-                      navigation.goBack();
-                    }}
-                    color="white"
-                    name="trash-can-outline"
-                  />
-                </View>
-                <View style={{ width: 100, marginLeft: 10 }}>
-                  <Text style={{ color: "white", fontWeight: "bold" }}>
-                    Delete the list{" "}
-                  </Text>
-                </View>
-              </HStack>
-            </Pressable> */}
+
             <VStack space={4}>
               {queue.fields.length > 0 && (
                 <FieldsAddTitle>Fields Added :</FieldsAddTitle>
               )}
               {fieldsAdded}
-              {/* {queue.fields.length > 0 ? (
-                queue.fields.map((field) => (
-                  <Text>
-                    {field.name}
-                    {field.type === "text" ? " (text)" : " (number)"}
-                  </Text>
-                ))
-              ) : (
-                <Text>No fields added yet</Text>
-              )} */}
             </VStack>
           </VStack>
         </HStack>
@@ -261,7 +219,6 @@ const MemberList = ({ route, navigation }) => {
         style={{
           width: "100%",
           backgroundColor: "#ebebeb",
-          marginBottom: -900,
         }}
         data={memberStore.members
           .filter((member) => member.queue === queue._id)

@@ -22,7 +22,7 @@ import {
 
 const QueueList = ({ navigation }) => {
   navigation.setOptions({
-    title: authStore.user.name,
+    title: authStore.user?.name,
     headerShown: true,
     headerTitleStyle: {
       fontWeight: "bold",

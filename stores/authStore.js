@@ -65,6 +65,7 @@ class AuthStore {
 
   signout = async (navigation) => {
     try {
+      console.log("navigation::::", navigation);
       instance.defaults.headers.common.Authorization = null;
       this.user = null;
       AsyncStorage.removeItem("token");
