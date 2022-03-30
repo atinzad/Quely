@@ -34,6 +34,7 @@ import {
   ToastText,
 } from "../../styles";
 import { observer } from "mobx-react";
+import { Ionicons } from "@expo/vector-icons";
 
 const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
   const [emailIsDisabled, setEmailIsDisabled] = useState(false);
@@ -83,7 +84,6 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
       isPhoneAvailable: !isPhoneAvailable,
     });
     setIsPhoneAvailable(!isPhoneAvailable);
-    setPhoneIsDisabled(!phoneIsDisabled);
   };
   const phoneRequiredSwitch = () => {
     setNewQueue({
@@ -116,12 +116,12 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
   const handleSaveChanges = () => {
     setNewQueue({
       ...newQueue,
+      isEmailAvailable: isEmailAvailable,
       isPhoneAvailable: isPhoneAvailable,
       isPhoneRequired: isPhoneRequired && isPhoneAvailable,
       isEmailRequired: isEmailRequired && isEmailAvailable,
-      isEmailAvailable: isEmailAvailable,
     });
-
+    console.log(newFields);
     queueStore.addQueue(newQueue, [...newFields]);
 
     setIsPhoneAvailable(false);
@@ -263,20 +263,48 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
                   onChangeText={(value) => setNewField(value)}
                 />
               </View>
-              <View>
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "20%",
+                }}
+              >
                 <AddQueueButtonView onPress={handleAddNewField}>
                   <AddQueueButtonPlus>+</AddQueueButtonPlus>
                 </AddQueueButtonView>
               </View>
             </HStack>
-            <View>
+            <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
               {newFields.map((field) => (
                 <Pressable
+                  style={{
+                    height: 40,
+                    marginTop: 10,
+                    marginRight: 10,
+                    alignSelf: "flex-start",
+                    backgroundColor: "#3f93a2",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 7,
+                  }}
                   onPress={() =>
                     setNewFields(newFields.filter((xfield) => xfield !== field))
                   }
                 >
-                  <Text style={styles.btn}>{field}</Text>
+                  <HStack>
+                    <Text
+                      style={{ marginLeft: 10, marginTop: 2, color: "white" }}
+                    >
+                      {field}
+                    </Text>
+                    <Ionicons
+                      style={{ marginLeft: 10 }}
+                      color="white"
+                      name="ios-close"
+                      size={20}
+                    />
+                  </HStack>
                 </Pressable>
               ))}
             </View>
