@@ -1,6 +1,5 @@
 import {
   Dimensions,
-  Modal,
   Pressable,
   SafeAreaView,
   StyleSheet,
@@ -9,7 +8,7 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { Button, HStack, Input, VStack } from "native-base";
+import { Button, HStack, Input, VStack, Center, Modal } from "native-base";
 import { useState } from "react";
 import memberStore from "../../stores/memberStore";
 import {
@@ -24,7 +23,7 @@ import {
 } from "../../styles";
 import { observer } from "mobx-react-lite";
 
-const AddMember = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
+const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
   const [newMember, setNewMemeber] = useState({ email: "", phone: "" });
 
   const handleSaveChanges = () => {
@@ -43,63 +42,84 @@ const AddMember = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
   };
 
   return (
-    <View style={styles.centeredView}>
+    <Center>
       <Modal
-        animationType={"slide"}
-        transparent={false}
-        visible={isOpenModal}
-        onRequestClose={() => {
-          alert("Modal has now been closed.");
+        size="xl"
+        // animationType={"slide"}
+        // transparent={false}
+        isOpen={isOpenModal}
+        onClose={() => {
+          setIsOpenModal(false);
         }}
       >
-        <View style={styles.centeredView}>
-          <Text style={styles.title}>Add Memeber to Queue</Text>
-          {queue.isEmailAvailable && (
+        <Modal.Content maxWidth="400px">
+          <Modal.CloseButton></Modal.CloseButton>
+          <Modal.Header>
+            <ModalTitle>Add new member</ModalTitle>
+          </Modal.Header>
+          <Modal.Body>
+            <VStack>
+              {queue.isEmailAvailable && (
+                <HStack>
+                  <ModalEmailIconView>
+                    <TextInput.Icon size={35} color="#3f93a2" name="email" />
+                  </ModalEmailIconView>
+                  <Text>email{queue.isEmailRequired && "*"}</Text>
+                  <TextInput
+                    keyboardType="default"
+                    textContentType="givenName"
+                    selectionColor="#3f93a2"
+                    underlineColor="#3f93a2"
+                    outlineColor="#3f93a2"
+                    placeholderTextColor="#3f93a2"
+                    activeOutlineColor="#3f93a2"
+                    activeUnderlineColor="#3f93a2"
+                    underlineColorAndroid="#3f93a2"
+                    left={<TextInput.Icon color="#3f93a2" name="account" />}
+                    onChangeText={(value) =>
+                      setNewMemeber({ ...newMember, email: value })
+                    }
+                  />
+                </HStack>
+              )}
+              {queue.isPhoneAvailable && (
+                <HStack>
+                  <Text>phone{queue.isPhoneRequired && "*"}</Text>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={(value) =>
+                      setNewMemeber({ ...newMember, phone: value })
+                    }
+                  />
+                </HStack>
+              )}
+            </VStack>
+          </Modal.Body>
+          <Modal.Footer>
             <HStack>
-              <Text>email{queue.isEmailRequired && "*"}</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={(value) =>
-                  setNewMemeber({ ...newMember, email: value })
-                }
-              />
+              <Button
+                style={styles.btn}
+                colorScheme="blue"
+                onPress={handleSaveChanges}
+              >
+                Add
+              </Button>
+              <Button
+                colorScheme="blue"
+                style={styles.btn}
+                onPress={() => setIsOpenModal(false)}
+              >
+                Cancel
+              </Button>
             </HStack>
-          )}
-          {queue.isPhoneAvailable && (
-            <HStack>
-              <Text>phone{queue.isPhoneRequired && "*"}</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={(value) =>
-                  setNewMemeber({ ...newMember, phone: value })
-                }
-              />
-            </HStack>
-          )}
-
-          <HStack>
-            <Button
-              style={styles.btn}
-              colorScheme="blue"
-              onPress={handleSaveChanges}
-            >
-              Add
-            </Button>
-            <Button
-              colorScheme="blue"
-              style={styles.btn}
-              onPress={() => setIsOpenModal(false)}
-            >
-              Cancel
-            </Button>
-          </HStack>
-        </View>
+          </Modal.Footer>
+        </Modal.Content>
       </Modal>
-    </View>
+    </Center>
   );
 };
 
-export default observer(AddMember);
+export default observer(AddMemberB);
 
 const styles = StyleSheet.create({
   centeredView: {
@@ -126,14 +146,6 @@ const styles = StyleSheet.create({
     padding: 8,
     justifyContent: "center",
     //top: 200,
-  },
-  input: {
-    height: 40,
-    width: 200,
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginLeft: 12,
   },
   btn: {
     height: 40,
