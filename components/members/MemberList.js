@@ -46,9 +46,6 @@ const MemberList = ({ route, navigation }) => {
   const [isOpenQRModal, setIsOpenQRModal] = useState(false);
   const [showMemberModal, setShowMemberModal] = useState(false);
   const queue = route.params.queue;
-  let members = memberStore.members
-    .filter((member) => member.queue === queue._id)
-    .filter((member) => member.waiting);
 
   navigation.setOptions({
     title: queue.name,
@@ -286,7 +283,7 @@ const MemberList = ({ route, navigation }) => {
         onRefresh={() => onRefresh()}
         refreshing={refreshing}
       ></FlatList>
-      <AddMember
+      <AddMemberB
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}
         queue={queue}
