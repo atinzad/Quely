@@ -22,6 +22,8 @@ import { useState } from "react";
 import queueStore from "../../stores/queueStore";
 import { TextInput } from "react-native-paper";
 import {
+  AddQueueButtonPlus,
+  AddQueueButtonView,
   ModalEmailIconView,
   ModalInputsView,
   ModalRequiredText,
@@ -34,27 +36,29 @@ import {
 import { observer } from "mobx-react";
 
 const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
-  const initial = {
-    name: "",
-    isPhoneAvailable: false,
-    isPhoneRequired: false,
-    isEmailRequired: false,
-    isEmailAvailable: true,
-  };
   const [emailIsDisabled, setEmailIsDisabled] = useState(false);
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [isEmailRequired, setIsEmailRequired] = useState(false);
-
   const [phoneIsDisabled, setPhoneIsDisabled] = useState(true);
   const [isPhoneAvailable, setIsPhoneAvailable] = useState(false);
   const [isPhoneRequired, setIsPhoneRequired] = useState(false);
+
+  const [newField, setNewField] = useState("");
+  const [newFields, setNewFields] = useState([]);
+
   const [newQueue, setNewQueue] = useState({
     name: "",
     isPhoneAvailable: false,
     isPhoneRequired: false,
     isEmailRequired: false,
     isEmailAvailable: true,
+    fields: [],
   });
+
+  const handleAddNewField = () => {
+    setNewFields([...newFields, newField]);
+    setNewField("");
+  };
 
   const toast = useToast();
 
@@ -96,12 +100,15 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
     setIsEmailAvailable(true);
     setPhoneIsDisabled(true);
     setEmailIsDisabled(false);
+    setNewField("");
+    setNewFields([]);
     setNewQueue({
       name: "",
       isPhoneAvailable: false,
       isPhoneRequired: false,
       isEmailRequired: false,
       isEmailAvailable: true,
+      fields: [],
     });
 
     setIsOpenModal(false);
@@ -115,7 +122,7 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
       isEmailAvailable: isEmailAvailable,
     });
 
-    queueStore.addQueue(newQueue);
+    queueStore.addQueue(newQueue, [...newFields]);
 
     setIsPhoneAvailable(false);
     phoneRequiredSwitch(false);
@@ -123,6 +130,8 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
     setIsEmailAvailable(true);
     setPhoneIsDisabled(true);
     setEmailIsDisabled(false);
+    setNewField("");
+    setNewFields([]);
 
     setNewQueue({
       name: "",
@@ -130,6 +139,7 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
       isPhoneRequired: false,
       isEmailRequired: false,
       isEmailAvailable: true,
+      fields: [],
     });
 
     setIsOpenModal(false);
@@ -180,7 +190,7 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
               activeOutlineColor="#3f93a2"
               activeUnderlineColor="#3f93a2"
               underlineColorAndroid="#3f93a2"
-              left={<TextInput.Icon color="#3f93a2" name="account" />}
+              // left={<TextInput.Icon color="#3f93a2" name="account" />}
               onChangeText={(value) =>
                 setNewQueue({ ...newQueue, name: value })
               }
@@ -236,6 +246,40 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
                 value={isPhoneRequired}
               />
             </HStack>
+            <HStack>
+              <View style={{ width: "80%" }}>
+                <TextInput
+                  value={newField}
+                  label="Field name"
+                  keyboardType="default"
+                  textContentType="givenName"
+                  selectionColor="#3f93a2"
+                  underlineColor="#3f93a2"
+                  outlineColor="#3f93a2"
+                  placeholderTextColor="#3f93a2"
+                  activeOutlineColor="#3f93a2"
+                  activeUnderlineColor="#3f93a2"
+                  underlineColorAndroid="#3f93a2"
+                  onChangeText={(value) => setNewField(value)}
+                />
+              </View>
+              <View>
+                <AddQueueButtonView onPress={handleAddNewField}>
+                  <AddQueueButtonPlus>+</AddQueueButtonPlus>
+                </AddQueueButtonView>
+              </View>
+            </HStack>
+            <View>
+              {newFields.map((field) => (
+                <Pressable
+                  onPress={() =>
+                    setNewFields(newFields.filter((xfield) => xfield !== field))
+                  }
+                >
+                  <Text style={styles.btn}>{field}</Text>
+                </Pressable>
+              ))}
+            </View>
           </VStack>
         </Modal.Body>
         <Modal.Footer>

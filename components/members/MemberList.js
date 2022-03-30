@@ -28,6 +28,8 @@ import {
 import QRModal from "./QRModal";
 import { getBrightnessAsync, setBrightnessAsync } from "expo-brightness";
 import { TextInput } from "react-native-paper";
+import queueStore from "../../stores/queueStore";
+import AddMemberB from "./AddMemberB";
 
 const MemberList = ({ route, navigation }) => {
   const queue = route.params.queue;
@@ -124,14 +126,20 @@ const MemberList = ({ route, navigation }) => {
                 justifyContent: "center",
                 borderRadius: 10,
               }}
-              // onPress={deletelist for queue}
+              onPress={() => {
+                queueStore.deleteQueue(queue._id);
+                navigation.goBack();
+              }}
             >
               <HStack style={{ height: "100%", alignItems: "center" }}>
                 <View
                   style={{ width: 20, justifyContent: "center", marginLeft: 6 }}
                 >
                   <TextInput.Icon
-                    // onPress={deletelist for queue}
+                    onPress={() => {
+                      queueStore.deleteQueue(queue._id);
+                      navigation.goBack();
+                    }}
                     color="white"
                     name="trash-can-outline"
                   />
@@ -202,11 +210,6 @@ const MemberList = ({ route, navigation }) => {
         onRefresh={() => onRefresh()}
         refreshing={refreshing}
       ></FlatList>
-      {/* <MemberDetails
-        setShowModal={setShowMemberModal}
-        showModal={showMemberModal}
-        member={member}
-      />{" "} */}
       <AddMember
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}

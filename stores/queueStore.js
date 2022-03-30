@@ -22,9 +22,10 @@ class QueueStore {
     }
   };
 
-  addQueue = async (newQueue) => {
+  addQueue = async (newQueue, newFields) => {
     try {
       newQueue.owner = authStore.user._id;
+      newQueue.fields = newFields;
       const response = await instance.post("/queues", newQueue);
       this.queues.push(response.data.payload);
       await this.fetchQueues();
