@@ -21,6 +21,7 @@ import {
   MemberCardNotificationBtn,
   MemberCardNumber,
   MemberCardServedBtn,
+  MemberEmail,
   MemberHstack,
   MemberItemContainer,
   QueueEdit,
@@ -87,7 +88,7 @@ const MemberItem = ({ index, queue, member, navigation }) => {
               <MemberCardNumber>#{index + 1}</MemberCardNumber>
             </MemberCardLeft>
             <MemberCardMiddle>
-              <QueueTitle>{member.email}</QueueTitle>
+              <MemberEmail>{member.email}</MemberEmail>
               <QueueWaiting>Field1 : FieldData1</QueueWaiting>
             </MemberCardMiddle>
             <MemberCardNotificationBtn>

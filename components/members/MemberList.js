@@ -38,7 +38,7 @@ import AddMemberB from "./AddMemberB";
 import DeleteQueueModal from "../queues/DeleteQueueModal";
 
 const MemberList = ({ route, navigation }) => {
-  const [isOpenDeleteQueueModal, setIsOpenDeleteQueueModal] = useState(false);
+  // const [isOpenDeleteQueueModal, setIsOpenDeleteQueueModal] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [brightness, setBrightness] = useState(1);
   const [member, setMember] = useState({});
@@ -59,16 +59,16 @@ const MemberList = ({ route, navigation }) => {
     },
     headerRight: () => (
       <DeleteMemberButtonView
-        onPress={() => {
-          setIsOpenDeleteQueueModal(true);
-          console.log(isOpenDeleteQueueModal);
-        }}
+      // onPress={() => {
+      //   setIsOpenDeleteQueueModal(true);
+      //   console.log(isOpenDeleteQueueModal);
+      // }}
       >
         <TextInput.Icon
-          onPress={() => {
-            setIsOpenDeleteQueueModal(true);
-            console.log(isOpenDeleteQueueModal);
-          }}
+          // onPress={() => {
+          //   setIsOpenDeleteQueueModal(true);
+          //   console.log(isOpenDeleteQueueModal);
+          // }}
           color="#c06c5d"
           size={30}
           name="trash-can-outline"
@@ -259,8 +259,9 @@ const MemberList = ({ route, navigation }) => {
       </HStack>
       <FlatList
         style={{
+          width: "100%",
           backgroundColor: "#ebebeb",
-          marginBottom: -500,
+          marginBottom: -900,
         }}
         data={memberStore.members
           .filter((member) => member.queue === queue._id)
