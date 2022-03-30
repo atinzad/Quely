@@ -23,6 +23,10 @@ export const FieldsAddTitle = styled.Text`
   color: #3f93a2;
   font-weight: bold;
 `;
+export const MemberDetailsText = styled.Text`
+  font-size: 25px;
+  color: #3f93a2;
+`;
 export const FieldsAddItems = styled.Text`
   font-size: 15px;
   color: #3f93a2;
@@ -152,6 +156,12 @@ export const QueueEdit = styled.Text`
 `;
 export const QueueTitle = styled.Text`
   font-size: 25px;
+  color: #3f93a2;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+export const MemberEmail = styled.Text`
+  font-size: 20px;
   color: #3f93a2;
   font-weight: bold;
   margin-bottom: 10px;

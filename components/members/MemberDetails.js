@@ -1,11 +1,25 @@
 import { observer } from "mobx-react";
-import { Center, Modal, Text, VStack, Button, Input, Stack } from "native-base";
+import {
+  Center,
+  Modal,
+  Text,
+  VStack,
+  Button,
+  Input,
+  Stack,
+  HStack,
+} from "native-base";
 import { useState } from "react";
+import { View } from "react-native";
+import reactNative from "react-native";
+import { TextInput } from "react-native-paper";
 import memberStore from "../../stores/memberStore";
+import { MemberDetailsText } from "../../styles";
 
 const MemberDetails = ({ navigation, route }) => {
   const { member } = route.params;
-
+  const [isTextEditable, setIsTextEditable] = useState(false);
+  const [isPhoneEditable, setIsPhoneEditable] = useState(false);
   const handleEmail = () => {
     memberStore.sendEmailtoMember(queue, member);
     alert(
@@ -25,32 +39,113 @@ const MemberDetails = ({ navigation, route }) => {
   };
 
   return (
-    <Center>
-      <Stack space={1} w="75%" maxWidth="300px" marginTop={20}>
+    <View style={{ alignItems: "center", marginTop: "10%" }}>
+      <VStack w="80%">
         {member.email && (
-          <Input
-            variant="underlined"
-            placeholder="Email"
-            fontSize={35}
-            isDisabled={true}
-            backgroundColor="#D1EAF0"
-            value={member.email}
-          />
+          //to have a button if the member need to edit the email so it will change from text to input
+          <VStack style={{ height: "30%" }}>
+            <HStack
+              style={{
+                marginLeft: 10,
+                width: "85%",
+                alignItems: "center",
+              }}
+            >
+              {isTextEditable ? (
+                <View style={{ width: "90%" }}>
+                  <reactNative.TextInput
+                    style={{
+                      width: "90%",
+                      height: 60,
+                      borderColor: "black",
+                      borderWidth: 1,
+                      borderRadius: 5,
+                    }}
+                    // onChangeText={(text) => {
+                    //   memberStore.updateMemberEmail(member._id, text);
+                    // }}
+                  >
+                    <MemberDetailsText> {member.email}</MemberDetailsText>
+                  </reactNative.TextInput>
+
+                  {/* <TextInput
+                    mode="outlined"
+                    label="Email"
+                    value={member.email}
+                    onChangeText={(text) => {
+                      memberStore.updateMemberEmail(member._id, text);
+                    }}
+                  /> */}
+                </View>
+              ) : (
+                <MemberDetailsText>{member.email}</MemberDetailsText>
+              )}
+              <View style={{ position: "absolute", top: "15%", right: "0%" }}>
+                <TextInput.Icon
+                  size={35}
+                  color="black"
+                  name={isTextEditable ? "check-bold" : "square-edit-outline"}
+                  onPress={() => setIsTextEditable(!isTextEditable)}
+                />
+              </View>
+            </HStack>
+          </VStack>
         )}
+
         {member.phone && (
-          <Input
-            variant="underlined"
-            placeholder="Phone Number"
-            marginTop={30}
-            fontSize={25}
-            isDisabled={true}
-            backgroundColor="#D1EAF0"
-            value={member.phone.toString()}
-          />
+          <VStack style={{ height: "30%" }}>
+            <HStack
+              style={{
+                marginLeft: 10,
+                width: "85%",
+                alignItems: "center",
+              }}
+            >
+              {isPhoneEditable ? (
+                <View style={{ width: "90%" }}>
+                  <TextInput
+                    mode="outlined"
+                    label="Phone"
+                    value={member.phone.toString()}
+                    // onChangeText={(text) => {
+                    //   memberStore.updateMemberPhone(member._id, text);
+                    // }}
+                  />
+                </View>
+              ) : (
+                <MemberDetailsText>{member.phone.toString()}</MemberDetailsText>
+              )}
+              <View style={{ position: "absolute", top: "15%", right: "0%" }}>
+                <TextInput.Icon
+                  size={35}
+                  color="black"
+                  name={isPhoneEditable ? "check-bold" : "square-edit-outline"}
+                  onPress={() => setIsPhoneEditable(!isPhoneEditable)}
+                />
+              </View>
+            </HStack>
+          </VStack>
+          // <Input
+          //   variant="underlined"
+          //   placeholder="Phone Number"
+          //   marginTop={30}
+          //   fontSize={25}
+          //   isDisabled={true}
+          //   backgroundColor="#D1EAF0"
+          //   value={member.phone.toString()}
+          // />
         )}
-        <Text>Status: {member.waiting ? "Waiting" : "Served"}</Text>
-      </Stack>
-      <VStack
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+          }}
+        >
+          Status: {member.waiting ? "Waiting" : "Served"}
+        </Text>
+      </VStack>
+
+      {/* <VStack
         marginTop={20}
         paddingX={5}
         space={1}
@@ -86,7 +181,7 @@ const MemberDetails = ({ navigation, route }) => {
         >
           Delete
         </Button>
-      </VStack>
+      </VStack> */}
 
       {/* <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">
         <Modal.Content maxWidth="350">
@@ -136,7 +231,7 @@ const MemberDetails = ({ navigation, route }) => {
           </Modal.Footer>
         </Modal.Content>
       </Modal> */}
-    </Center>
+    </View>
   );
 };
 
