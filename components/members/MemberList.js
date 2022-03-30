@@ -261,7 +261,6 @@ const MemberList = ({ route, navigation }) => {
         style={{
           width: "100%",
           backgroundColor: "#ebebeb",
-          marginBottom: -900,
         }}
         data={memberStore.members
           .filter((member) => member.queue === queue._id)

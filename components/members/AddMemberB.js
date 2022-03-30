@@ -11,9 +11,11 @@ import { TextInput } from "react-native-paper";
 const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
   const [newMember, setNewMemeber] = useState({ email: "", phone: "" });
   const [fieldValues, setFieldValues] = useState(
-    Object.assign({}, ...queue.fields.map((key) => ({ [key]: "" })))
+    ""
+    // Object.assign({}, ...queue.fields.map((key) => ({ [key]: "" })))
   );
   const handleSaveChanges = () => {
+    console.log("new error", newMember);
     setMember(newMember);
     if (queue.isEmailRequired && !newMember.email) {
       alert("email is requred");
@@ -24,28 +26,27 @@ const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
         memberStore.addMember(queue, newMember);
       }
     }
+    setNewMemeber({ email: "", phone: "" });
     setIsOpenModal(false);
   };
 
   const fields = queue.fields.map((field) => (
-    <HStack>
-      <Text>{field}</Text>
-      <TextInput
-        label="Name"
-        keyboardType="default"
-        textContentType="givenName"
-        selectionColor="#3f93a2"
-        underlineColor="#3f93a2"
-        outlineColor="#3f93a2"
-        placeholderTextColor="#3f93a2"
-        activeOutlineColor="#3f93a2"
-        activeUnderlineColor="#3f93a2"
-        underlineColorAndroid="#3f93a2"
-        onChangeText={(value) =>
-          setFieldValues({ ...fieldValues, [field]: value })
-        }
-      />
-    </HStack>
+    <TextInput
+      value={fieldValues[field]}
+      label={field}
+      keyboardType="default"
+      textContentType="givenName"
+      selectionColor="#3f93a2"
+      underlineColor="#3f93a2"
+      outlineColor="#3f93a2"
+      placeholderTextColor="#3f93a2"
+      activeOutlineColor="#3f93a2"
+      activeUnderlineColor="#3f93a2"
+      underlineColorAndroid="#3f93a2"
+      onChangeText={(value) =>
+        setFieldValues({ ...fieldValues, [field]: value })
+      }
+    />
   ));
 
   return (
@@ -55,38 +56,44 @@ const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
           <ModalTitle>Add new member</ModalTitle>
         </Modal.Header>
         <Modal.Body>
-          <VStack>
+          <VStack space={8}>
             {queue.isEmailAvailable && (
-              <HStack>
-                <Text>email{queue.isEmailRequired && "*"}</Text>
-                <TextInput
-                  label="Email"
-                  keyboardType="default"
-                  textContentType="givenName"
-                  selectionColor="#3f93a2"
-                  underlineColor="#3f93a2"
-                  outlineColor="#3f93a2"
-                  placeholderTextColor="#3f93a2"
-                  activeOutlineColor="#3f93a2"
-                  activeUnderlineColor="#3f93a2"
-                  underlineColorAndroid="#3f93a2"
-                  left={<TextInput.Icon color="#3f93a2" name="email" />}
-                  onChangeText={(value) =>
-                    setNewMemeber({ ...newMember, email: value })
-                  }
-                />
-              </HStack>
+              <TextInput
+                value={newMember.email}
+                label={queue.isEmailRequired ? "email*" : "email"}
+                keyboardType="default"
+                textContentType="givenName"
+                selectionColor="#3f93a2"
+                underlineColor="#3f93a2"
+                outlineColor="#3f93a2"
+                placeholderTextColor="#3f93a2"
+                activeOutlineColor="#3f93a2"
+                activeUnderlineColor="#3f93a2"
+                underlineColorAndroid="#3f93a2"
+                left={<TextInput.Icon color="#3f93a2" name="email" />}
+                onChangeText={(value) =>
+                  setNewMemeber({ ...newMember, email: value })
+                }
+              />
             )}
             {queue.isPhoneAvailable && (
-              <HStack>
-                <Text>phone{queue.isPhoneRequired && "*"}</Text>
-                <TextInput
-                  style={styles.input}
-                  onChangeText={(value) =>
-                    setNewMemeber({ ...newMember, phone: value })
-                  }
-                />
-              </HStack>
+              <TextInput
+                value={newMember.phone}
+                label={queue.isPhoneRequired ? "phone*" : "phone"}
+                keyboardType="default"
+                textContentType="givenName"
+                selectionColor="#3f93a2"
+                underlineColor="#3f93a2"
+                outlineColor="#3f93a2"
+                placeholderTextColor="#3f93a2"
+                activeOutlineColor="#3f93a2"
+                activeUnderlineColor="#3f93a2"
+                underlineColorAndroid="#3f93a2"
+                left={<TextInput.Icon color="#3f93a2" name="phone" />}
+                onChangeText={(value) =>
+                  setNewMemeber({ ...newMember, phone: value })
+                }
+              />
             )}
             {fields}
           </VStack>
