@@ -14,17 +14,21 @@ import { View } from "react-native";
 import reactNative from "react-native";
 import { TextInput } from "react-native-paper";
 import memberStore from "../../stores/memberStore";
-import { MemberDetailsText } from "../../styles";
+import { MemberCardServedBtn, MemberDetailsText } from "../../styles";
+import queueStore from "../../stores/queueStore";
 
 const MemberDetails = ({ navigation, route }) => {
   const { member } = route.params;
+  const queue = queueStore.queues.filter((queue) => queue._id === member.queue);
   const [isTextEditable, setIsTextEditable] = useState(false);
   const [isPhoneEditable, setIsPhoneEditable] = useState(false);
   const [isFieldEditable, setIsFieldEditable] = useState(
-    Object.assign(
-      {},
-      ...Object.keys(member.fieldValues).map((key) => ({ [key]: false }))
-    )
+    member.fieldValues
+      ? Object.assign(
+          {},
+          ...Object.keys(member.fieldValues).map((key) => ({ [key]: false }))
+        )
+      : []
   );
 
   const [updatedMember, setUpdatedMember] = useState({ ...member });
@@ -69,56 +73,56 @@ const MemberDetails = ({ navigation, route }) => {
     navigation.goBack();
   };
 
-  const fields = Object.keys(member.fieldValues).map((field) => {
-    return (
-      <VStack style={{ height: 70 }}>
-        <HStack
-          style={{
-            marginLeft: 10,
-            width: "85%",
-            alignItems: "center",
-          }}
-        >
-          {isFieldEditable[field] ? (
-            <View style={{ width: "90%" }}>
-              <reactNative.TextInput
-                style={{
-                  width: "90%",
-                  height: 60,
-                  borderColor: "black",
-                  borderWidth: 1,
-                  borderRadius: 5,
+  const fields = member.fieldValues ? (
+    Object.keys(member.fieldValues).map((field) => {
+      return (
+        <VStack style={{ height: 70 }}>
+          <HStack
+            style={{
+              marginLeft: 10,
+              width: "85%",
+              alignItems: "center",
+            }}
+          >
+            {isFieldEditable[field] ? (
+              <View style={{ width: "90%" }}>
+                <reactNative.TextInput
+                  style={{
+                    width: "90%",
+                    height: 60,
+                    borderColor: "black",
+                    borderWidth: 1,
+                    borderRadius: 5,
+                  }}
+                  onChangeText={(v) => {
+                    handleUpdateFields(field, v);
+                  }}
+                >
+                  <MemberDetailsText>{updatedFields[field]}</MemberDetailsText>
+                </reactNative.TextInput>
+              </View>
+            ) : (
+              <MemberDetailsText>{updatedFields[field]}</MemberDetailsText>
+            )}
+            <View style={{ position: "absolute", top: "15%", right: "0%" }}>
+              <TextInput.Icon
+                size={35}
+                color="black"
+                name={
+                  isFieldEditable[field] ? "check-bold" : "square-edit-outline"
+                }
+                onPress={(value) => {
+                  handleFieldEdit(field);
                 }}
-                onChangeText={(v) => {
-                  handleUpdateFields(field, v);
-                }}
-              >
-
-              
-
-                <MemberDetailsText>{updatedFields[field]}</MemberDetailsText>
-
-              </reactNative.TextInput>
+              />
             </View>
-          ) : (
-            <MemberDetailsText>{updatedFields[field]}</MemberDetailsText>
-          )}
-          <View style={{ position: "absolute", top: "15%", right: "0%" }}>
-            <TextInput.Icon
-              size={35}
-              color="black"
-              name={
-                isFieldEditable[field] ? "check-bold" : "square-edit-outline"
-              }
-              onPress={(value) => {
-                handleFieldEdit(field);
-              }}
-            />
-          </View>
-        </HStack>
-      </VStack>
-    );
-  });
+          </HStack>
+        </VStack>
+      );
+    })
+  ) : (
+    <View></View>
+  );
 
   const handleEmailEdit = () => {
     if (isTextEditable) {
@@ -141,7 +145,7 @@ const MemberDetails = ({ navigation, route }) => {
   return (
     <View style={{ alignItems: "center", marginTop: "10%" }}>
       <VStack w="80%">
-        {member.email && (
+        {queue.isAvailableEmail && (
           <VStack style={{ height: 70 }}>
             <HStack
               style={{
@@ -168,8 +172,9 @@ const MemberDetails = ({ navigation, route }) => {
                   </reactNative.TextInput>
                 </View>
               ) : (
-
-                <MemberDetailsText ellipsizeMode="tail" numberOfLines={1}>{updatedMember.email}</MemberDetailsText>
+                <MemberDetailsText ellipsizeMode="tail" numberOfLines={1}>
+                  {updatedMember.email}
+                </MemberDetailsText>
               )}
               <View style={{ position: "absolute", top: "15%", right: "0%" }}>
                 <TextInput.Icon
@@ -182,7 +187,7 @@ const MemberDetails = ({ navigation, route }) => {
             </HStack>
           </VStack>
         )}
-        {member.phone && (
+        {queue.isAvailablePhone && (
           <VStack style={{ height: 70 }}>
             <HStack
               style={{
