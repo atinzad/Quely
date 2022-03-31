@@ -103,7 +103,9 @@ const MemberDetails = ({ navigation, route }) => {
                 </reactNative.TextInput>
               </View>
             ) : (
-              <MemberDetailsText>{updatedFields[field]}</MemberDetailsText>
+              <MemberDetailsText>
+                {field} : {updatedFields[field]}
+              </MemberDetailsText>
             )}
             <View style={{ position: "absolute", top: "15%", right: "0%" }}>
               <TextInput.Icon
