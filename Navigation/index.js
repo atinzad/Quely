@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { LogBox, StyleSheet, Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import Test1 from "../components/tests/Test1";
@@ -20,6 +20,7 @@ import queueStore from "../stores/queueStore";
 const { Navigator, Screen } = createStackNavigator();
 
 const RootNavigator = () => {
+  LogBox.ignoreAllLogs();
   const user = authStore.user;
   return (
     <Navigator initialRouteName={user ? "QueueList" : "Home"}>
