@@ -93,12 +93,12 @@ const MemberItem = ({ index, queue, member, navigation }) => {
             <MemberCardMiddle>
               <MemberEmail
                 style={{
-                  fontSize: member.email.length > 15 ? 15 : 20,
+                  fontSize: 20,
                 }}
                 ellipsizeMode="tail"
                 numberOfLines={1}
               >
-                {member.email}
+                {member._id.substring(member._id.length - 4)}
               </MemberEmail>
               {queue.fields.length > 0 && (
                 <QueueWaiting>

@@ -19,16 +19,16 @@ export const theme = {
   redish: "#f23d3a",
 };
 export const FieldsAddTitle = styled.Text`
-  font-size: 15px;
+  font-size: 20px;
   color: #3f93a2;
   font-weight: bold;
 `;
 export const MemberDetailsText = styled.Text`
-  font-size: 25px;
+  font-size: 20px;
   color: #3f93a2;
 `;
 export const FieldsAddItems = styled.Text`
-  font-size: 15px;
+  font-size: 20px;
   color: #3f93a2;
 `;
 
