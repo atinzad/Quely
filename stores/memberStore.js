@@ -75,6 +75,43 @@ class MemberStore {
     }
   };
 
+  updateMember = async (updatedMember, field) => {
+    try {
+      this.members = this.members.map((member) =>
+        member._id === updatedMember._id
+          ? { ...member, [field]: updatedMember[field] }
+          : member
+      );
+
+      const memberId = updatedMember._id;
+      const sendUpdate = { [field]: updatedMember[field] };
+      const response = await instance.put(`/members/${memberId}`, sendUpdate);
+    } catch (error) {
+      console.log("failed to update member", error);
+    }
+  };
+
+  updateField = async (updatedMember, updatedFields) => {
+    try {
+      this.members = this.members.map((member) =>
+        member._id === updatedMember._id
+          ? {
+              ...member,
+              fieldValues: updatedFields,
+            }
+          : member
+      );
+
+      const memberId = updatedMember._id;
+      const sendUpdate = {
+        fieldValues: updatedFields,
+      };
+      const response = await instance.put(`/members/${memberId}`, sendUpdate);
+    } catch (error) {
+      console.log("failed to update member", error);
+    }
+  };
+
   waitMember = async (memberId) => {
     try {
       this.members = this.members.map((member) =>
