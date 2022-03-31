@@ -19,7 +19,7 @@ import queueStore from "../../stores/queueStore";
 
 const MemberDetails = ({ navigation, route }) => {
   const { member } = route.params;
-  const queue = queueStore.queues.filter((queue) => queue._id === member.queue);
+  const queue = queueStore.queues.find((queue) => queue._id === member.queue);
   const [isTextEditable, setIsTextEditable] = useState(false);
   const [isPhoneEditable, setIsPhoneEditable] = useState(false);
   const [isFieldEditable, setIsFieldEditable] = useState(
@@ -145,7 +145,7 @@ const MemberDetails = ({ navigation, route }) => {
   return (
     <View style={{ alignItems: "center", marginTop: "10%" }}>
       <VStack w="80%">
-        {queue.isAvailableEmail && (
+        {queue.isEmailAvailable && (
           <VStack style={{ height: 70 }}>
             <HStack
               style={{
@@ -187,7 +187,7 @@ const MemberDetails = ({ navigation, route }) => {
             </HStack>
           </VStack>
         )}
-        {queue.isAvailablePhone && (
+        {queue.isPhoneAvailable && (
           <VStack style={{ height: 70 }}>
             <HStack
               style={{
@@ -222,15 +222,6 @@ const MemberDetails = ({ navigation, route }) => {
               </View>
             </HStack>
           </VStack>
-          // <Input
-          //   variant="underlined"
-          //   placeholder="Phone Number"
-          //   marginTop={30}
-          //   fontSize={25}
-          //   isDisabled={true}
-          //   backgroundColor="#D1EAF0"
-          //   value={member.phone.toString()}
-          // />
         )}
         {fields}
         <HStack style={{ height: 20 }}>
