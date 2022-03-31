@@ -314,13 +314,33 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
         <Modal.Footer>
           <Button.Group space={2}>
             <Button
+              style={{
+                height: 40,
+                width: 100,
+                backgroundColor: "transparent",
+                borderRadius: 5,
+                padding: 10,
+                margin: 12,
+              }}
               onPress={handleCancelChanges}
               variant="ghost"
               colorScheme="blueGray"
             >
               Cancel
             </Button>
-            <Button onPress={handleSaveChanges}>Add</Button>
+            <Button
+              style={{
+                height: 40,
+                width: 100,
+                backgroundColor: "#3f93a2",
+                borderRadius: 5,
+                padding: 10,
+                margin: 12,
+              }}
+              onPress={handleSaveChanges}
+            >
+              Add
+            </Button>
           </Button.Group>
         </Modal.Footer>
       </Modal.Content>

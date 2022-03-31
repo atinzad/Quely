@@ -89,7 +89,8 @@ const MemberDetails = ({ navigation, route }) => {
                 <reactNative.TextInput
                   style={{
                     width: "90%",
-                    height: 60,
+                    paddingLeft: 10,
+                    height: 50,
                     borderColor: "black",
                     borderWidth: 1,
                     borderRadius: 5,
@@ -144,7 +145,7 @@ const MemberDetails = ({ navigation, route }) => {
 
   return (
     <View style={{ alignItems: "center", marginTop: "10%" }}>
-      <VStack w="80%">
+      <VStack w="90%">
         {queue.isEmailAvailable && (
           <VStack style={{ height: 70 }}>
             <HStack
@@ -159,7 +160,8 @@ const MemberDetails = ({ navigation, route }) => {
                   <reactNative.TextInput
                     style={{
                       width: "90%",
-                      height: 60,
+                      paddingLeft: 10,
+                      height: 50,
                       borderColor: "black",
                       borderWidth: 1,
                       borderRadius: 5,
@@ -173,7 +175,7 @@ const MemberDetails = ({ navigation, route }) => {
                 </View>
               ) : (
                 <MemberDetailsText ellipsizeMode="tail" numberOfLines={1}>
-                  {updatedMember.email}
+                  Email : {updatedMember.email}
                 </MemberDetailsText>
               )}
               <View style={{ position: "absolute", top: "15%", right: "0%" }}>
@@ -209,7 +211,7 @@ const MemberDetails = ({ navigation, route }) => {
                 </View>
               ) : (
                 <MemberDetailsText>
-                  {updatedMember.phone.toString()}
+                  Phone : {updatedMember.phone.toString()}
                 </MemberDetailsText>
               )}
               <View style={{ position: "absolute", top: "15%", right: "0%" }}>

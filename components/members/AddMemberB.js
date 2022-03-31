@@ -103,15 +103,8 @@ const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
         <Modal.Footer>
           <HStack>
             <Button
-              style={styles.btn}
               colorScheme="blue"
-              onPress={handleSaveChanges}
-            >
-              Add
-            </Button>
-            <Button
-              colorScheme="blue"
-              style={styles.btn}
+              style={styles.btnCancel}
               onPress={() => {
                 setNewMemeber({ email: "", phone: "" });
                 setFieldValues(
@@ -124,7 +117,14 @@ const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
                 setIsOpenModal(false);
               }}
             >
-              Cancel
+              <Text style={{ color: "#3f93a2" }}>Cancel</Text>
+            </Button>
+            <Button
+              style={styles.btnAdd}
+              colorScheme="blue"
+              onPress={handleSaveChanges}
+            >
+              Add
             </Button>
           </HStack>
         </Modal.Footer>
@@ -161,10 +161,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     //top: 200,
   },
-  btn: {
+  btnAdd: {
     height: 40,
     width: 100,
-    borderWidth: 1,
+    backgroundColor: "#3f93a2",
+    borderRadius: 5,
+    padding: 10,
+    margin: 12,
+    //bottom: 100,
+  },
+  btnCancel: {
+    height: 40,
+    width: 100,
+    backgroundColor: "transparent",
     borderRadius: 5,
     padding: 10,
     margin: 12,
