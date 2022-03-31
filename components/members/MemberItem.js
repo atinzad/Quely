@@ -64,6 +64,9 @@ const MemberItem = ({ index, queue, member, navigation }) => {
   };
 
   const handleServeMember = () => {
+    //console log member field values
+    console.log();
+
     memberStore.serveMember(member._id);
   };
 
@@ -88,8 +91,21 @@ const MemberItem = ({ index, queue, member, navigation }) => {
               <MemberCardNumber>#{index + 1}</MemberCardNumber>
             </MemberCardLeft>
             <MemberCardMiddle>
-              <MemberEmail>{member.email}</MemberEmail>
-              <QueueWaiting>Field1 : FieldData1</QueueWaiting>
+              <MemberEmail
+                style={{
+                  fontSize: member.email.length > 15 ? 15 : 20,
+                }}
+                ellipsizeMode="tail"
+                numberOfLines={1}
+              >
+                {member.email}
+              </MemberEmail>
+              {queue.fields.length > 0 && (
+                <QueueWaiting>
+                  {Object.keys(member.fieldValues)[0]} :{" "}
+                  {Object.values(member.fieldValues)[0]}
+                </QueueWaiting>
+              )}
             </MemberCardMiddle>
             <MemberCardNotificationBtn>
               {member.waiting && (

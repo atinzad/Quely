@@ -93,7 +93,11 @@ const MemberDetails = ({ navigation, route }) => {
                   handleUpdateFields(field, v);
                 }}
               >
+
+              
+
                 <MemberDetailsText>{updatedFields[field]}</MemberDetailsText>
+
               </reactNative.TextInput>
             </View>
           ) : (
@@ -138,7 +142,6 @@ const MemberDetails = ({ navigation, route }) => {
     <View style={{ alignItems: "center", marginTop: "10%" }}>
       <VStack w="80%">
         {member.email && (
-          //to have a button if the member need to edit the email so it will change from text to input
           <VStack style={{ height: 70 }}>
             <HStack
               style={{
@@ -165,7 +168,8 @@ const MemberDetails = ({ navigation, route }) => {
                   </reactNative.TextInput>
                 </View>
               ) : (
-                <MemberDetailsText>{updatedMember.email}</MemberDetailsText>
+
+                <MemberDetailsText ellipsizeMode="tail" numberOfLines={1}>{updatedMember.email}</MemberDetailsText>
               )}
               <View style={{ position: "absolute", top: "15%", right: "0%" }}>
                 <TextInput.Icon
@@ -224,45 +228,49 @@ const MemberDetails = ({ navigation, route }) => {
           // />
         )}
         {fields}
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "bold",
-          }}
-        >
-          Status: {member.waiting ? "Waiting" : "Served"}
-        </Text>
+        <HStack style={{ height: 20 }}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "bold",
+            }}
+          >
+            Status: {member.waiting ? "Waiting" : "Served"}
+          </Text>
+
+          {member.waiting && (
+            <View style={{ position: "absolute", top: "0%", right: "13%" }}>
+              <TextInput.Icon
+                onPress={handleEmail}
+                size={35}
+                color="#FFD700"
+                name="bell"
+              />
+            </View>
+          )}
+        </HStack>
       </VStack>
 
-      {/* <VStack
+      <HStack
+        style={{ justifyContent: "center" }}
         marginTop={20}
         paddingX={5}
-        space={1}
-        w="75%"
-        h="40%"
-        maxWidth="300px"
+        space={4}
+        w="90%"
       >
-        {member.waiting && (
-          <Button marginY={3} flex="1" borderRadius="20" onPress={handleEmail}>
-            Notify
-          </Button>
-        )}
         <Button
-          flex="1"
-          borderColor="#D1EAF0"
-          variant="outline"
-          borderRadius="20"
-          size="full"
+          style={{ height: 40, width: 150 }}
+          borderRadius="10"
+          backgroundColor="#3f93a2"
           onPress={member.waiting ? handleServeMember : handleWaitMember}
         >
           {member.waiting ? "Serve" : "waiting"}
         </Button>
 
         <Button
-          marginY={3}
-          flex="1"
           colorScheme="red"
-          borderRadius="20"
+          borderRadius="10"
+          style={{ height: 40, width: 150 }}
           onPress={() => {
             memberStore.deleteMember(member._id);
             navigation.goBack();
@@ -270,7 +278,7 @@ const MemberDetails = ({ navigation, route }) => {
         >
           Delete
         </Button>
-      </VStack> */}
+      </HStack>
 
       {/* <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">
         <Modal.Content maxWidth="350">

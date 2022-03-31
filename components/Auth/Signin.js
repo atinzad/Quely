@@ -1,7 +1,12 @@
 import authStore from "../../stores/authStore";
 import React, { useRef, useState } from "react";
-import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
-
+import {
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  Image,
+} from "react-native";
 
 import {
   Box,
@@ -27,9 +32,7 @@ const Signin = ({ navigation }) => {
 
   const [passwordVisable, setPasswordVisable] = useState("true");
 
-
   const [loading, setLoading] = useState(false);
-
 
   handleSubmit = () => {
     setLoading(true);
@@ -50,7 +53,10 @@ const Signin = ({ navigation }) => {
       <Center style={styles.box} w="100%">
         <Box safeArea p="2" py="8" w="85%">
           <View style={styles.LogoBackground}>
-            <MainLogo>Quely</MainLogo>
+            <Image
+              style={{ width: 150, height: 150 }}
+              source={require("../../assets/logo2.png")}
+            />
           </View>
           {/* AuthSignInPage */}
           <VStack style={styles.inputBackground} space={8}>
@@ -81,23 +87,24 @@ const Signin = ({ navigation }) => {
               activeOutlineColor="#3f93a2"
               activeUnderlineColor="#3f93a2"
               underlineColorAndroid="#3f93a2"
-              right={<TextInput.Icon
-                onPress={() => {
-                  if (passwordVisable === "true") {
-                    setPasswordVisable("false");
-                  } else {
-                    setPasswordVisable("true");
-                  }
-                }}
-                pre
-                name="eye"
-              />}
+              right={
+                <TextInput.Icon
+                  onPress={() => {
+                    if (passwordVisable === "true") {
+                      setPasswordVisable("false");
+                    } else {
+                      setPasswordVisable("true");
+                    }
+                  }}
+                  pre
+                  name="eye"
+                />
+              }
               left={<TextInput.Icon color="#3f93a2" name="lock" />}
               onChangeText={(value) => setUser({ ...user, password: value })}
               disabled={loading}
               ref={passwordRef}
             />
-
 
             <SignButton
               name="Sign in"

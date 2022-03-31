@@ -84,6 +84,7 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
       isPhoneAvailable: !isPhoneAvailable,
     });
     setIsPhoneAvailable(!isPhoneAvailable);
+    setPhoneIsDisabled(!phoneIsDisabled);
   };
   const phoneRequiredSwitch = () => {
     setNewQueue({
@@ -95,7 +96,7 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
 
   const handleCancelChanges = () => {
     setIsPhoneAvailable(false);
-    phoneRequiredSwitch(false);
+    setIsPhoneRequired(false);
     setIsEmailRequired(false);
     setIsEmailAvailable(true);
     setPhoneIsDisabled(true);
@@ -125,7 +126,7 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
     queueStore.addQueue(newQueue, [...newFields]);
 
     setIsPhoneAvailable(false);
-    phoneRequiredSwitch(false);
+    setIsPhoneRequired(false);
     setIsEmailRequired(false);
     setIsEmailAvailable(true);
     setPhoneIsDisabled(true);
@@ -148,7 +149,7 @@ const AddQueue = ({ isOpenModal, setIsOpenModal }) => {
       placement: "top",
       render: () => {
         return (
-          <Box bg="#ffb6b9" px="15" py="3" rounded="lg" mb={5}>
+          <Box bg="#27B86B" px="15" py="3" rounded="lg" mb={5}>
             <ToastText>{newQueue.name} queue added</ToastText>
           </Box>
         );
