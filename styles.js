@@ -161,7 +161,6 @@ export const QueueTitle = styled.Text`
   margin-bottom: 10px;
 `;
 export const MemberEmail = styled.Text`
-  font-size: 20px;
   color: #3f93a2;
   font-weight: bold;
   margin-bottom: 10px;

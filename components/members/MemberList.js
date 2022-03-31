@@ -65,10 +65,10 @@ const MemberList = ({ route, navigation }) => {
       // }}
       >
         <TextInput.Icon
-          // onPress={() => {
-          //   setIsOpenDeleteQueueModal(true);
-          //   console.log(isOpenDeleteQueueModal);
-          // }}
+          onPress={() => {
+            queueStore.deleteQueue(queue._id);
+            navigation.goBack();
+          }}
           color="#c06c5d"
           size={30}
           name="trash-can-outline"
@@ -178,12 +178,14 @@ const MemberList = ({ route, navigation }) => {
               </HStack>
             </Pressable>
 
-            <VStack space={4}>
-              {queue.fields.length > 0 && (
+            {queue.fields.length > 0 && (
+              <VStack space={4}>
                 <FieldsAddTitle>Fields Added :</FieldsAddTitle>
-              )}
-              {fieldsAdded}
-            </VStack>
+
+                {fieldsAdded[0]}
+                {fieldsAdded[1]}
+              </VStack>
+            )}
           </VStack>
         </HStack>
       </View>

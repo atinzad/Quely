@@ -26,6 +26,9 @@ const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
       }
     }
     setNewMemeber({ email: "", phone: "" });
+    setFieldValues(
+      Object.assign({}, ...queue.fields.map((key) => ({ [key]: "" })))
+    );
     setIsOpenModal(false);
   };
 
@@ -109,7 +112,17 @@ const AddMemberB = ({ isOpenModal, setIsOpenModal, setMember, queue }) => {
             <Button
               colorScheme="blue"
               style={styles.btn}
-              onPress={() => setIsOpenModal(false)}
+              onPress={() => {
+                setNewMemeber({ email: "", phone: "" });
+                setFieldValues(
+                  Object.assign(
+                    {},
+                    ...queue.fields.map((key) => ({ [key]: "" }))
+                  )
+                );
+
+                setIsOpenModal(false);
+              }}
             >
               Cancel
             </Button>
