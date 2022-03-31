@@ -27,6 +27,9 @@ const MemberDetails = ({ navigation, route }) => {
     )
   );
 
+  const [updatedMember, setUpdatedMember] = useState({ ...member });
+  const [updatedFields, setUpdatedFields] = useState({ ...member.fieldValues });
+
   const handleEmail = () => {
     memberStore.sendEmailtoMember(queue, member);
     alert(
@@ -41,32 +44,30 @@ const MemberDetails = ({ navigation, route }) => {
   };
 
   const handleFieldEdit = (field) => {
+    console.log("field", field);
+    if (isFieldEditable[field]) {
+      //here we save the updates
+      memberStore.updateField(updatedMember, updatedFields);
+    }
+
     setIsFieldEditable({
       ...isFieldEditable,
       [field]: !isFieldEditable[field],
     });
   };
 
+  const handleUpdateMemeber = (field, value) => {
+    setUpdatedMember({ ...updatedMember, [field]: value });
+  };
+
+  const handleUpdateFields = (field, value) => {
+    setUpdatedFields({ ...updatedFields, [field]: value });
+  };
+
   const handleWaitMember = () => {
     memberStore.waitMember(member._id);
     navigation.goBack();
   };
-
-  // const fields = Object.keys(member.fieldValues).map((field) => {
-  //   return (
-  //     <VStack style={{ height: 70 }}>
-  //       <HStack
-  //         style={{
-  //           marginLeft: 10,
-  //           width: "85%",
-  //           alignItems: "center",
-  //         }}
-  //       >
-  //         <MemberDetailsText>HelloWorld</MemberDetailsText>
-  //       </HStack>
-  //     </VStack>
-  //   );
-  // });
 
   const fields = Object.keys(member.fieldValues).map((field) => {
     return (
@@ -88,29 +89,24 @@ const MemberDetails = ({ navigation, route }) => {
                   borderWidth: 1,
                   borderRadius: 5,
                 }}
-                // onChangeText={(text) => {
-                //   memberStore.updateMemberEmail(member._id, text);
-                // }}
+                onChangeText={(v) => {
+                  handleUpdateFields(field, v);
+                }}
               >
-                <MemberDetailsText>
-                  {" "}
-                  {member.fieldValues[field]}
-                </MemberDetailsText>
+                <MemberDetailsText>{updatedFields[field]}</MemberDetailsText>
               </reactNative.TextInput>
             </View>
           ) : (
-            <MemberDetailsText>{member.fieldValues[field]}</MemberDetailsText>
+            <MemberDetailsText>{updatedFields[field]}</MemberDetailsText>
           )}
           <View style={{ position: "absolute", top: "15%", right: "0%" }}>
             <TextInput.Icon
               size={35}
               color="black"
               name={
-                isFieldEditable[{ field }]
-                  ? "check-bold"
-                  : "square-edit-outline"
+                isFieldEditable[field] ? "check-bold" : "square-edit-outline"
               }
-              onPress={() => {
+              onPress={(value) => {
                 handleFieldEdit(field);
               }}
             />
@@ -119,6 +115,24 @@ const MemberDetails = ({ navigation, route }) => {
       </VStack>
     );
   });
+
+  const handleEmailEdit = () => {
+    if (isTextEditable) {
+      //here we save the updates
+      memberStore.updateMember(updatedMember, "email");
+    }
+
+    setIsTextEditable(!isTextEditable);
+  };
+
+  const handlePhoneEdit = () => {
+    if (isPhoneEditable) {
+      //here we save the updates
+      memberStore.updateMember(updatedMember, "phone");
+    }
+
+    setIsPhoneEditable(!isPhoneEditable);
+  };
 
   return (
     <View style={{ alignItems: "center", marginTop: "10%" }}>
@@ -143,22 +157,22 @@ const MemberDetails = ({ navigation, route }) => {
                       borderWidth: 1,
                       borderRadius: 5,
                     }}
-                    // onChangeText={(text) => {
-                    //   memberStore.updateMemberEmail(member._id, text);
-                    // }}
+                    onChangeText={(v) => {
+                      handleUpdateMemeber("email", v);
+                    }}
                   >
-                    <MemberDetailsText> {member.email}</MemberDetailsText>
+                    <MemberDetailsText>{updatedMember.email}</MemberDetailsText>
                   </reactNative.TextInput>
                 </View>
               ) : (
-                <MemberDetailsText>{member.email}</MemberDetailsText>
+                <MemberDetailsText>{updatedMember.email}</MemberDetailsText>
               )}
               <View style={{ position: "absolute", top: "15%", right: "0%" }}>
                 <TextInput.Icon
                   size={35}
                   color="black"
                   name={isTextEditable ? "check-bold" : "square-edit-outline"}
-                  onPress={() => setIsTextEditable(!isTextEditable)}
+                  onPress={() => handleEmailEdit()}
                 />
               </View>
             </HStack>
@@ -178,21 +192,23 @@ const MemberDetails = ({ navigation, route }) => {
                   <TextInput
                     mode="outlined"
                     label="Phone"
-                    value={member.phone.toString()}
-                    // onChangeText={(text) => {
-                    //   memberStore.updateMemberPhone(member._id, text);
-                    // }}
+                    value={updatedMember.phone.toString()}
+                    onChangeText={(v) => {
+                      handleUpdateMemeber("phone", v);
+                    }}
                   />
                 </View>
               ) : (
-                <MemberDetailsText>{member.phone.toString()}</MemberDetailsText>
+                <MemberDetailsText>
+                  {updatedMember.phone.toString()}
+                </MemberDetailsText>
               )}
               <View style={{ position: "absolute", top: "15%", right: "0%" }}>
                 <TextInput.Icon
                   size={35}
                   color="black"
                   name={isPhoneEditable ? "check-bold" : "square-edit-outline"}
-                  onPress={() => setIsPhoneEditable(!isPhoneEditable)}
+                  onPress={() => handlePhoneEdit()}
                 />
               </View>
             </HStack>
