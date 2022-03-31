@@ -205,7 +205,7 @@ const MemberDetails = ({ navigation, route }) => {
                   <TextInput
                     mode="outlined"
                     label="Phone"
-                    value={updatedMember.phone.toString()}
+                    value={updatedMember.phone}
                     onChangeText={(v) => {
                       handleUpdateMemeber("phone", v);
                     }}
@@ -213,7 +213,7 @@ const MemberDetails = ({ navigation, route }) => {
                 </View>
               ) : (
                 <MemberDetailsText>
-                  Phone : {updatedMember.phone.toString()}
+                  Phone : {updatedMember.phone}
                 </MemberDetailsText>
               )}
               <View style={{ position: "absolute", top: "15%", right: "0%" }}>
